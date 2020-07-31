@@ -61,14 +61,16 @@ def _parse_mat_waveform(mat_waveform):
 
 def _parse_mat_keyboard(mat_keyboard):
     keyboard_codes = mat_keyboard['codes'][0][0].flatten()
-    characters = _keyboard_codes_to_characters(keyboard_codes)
+    characters = None
+    if len(keyboard_codes) != 0:
+        characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
             'times': mat_keyboard['times'][0][0].flatten(),
             }
 
 
 def _keyboard_codes_to_characters(keyboard_codes):
-    hex_keyboard_codes = textwrap.fill(keyboard_codes['codes'].tostring().hex(), 8).split('\n')
+    hex_keyboard_codes = textwrap.fill(keyboard_codes.tostring().hex(), 8).split('\n')
     return [bytearray.fromhex(hex_code[0:8][:2]).decode()
             for hex_code in hex_keyboard_codes]
 
