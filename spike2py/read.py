@@ -61,7 +61,9 @@ def _parse_mat_waveform(mat_waveform):
 
 def _parse_mat_keyboard(mat_keyboard):
     keyboard_codes = mat_keyboard['codes'][0][0].flatten()
-    characters = _keyboard_codes_to_characters(keyboard_codes)
+    characters = None
+    if len(keyboard_codes) != 0:
+        characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
             'times': mat_keyboard['times'][0][0].flatten(),
             }
