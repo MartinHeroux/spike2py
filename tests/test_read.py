@@ -28,12 +28,13 @@ def test_exit_code_no_smr_file():
     assert pytest_wrapped_e.value.code == 1
 
 
-# def test_message_no_smr_file():
-#     read.read('file.smr')
-#     actual = capdfd.readouterr()[0].strip()
-#     expected = 'Processing .smr files is currently not supported.\n ' \
-#                'In Spike2 export the data to .mat and start over.'
-#     assert actual == expected
+def test_message_no_smr_file(capfd):
+    with pytest.raises(SystemExit):
+        read.read('file.smr')
+        actual = capfd.readouterr()[0].strip()
+        expected = ('Processing .smr files is currently not supported.\n '
+                    'In Spike2 export the data to .mat and start over.')
+        assert actual == expected
 
 
 @pytest.fixture()
