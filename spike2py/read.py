@@ -53,8 +53,8 @@ def _parse_mat_data(mat_data):
 
 def _parse_mat_waveform(mat_waveform):
     return {'times': mat_waveform['times'][0][0].flatten(),
-            'units': mat_waveform['units'][0][0].flatten(),
-            'signal': mat_waveform['values'][0][0].flatten(),
+            'units': mat_waveform['units'][0][0].flatten()[0],
+            'values': mat_waveform['values'][0][0].flatten(),
             'sampling_frequency': int(1 / mat_waveform['interval'][0][0].flatten()),
             }
 
@@ -85,7 +85,7 @@ def _parse_mat_wavemark(mat_wavemark):
     number_of_wavemarks = int(len(concatenated_wavemarks) / wavemark_template_length)
     split_wavemarks = concatenated_wavemarks.reshape(wavemark_template_length, number_of_wavemarks)
 
-    return {'units': mat_wavemark['units'][0][0].flatten(),
+    return {'units': mat_wavemark['units'][0][0].flatten()[0],
             'template_length': wavemark_template_length,
             'discharge_times': mat_wavemark['times'][0][0].flatten(),
             'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
