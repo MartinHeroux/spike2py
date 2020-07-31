@@ -55,20 +55,20 @@ def _parse_mat_data(mat_data):
 
 
 def _parse_mat_waveform(mat_waveform):
-    return {'times': mat_waveform['times'][0][0].flatten(),
-            'units': mat_waveform['units'][0][0].flatten()[0],
-            'values': mat_waveform['values'][0][0].flatten(),
-            'sampling_frequency': int(1 / mat_waveform['interval'][0][0].flatten()),
+    return {'times': _flatten(mat_waveform['times']),
+            'units': _flatten(mat_waveform['units'])[0],
+            'values': _flatten(mat_waveform['values']),
+            'sampling_frequency': int(1 / _flatten(mat_waveform['interval']),
             }
 
 
 def _parse_mat_keyboard(mat_keyboard):
-    keyboard_codes = mat_keyboard['codes'][0][0].flatten()
+    keyboard_codes = _flatten(mat_keyboard['codes'])
     characters = None
     if len(keyboard_codes) != 0:
         characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
-            'times': mat_keyboard['times'][0][0].flatten(),
+            'times': _flatten(mat_keyboard['times']),
             }
 
 
@@ -79,18 +79,22 @@ def _keyboard_codes_to_characters(keyboard_codes):
 
 
 def _parse_mat_events(mat_events):
-    return {'times': mat_events['times'][0][0].flatten()}
+    return {'times': _flatten(mat_events['times'])}
 
 
 def _parse_mat_wavemark(mat_wavemark):
-    concatenated_wavemarks = mat_wavemark['values'][0][0].flatten()
-    wavemark_template_length = int(mat_wavemark['length'][0][0].flatten())
+    concatenated_wavemarks = _flatten(mat_wavemark['values'])
+    wavemark_template_length = int(_flatten(mat_wavemark['length']))
     number_of_wavemarks = int(len(concatenated_wavemarks) / wavemark_template_length)
     split_wavemarks = concatenated_wavemarks.reshape(wavemark_template_length, number_of_wavemarks)
 
-    return {'units': mat_wavemark['units'][0][0].flatten()[0],
+    return {'units': _flatten(mat_wavemark['units'])[0],
             'template_length': wavemark_template_length,
-            'discharge_times': mat_wavemark['times'][0][0].flatten(),
-            'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
+            'discharge_times': _flatten(mat_wavemark['times']),
+            'sampling_frequency': int(1 / _flatten(mat_wavemark['interval'])),
             'action_potentials': split_wavemarks,
             }
+
+
+def _flatten(array):
+    return array[0][0].flatten()
