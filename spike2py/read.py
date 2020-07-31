@@ -23,13 +23,16 @@ def read(file, channels=None):
 
     data = dict()
     file_extension = file.split('.')[-1]
-    if file_extension == 'mat':
-        data = _read_mat(file, channels)
-        data = _parse_mat_data(data)
-    elif file_extension == 'smr':
+    if file_extension == 'smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
+    if file_extension != 'mat':
+        print(f'Processing {file_extension} files is currently not supported.\n'
+              'In Spike2 export the data to .mat and start over.')
+        sys.exit(1)
+    data = _read_mat(file, channels)
+    data = _parse_mat_data(data)
     return data
 
 
