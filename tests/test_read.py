@@ -3,18 +3,18 @@ import pytest
 import numpy as np
 import scipy.io as sio
 
-import read
+from spike2py import read
 
 
 def test_read_smoke_test():
-    file = os.path.join('.', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
     data = read.read(file)
     actual = list(data.keys())
     assert actual == ['Flex', 'Ext', 'Angle', 'triangle', 'Keyboard']
 
 
 def test_read_with_channels_smoke_test():
-    file = os.path.join('.', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
     channels = ['Flex', 'Ext', 'Angle']
     data = read.read(file, channels)
     actual = list(data.keys())
@@ -38,9 +38,9 @@ def test_exit_code_no_smr_file():
 
 @pytest.fixture()
 def data_setup():
-    files = {'biomech': os.path.join('.', 'payloads', 'biomech0deg.mat'),
-             'motor_unit': os.path.join('.', 'payloads', 'motor_units.mat'),
-             'physiology': os.path.join('.', 'payloads', 'physiology.mat')
+    files = {'biomech': os.path.join('tests', 'payloads', 'biomech0deg.mat'),
+             'motor_unit': os.path.join('tests', 'payloads', 'motor_units.mat'),
+             'physiology': os.path.join('tests', 'payloads', 'physiology.mat')
              }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {'mat_datasets': mat_datasets,
@@ -59,7 +59,7 @@ def test_parse_mat_events(data_setup):
 
 def test_parse_mat_keyboard_codes(data_setup):
     actual = read._parse_mat_keyboard(data_setup['mat_keyboard'])
-    assert actual == ['J', '9', '.', '5', 'S']
+    assert actual['codes'] == ['J', '9', '.', '5', 'S']
 
 
 def test_parse_mat_keyboard_times(data_setup):
