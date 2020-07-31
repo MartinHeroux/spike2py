@@ -87,7 +87,7 @@ def _parse_mat_wavemark(mat_wavemark):
 
     return {'units': mat_wavemark['units'][0][0].flatten()[0],
             'template_length': wavemark_template_length,
-            'discharge_times': mat_wavemark['times'][0][0].flatten(),
+            'times': mat_wavemark['times'][0][0].flatten(),
             'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
             'action_potentials': split_wavemarks,
             }
