@@ -39,7 +39,7 @@ def read(file, channels=None):
 def _read_mat(mat_file, channels):
     data = sio.loadmat(mat_file)
     if channels is not None:
-        channels = [data_key for data_key in data.keys() if data_key[:2] != '__']
+        channels = [data_key for data_key in data.keys() if data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
 
