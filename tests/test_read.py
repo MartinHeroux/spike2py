@@ -3,18 +3,18 @@ import pytest
 import numpy as np
 import scipy.io as sio
 
-import read
+from spike2py import read
 
 
 def test_read_smoke_test():
-    file = os.path.join('.', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
     data = read.read(file)
     actual = list(data.keys())
     assert actual == ['Flex', 'Ext', 'Angle', 'triangle', 'Keyboard']
 
 
 def test_read_with_channels_smoke_test():
-    file = os.path.join('.', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
     channels = ['Flex', 'Ext', 'Angle']
     data = read.read(file, channels)
     actual = list(data.keys())
@@ -28,19 +28,20 @@ def test_exit_code_no_smr_file():
     assert pytest_wrapped_e.value.code == 1
 
 
-# def test_message_no_smr_file():
-#     read.read('file.smr')
-#     actual = capdfd.readouterr()[0].strip()
-#     expected = 'Processing .smr files is currently not supported.\n ' \
-#                'In Spike2 export the data to .mat and start over.'
-#     assert actual == expected
+def test_message_no_smr_file(capfd):
+    with pytest.raises(SystemExit):
+        read.read('file.smr')
+        actual = capfd.readouterr()[0].strip()
+        expected = ('Processing .smr files is currently not supported.\n '
+                    'In Spike2 export the data to .mat and start over.')
+        assert actual == expected
 
 
 @pytest.fixture()
 def data_setup():
-    files = {'biomech': os.path.join('.', 'payloads', 'biomech0deg.mat'),
-             'motor_unit': os.path.join('.', 'payloads', 'motor_units.mat'),
-             'physiology': os.path.join('.', 'payloads', 'physiology.mat')
+    files = {'biomech': os.path.join('tests', 'payloads', 'biomech0deg.mat'),
+             'motor_unit': os.path.join('tests', 'payloads', 'motor_units.mat'),
+             'physiology': os.path.join('tests', 'payloads', 'physiology.mat')
              }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {'mat_datasets': mat_datasets,
@@ -59,7 +60,7 @@ def test_parse_mat_events(data_setup):
 
 def test_parse_mat_keyboard_codes(data_setup):
     actual = read._parse_mat_keyboard(data_setup['mat_keyboard'])
-    assert actual == ['J', '9', '.', '5', 'S']
+    assert actual['codes'] == ['J', '9', '.', '5', 'S']
 
 
 def test_parse_mat_keyboard_times(data_setup):
