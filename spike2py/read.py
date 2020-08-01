@@ -1,10 +1,11 @@
 import sys
 import textwrap
+
 import scipy.io as sio
 
 
 def read(file, channels=None):
-    """User interface to read data files.
+    """Interface to read data files
 
     Parameters
     ----------
@@ -13,6 +14,7 @@ def read(file, channels=None):
     channels: list
         List of channel names, as they appeared in the original .smr file.
         Example: ['biceps', 'triceps', 'torque']
+        If not included, all channels will be processed.
 
     Returns
     -------
@@ -23,24 +25,57 @@ def read(file, channels=None):
 
     data = dict()
     file_extension = file.split('.')[-1]
-    if file_extension == 'mat':
-        data = _read_mat(file, channels)
-        data = _parse_mat_data(data)
-    elif file_extension == 'smr':
+    if file_extension == 'smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
+    if file_extension != 'mat':
+        print(f'Processing {file_extension} files is currently not supported.\n'
+              'In Spike2 export the data to .mat and start over.')
+        sys.exit(1)
+    data = _read_mat(file, channels)
+    data = _parse_mat_data(data)
     return data
 
 
 def _read_mat(mat_file, channels):
+    """Read Spike2 data exported to a Matlab .mat file
+
+    Parameters
+    ----------
+    mat_file: str
+        Absolute path to .mat file
+    channels: list, None
+        List of channel names, as they appeared in the original .smr file,
+        or None, in which case all channels are processed.
+
+    Returns
+    -------
+    dict
+        Requested channels with channel names as `keys` and deeply nested
+        arrays containing channel data as `values`.
+    """
     data = sio.loadmat(mat_file)
-    if not channels:
-        channels = [data_key for data_key in data.keys() if data_key[:2] != '__']
+    if channels is not None:
+        channels = [data_key for data_key in data.keys() if data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
 
 def _parse_mat_data(mat_data):
+    """Parse deeply nested array that contain channel data
+
+    Parameters
+    ----------
+    mat_data: array
+        Deeply nested array containing channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Channel data and metadata.
+        The `keys` and `values` will difer for the different channel types.
+        See the `_parse_mat_<channel type>` helper functions for details.
+    """
     signal_type_parser = {5: _parse_mat_events,
                           6: _parse_mat_keyboard,
                           10: _parse_mat_waveform,
@@ -52,42 +87,111 @@ def _parse_mat_data(mat_data):
 
 
 def _parse_mat_waveform(mat_waveform):
-    return {'times': mat_waveform['times'][0][0].flatten(),
-            'units': mat_waveform['units'][0][0].flatten()[0],
-            'values': mat_waveform['values'][0][0].flatten(),
-            'sampling_frequency': int(1 / mat_waveform['interval'][0][0].flatten()),
+    """Parse waveform channel data as exported by Spike2 to .mat
+
+    Parameters
+    ----------
+    mat_waveform: array
+         Deeply nested array containing waveform channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Data from waveform channel.
+    """
+    return {'times': _flatten(mat_waveform['times']),
+            'units': _flatten(mat_waveform['units'])[0],
+            'values': _flatten(mat_waveform['values']),
+            'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
             }
 
 
 def _parse_mat_keyboard(mat_keyboard):
-    keyboard_codes = mat_keyboard['codes'][0][0].flatten()
+    """Parse keyboard channel data as exported by Spike2 to .mat
+
+    Parameters
+    ----------
+    mat_keyboard: array
+         Deeply nested array containing keyboard channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Data from keyboard channel.
+    """
+
+    keyboard_codes = _flatten(mat_keyboard['codes'])
     characters = None
     if len(keyboard_codes) != 0:
         characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
-            'times': mat_keyboard['times'][0][0].flatten(),
+            'times': _flatten(mat_keyboard['times']),
             }
 
 
 def _keyboard_codes_to_characters(keyboard_codes):
+    """Helper function that converts encoded character(s) into str
+
+    Parameters
+    ----------
+    keyboard_codes: list
+         List of int values, where each keyboard entry is encoded by four int values.
+         Example of single keyboard entry: [42, 0, 0, 0]
+         Example of multiple keyboard entries: [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]
+
+    Returns
+    -------
+    list
+        List of str values, corresponding to each of the keyboard entries.
+    """
+
     hex_keyboard_codes = textwrap.fill(keyboard_codes.tostring().hex(), 8).split('\n')
     return [bytearray.fromhex(hex_code[0:8][:2]).decode()
             for hex_code in hex_keyboard_codes]
 
 
 def _parse_mat_events(mat_events):
-    return {'times': mat_events['times'][0][0].flatten()}
+    """Parse event channel data as exported by Spike2 to .mat
+
+    Parameters
+    ----------
+    mat_waveform: array
+         Deeply nested array containing waveform channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Data from waveform channel.
+    """
+
+    return {'times': _flatten(mat_events['times'])}
 
 
 def _parse_mat_wavemark(mat_wavemark):
-    concatenated_wavemarks = mat_wavemark['values'][0][0].flatten()
-    wavemark_template_length = int(mat_wavemark['length'][0][0].flatten())
+    """Parse wavemark channel data as exported by Spike2 to .mat
+
+    Parameters
+    ----------
+    mat_wavemark: array
+         Deeply nested array containing wavemark channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Data from wavemark channel.
+    """
+    concatenated_wavemarks = _flatten(mat_wavemark['values'])
+    wavemark_template_length = int(_flatten(mat_wavemark['length']))
     number_of_wavemarks = int(len(concatenated_wavemarks) / wavemark_template_length)
     split_wavemarks = concatenated_wavemarks.reshape(wavemark_template_length, number_of_wavemarks)
 
-    return {'units': mat_wavemark['units'][0][0].flatten()[0],
+    return {'units': _flatten(mat_wavemark['units'])[0],
             'template_length': wavemark_template_length,
             'times': mat_wavemark['times'][0][0].flatten(),
             'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
             'action_potentials': split_wavemarks,
             }
+
+
+def _flatten(array):
+    return array[0][0].flatten()
