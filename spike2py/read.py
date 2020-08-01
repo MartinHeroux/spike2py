@@ -23,7 +23,6 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    data = dict()
     file_extension = file.split('.')[-1]
     if file_extension == 'smr':
         print('Processing .smr files is currently not supported.\n'
