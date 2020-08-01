@@ -6,15 +6,18 @@ import scipy.io as sio
 from spike2py import read
 
 
+PAYLOADS_DIR = ('tests', 'payloads')
+
+
 def test_read_smoke_test():
-    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join(*PAYLOADS_DIR, 'tremor_kinetic.mat')
     data = read.read(file)
     actual = list(data.keys())
     assert actual == ['Flex', 'Ext', 'Angle', 'triangle', 'Keyboard']
 
 
 def test_read_with_channels_smoke_test():
-    file = os.path.join('tests', 'payloads', 'tremor_kinetic.mat')
+    file = os.path.join(*PAYLOADS_DIR, 'tremor_kinetic.mat')
     channels = ['Flex', 'Ext', 'Angle']
     data = read.read(file, channels)
     actual = list(data.keys())
@@ -39,9 +42,9 @@ def test_message_no_smr_file(capfd):
 
 @pytest.fixture()
 def data_setup():
-    files = {'biomech': os.path.join('tests', 'payloads', 'biomech0deg.mat'),
-             'motor_unit': os.path.join('tests', 'payloads', 'motor_units.mat'),
-             'physiology': os.path.join('tests', 'payloads', 'physiology.mat')
+    files = {'biomech': os.path.join(*PAYLOADS_DIR, 'biomech0deg.mat'),
+             'motor_unit': os.path.join(*PAYLOADS_DIR, 'motor_units.mat'),
+             'physiology': os.path.join(*PAYLOADS_DIR, 'physiology.mat')
              }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {'mat_datasets': mat_datasets,
@@ -75,18 +78,18 @@ def test_parse_mat_waveform_len_times(data_setup):
 
 
 def test_parse_mat_waveform_len_values(data_setup):
-    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['signal']
+    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['values']
     assert len(actual) == 22493
 
 
 def test_parse_mat_waveform_mean_values(data_setup):
-    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['signal']
+    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['values']
     actual_int = int(np.mean(actual) * 100000)
     assert actual_int == 3472608
 
 
 def test_parse_mat_waveform_units(data_setup):
-    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['units'][0]
+    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['units']
     assert actual == 'deg'
 
 
@@ -96,7 +99,7 @@ def test_parse_mat_waveform_sampling_frequency(data_setup):
 
 
 def test_parse_mat_wavemark_units(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['units'][0]
+    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['units']
     assert actual == ' Volt'
 
 
@@ -106,12 +109,12 @@ def test_parse_mat_wavemark_template_length(data_setup):
 
 
 def test_parse_mat_wavemark_len_discharge_times(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['discharge_times']
+    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['times']
     assert len(actual) == 62
 
 
 def test_parse_mat_wavemark_discharge_times(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['discharge_times']
+    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['times']
     actual_int = [int(val * 100000) for val in actual]
     actual_int_sample = actual_int[:3] + actual_int[-3:]
     assert actual_int_sample == [399001, 405992, 411668, 1173429, 1184660, 1195989]
