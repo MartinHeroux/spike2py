@@ -16,6 +16,7 @@ def data_setup():
             'mat_waveform': mat_datasets['biomech']['k_angle'],
             'mat_events': mat_datasets['biomech']['Trig'],
             'mat_keyboard': mat_datasets['physiology']['Keyboard'],
+            'mat_keyboard_empty': mat_datasets['biomech']['Keyboard'],
             'mat_wavemark': mat_datasets['motor_unit']['MU1'],
             }
 
