@@ -1,3 +1,4 @@
+import os
 import sys
 import textwrap
 
@@ -23,12 +24,12 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    file_extension = file.split('.')[-1]
-    if file_extension == 'smr':
+    file_extension = os.path.splitext(file)[-1]
+    if file_extension == '.smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
-    if file_extension != 'mat':
+    if file_extension != '.mat':
         print(f'Processing {file_extension} files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
