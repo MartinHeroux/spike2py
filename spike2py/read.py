@@ -23,7 +23,6 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    data = dict()
     file_extension = file.split('.')[-1]
     if file_extension == 'smr':
         print('Processing .smr files is currently not supported.\n'
@@ -56,8 +55,8 @@ def _read_mat(mat_file, channels):
         arrays containing channel data as `values`.
     """
     data = sio.loadmat(mat_file)
-    if channels is not None:
-        channels = [data_key for data_key in data.keys() if data_key.startswith('__')]
+    if channels is None:
+        channels = [data_key for data_key in data.keys() if not data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
 
@@ -73,7 +72,7 @@ def _parse_mat_data(mat_data):
     -------
     dict
         Channel data and metadata.
-        The `keys` and `values` will difer for the different channel types.
+        The `keys` and `values` will differ for the different channel types.
         See the `_parse_mat_<channel type>` helper functions for details.
     """
     signal_type_parser = {5: _parse_mat_events,
@@ -99,8 +98,12 @@ def _parse_mat_waveform(mat_waveform):
     dict
         Data from waveform channel.
     """
+    units_flattened = _flatten(mat_waveform['units'])
+    units = None
+    if len(units_flattened) != 0:
+        units = units_flattened[0]
     return {'times': _flatten(mat_waveform['times']),
-            'units': _flatten(mat_waveform['units'])[0],
+            'units': units,
             'values': _flatten(mat_waveform['values']),
             'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
             }
@@ -184,8 +187,11 @@ def _parse_mat_wavemark(mat_wavemark):
     wavemark_template_length = int(_flatten(mat_wavemark['length']))
     number_of_wavemarks = int(len(concatenated_wavemarks) / wavemark_template_length)
     split_wavemarks = concatenated_wavemarks.reshape(wavemark_template_length, number_of_wavemarks)
-
-    return {'units': _flatten(mat_wavemark['units'])[0],
+    units_flattened = _flatten(mat_wavemark['units'])
+    units = None
+    if len(units_flattened) != 0:
+        units = units_flattened[0]
+    return {'units': units,
             'template_length': wavemark_template_length,
             'times': mat_wavemark['times'][0][0].flatten(),
             'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
