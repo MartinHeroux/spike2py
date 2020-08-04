@@ -57,6 +57,11 @@ def test_parse_mat_keyboard_times(data_setup):
     assert actual_int == [1331245, 1549645, 1634445, 1696845, 11522445]
 
 
+def test_parse_mat_keyboard_empty(data_setup):
+    actual = read._parse_mat_keyboard(data_setup['mat_keyboard_empty'])['times']
+    assert len(actual) == 0
+
+
 def test_parse_mat_waveform_len_times(data_setup):
     actual = read._parse_mat_waveform(data_setup['mat_waveform'])['times']
     assert len(actual) == 22493
