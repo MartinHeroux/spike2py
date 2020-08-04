@@ -1,7 +1,7 @@
 import os
 import pytest
 import numpy as np
-import scipy.io as sio
+
 
 from spike2py import read
 
@@ -38,21 +38,6 @@ def test_message_no_smr_file(capfd):
         expected = ('Processing .smr files is currently not supported.\n '
                     'In Spike2 export the data to .mat and start over.')
         assert actual == expected
-
-
-@pytest.fixture()
-def data_setup():
-    files = {'biomech': os.path.join(*PAYLOADS_DIR, 'biomech0deg.mat'),
-             'motor_unit': os.path.join(*PAYLOADS_DIR, 'motor_units.mat'),
-             'physiology': os.path.join(*PAYLOADS_DIR, 'physiology.mat')
-             }
-    mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
-    return {'mat_datasets': mat_datasets,
-            'mat_waveform': mat_datasets['biomech']['k_angle'],
-            'mat_events': mat_datasets['biomech']['Trig'],
-            'mat_keyboard': mat_datasets['physiology']['Keyboard'],
-            'mat_wavemark': mat_datasets['motor_unit']['MU1'],
-            }
 
 
 def test_parse_mat_events(data_setup):
