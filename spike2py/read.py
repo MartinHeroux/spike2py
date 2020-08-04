@@ -1,10 +1,11 @@
+import os
 import sys
 import textwrap
 
 import scipy.io as sio
 
 
-def read(file, channels=None):
+def read(file, channels='All'):
     """Interface to read data files
 
     Parameters
@@ -23,12 +24,12 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    file_extension = file.split('.')[-1]
-    if file_extension == 'smr':
+    file_extension = os.path.splitext(file)[-1]
+    if file_extension == '.smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
-    if file_extension != 'mat':
+    if file_extension != '.mat':
         print(f'Processing {file_extension} files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
@@ -55,7 +56,7 @@ def _read_mat(mat_file, channels):
         arrays containing channel data as `values`.
     """
     data = sio.loadmat(mat_file)
-    if channels is None:
+    if channels == 'All':
         channels = [data_key for data_key in data.keys() if not data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
@@ -183,19 +184,27 @@ def _parse_mat_wavemark(mat_wavemark):
     dict
         Data from wavemark channel.
     """
-    concatenated_wavemarks = _flatten(mat_wavemark['values'])
-    wavemark_template_length = int(_flatten(mat_wavemark['length']))
-    number_of_wavemarks = int(len(concatenated_wavemarks) / wavemark_template_length)
-    split_wavemarks = concatenated_wavemarks.reshape(wavemark_template_length, number_of_wavemarks)
+
     units_flattened = _flatten(mat_wavemark['units'])
     units = None
+    times = None
+    sampling_frequency = None
+    template_length = None
+    action_potentials = None
     if len(units_flattened) != 0:
         units = units_flattened[0]
+        times = mat_wavemark['times'][0][0].flatten()
+        sampling_frequency = int(1 / mat_wavemark['interval'][0][0].flatten())
+        template_length = int(_flatten(mat_wavemark['length']))
+
+        concatenated_wavemarks = _flatten(mat_wavemark['values'])
+        number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
+        action_potentials = concatenated_wavemarks.reshape(template_length, number_of_wavemarks)
     return {'units': units,
-            'template_length': wavemark_template_length,
-            'times': mat_wavemark['times'][0][0].flatten(),
-            'sampling_frequency': int(1 / mat_wavemark['interval'][0][0].flatten()),
-            'action_potentials': split_wavemarks,
+            'template_length': template_length,
+            'times': times,
+            'sampling_frequency': sampling_frequency,
+            'action_potentials': action_potentials,
             }
 
 
