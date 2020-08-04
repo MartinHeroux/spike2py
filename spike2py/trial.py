@@ -27,7 +27,6 @@ class Trial:
         self.file = file
         self.subject_id = subject_id
         self.channels = channels
-        #TODO: Update read.py and test_read.py based on `channels` default being 'All', which is more informative.
         self._import_trial_data(file, channels)
 
     def _import_trial_data(self):

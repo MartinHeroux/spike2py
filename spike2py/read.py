@@ -5,7 +5,7 @@ import textwrap
 import scipy.io as sio
 
 
-def read(file, channels=None):
+def read(file, channels='All'):
     """Interface to read data files
 
     Parameters
@@ -56,7 +56,7 @@ def _read_mat(mat_file, channels):
         arrays containing channel data as `values`.
     """
     data = sio.loadmat(mat_file)
-    if channels is None:
+    if channels == 'All':
         channels = [data_key for data_key in data.keys() if not data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
