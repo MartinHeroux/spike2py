@@ -35,7 +35,7 @@ class Event(Channel):
 class Keyboard(Event):
     """Keyboard channel class"""
 
-    def __init__(self, times, codes, name, trial_name):
+    def __init__(self, name, trial_name, times, codes):
         """Create Keyboard channel instance
 
         Parameters
@@ -47,13 +47,13 @@ class Keyboard(Event):
         """
 
         self.codes = codes
-        super().__init__(times, name, trial_name)
+        super().__init__(name, trial_name, times)
 
 
 class Waveform(Event):
     """Waveform channel class"""
 
-    def __init__(self, times, units, values, sampling_frequency, name, trial_name):
+    def __init__(self, name, trial_name, times, units, values, sampling_frequency):
         """Create Waveform channel instance
 
         Parameters
@@ -72,14 +72,14 @@ class Waveform(Event):
         self.units = units
         self.values = values
         self.sampling_frequency = sampling_frequency
-        super().__init__(times, name, trial_name)
+        super().__init__(name, trial_name, times)
 
 
 class Wavemark(Event):
     """Wavemark channel class"""
 
-    def __init__(self, units, template_length, times, sampling_frequency,
-                 action_potentials, name, trial_name):
+    def __init__(self, name, trial_name, times, units, template_length,
+                 sampling_frequency, action_potentials, ):
         """Create Wavemark channel instance
 
         Parameters
@@ -102,4 +102,4 @@ class Wavemark(Event):
         self.template_length = template_length
         self.sampling_frequency = sampling_frequency
         self.action_potentials = action_potentials
-        super().__init__(times, name, trial_name)
+        super().__init__(name, trial_name, times)

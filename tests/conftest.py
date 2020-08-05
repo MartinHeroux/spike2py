@@ -1,5 +1,8 @@
 import os
+import random
+
 import pytest
+import numpy as np
 import scipy.io as sio
 
 PAYLOADS_DIR = ('tests', 'payloads')
@@ -21,3 +24,36 @@ def data_setup():
             }
 
 
+@pytest.fixture()
+def channels_init():
+    event = {'name': 'stimulator',
+             'trial_name': 'fatigue2',
+             'times': np.array([7.654, 7.882]),
+             }
+    keyboard = {'name': 'keyboard',
+                'trial_name': 'stim20_1',
+                'times': np.array([1.34, 100.334]),
+                'codes': ['t', 'a', '5'],
+                }
+    waveform = {'name': 'biceps',
+                'trial_name': 'max_100',
+                'times': np.arange(0, 2, 0.25),
+                'units': 'Volts',
+                'values': np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
+                'sampling_frequency': 2048,
+                }
+    wavemark = {'name': 'MG',
+                'trial_name': 'post_50_1',
+                'times': np.array([7.432, 7.765, 7.915]),
+                'units': 'Volts',
+                'template_length': 62,
+                'sampling_frequency': 10240,
+                'action_potentials': [[random.random() for i in range(62)],
+                                      [random.random() for i in range(62)],
+                                      [random.random() for i in range(62)]],
+                }
+    return {'event': event,
+            'keyboard': keyboard,
+            'waveform': waveform,
+            'wavemark': wavemark,
+            }
