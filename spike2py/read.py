@@ -101,7 +101,7 @@ def _parse_mat_waveform(mat_waveform):
     """
     units_flattened = _flatten(mat_waveform['units'])
     units = None
-    if len(units_flattened) != 0:
+    if units_flattened.size > 0:
         units = units_flattened[0]
     return {'times': _flatten(mat_waveform['times']),
             'units': units,
@@ -191,7 +191,7 @@ def _parse_mat_wavemark(mat_wavemark):
     sampling_frequency = None
     template_length = None
     action_potentials = None
-    if len(units_flattened) != 0:
+    if units_flattened.size > 0:
         units = units_flattened[0]
         times = mat_wavemark['times'][0][0].flatten()
         sampling_frequency = int(1 / mat_wavemark['interval'][0][0].flatten())
