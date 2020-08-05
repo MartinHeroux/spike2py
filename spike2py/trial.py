@@ -4,7 +4,7 @@ import os
 class Trial:
     """Class for experimental trial recorded using Spike2."""
 
-    def __init__(self, file, name=None, subject_id=None, channels='All'):
+    def __init__(self, file, name=None, subject_id=None, channels=None):
         """
 
         Parameters
