@@ -173,7 +173,7 @@ def _parse_mat_waveform(mat_waveform):
     return {'times': times[:shortest_array],
             'units': units,
             'values': values[:shortest_array],
-            'fs': int(1 / _flatten(mat_waveform['interval'])),
+            'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
             'ch_type': 'waveform',
             }
 
@@ -200,7 +200,7 @@ def _parse_mat_wavemark(mat_wavemark):
     if units_flattened.size > 0:
         units = units_flattened[0]
         times = mat_wavemark['times'][0][0].flatten()
-        fs = int(1 / mat_wavemark['interval'][0][0].flatten())
+        sampling_frequency = int(1 / mat_wavemark['interval'][0][0].flatten())
         template_length = int(_flatten(mat_wavemark['length']))
 
         concatenated_wavemarks = _flatten(mat_wavemark['values'])
@@ -208,7 +208,7 @@ def _parse_mat_wavemark(mat_wavemark):
         action_potentials = concatenated_wavemarks.reshape(template_length, number_of_wavemarks)
     return {'units': units,
             'times': times,
-            'fs': fs,
+            'sampling_frequency': sampling_frequency,
             'action_potentials': action_potentials,
             'ch_type': 'wavemark',
             }
