@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+from signal_processing import SignalProcessing
+
 
 def channel_details(name=None, trial=None, units=None, sampling_frequency=None):
     Details = namedtuple('Details', 'name trial units sampling_frequency')
@@ -59,7 +61,7 @@ class Keyboard(Channel):
         super().__init__(details, times)
 
 
-class Waveform(Channel):
+class Waveform(Channel, SignalProcessing):
     """Waveform channel class
 
         Parameters
@@ -79,8 +81,6 @@ class Wavemark(Channel):
 
     Parameters
     ----------
-    template_length: int
-        Length, in samples, of the template used to sort the wavemark
     action_potentials: list
         A list of lists containing wavemark data of length `template_length`
         for each occurrence of the wavemark, of which there are `len(times)`
@@ -89,3 +89,11 @@ class Wavemark(Channel):
     def __init__(self, details, times, action_potentials):
         self.action_potentials = action_potentials
         super().__init__(details, times)
+        self._calc_instantaneous_firing_frequency()
+
+    def _calc_instantaneous_firing_frequency(self):
+        time1 = self.times[0]
+        instantaneous_firing_frequency = list()
+        for time2 in self.times[1:]:
+            instantaneous_firing_frequency.append(1/(time2-time1))
+        self.instantaneous_firing_frequency = instantaneous_firing_frequency
