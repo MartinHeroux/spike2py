@@ -84,18 +84,13 @@ def test_parse_mat_waveform_units(data_setup):
 
 
 def test_parse_mat_waveform_sampling_frequency(data_setup):
-    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['sampling_frequency']
+    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['fs']
     assert actual == 200
 
 
 def test_parse_mat_wavemark_units(data_setup):
     actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['units']
     assert actual == ' Volt'
-
-
-def test_parse_mat_wavemark_template_length(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['template_length']
-    assert actual == 62
 
 
 def test_parse_mat_wavemark_len_discharge_times(data_setup):
@@ -111,7 +106,7 @@ def test_parse_mat_wavemark_discharge_times(data_setup):
 
 
 def test_parse_mat_wavemark_sampling_frequency(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['sampling_frequency']
+    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['fs']
     assert actual == 25000
 
 
