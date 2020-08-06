@@ -107,6 +107,7 @@ def _parse_mat_waveform(mat_waveform):
             'units': units,
             'values': _flatten(mat_waveform['values']),
             'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
+            'type': 'waveform',
             }
 
 
@@ -130,6 +131,7 @@ def _parse_mat_keyboard(mat_keyboard):
         characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
             'times': _flatten(mat_keyboard['times']),
+            'type': 'keyboard',
             }
 
 
@@ -168,7 +170,9 @@ def _parse_mat_events(mat_events):
         Data from waveform channel.
     """
 
-    return {'times': _flatten(mat_events['times'])}
+    return {'times': _flatten(mat_events['times']),
+            'type': 'event',
+            }
 
 
 def _parse_mat_wavemark(mat_wavemark):
@@ -205,6 +209,7 @@ def _parse_mat_wavemark(mat_wavemark):
             'times': times,
             'sampling_frequency': sampling_frequency,
             'action_potentials': action_potentials,
+            'type': 'wavemark',
             }
 
 
