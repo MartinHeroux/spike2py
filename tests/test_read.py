@@ -93,11 +93,6 @@ def test_parse_mat_wavemark_units(data_setup):
     assert actual == ' Volt'
 
 
-def test_parse_mat_wavemark_template_length(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['template_length']
-    assert actual == 62
-
-
 def test_parse_mat_wavemark_len_discharge_times(data_setup):
     actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['times']
     assert len(actual) == 62

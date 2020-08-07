@@ -1,105 +1,99 @@
+from collections import namedtuple
+
+from .signal_processing import SignalProcessing
+
+
+def channel_details(name=None, trial=None, units=None, sampling_frequency=None):
+    Details = namedtuple('Details', 'name trial units sampling_frequency')
+    return Details(name=name,
+                   trial=trial,
+                   units=units,
+                   sampling_frequency=sampling_frequency,
+                   )
 
 
 class Channel:
-    """Base class for all channel types"""
+    """Base class for all channel types
 
-    def __init__(self, name, trial_name):
-        """Create Channel instance
+   Parameters
+    ----------
+    details: namedtuple
+        details.name: str
+            Name of channel (.e.g 'left biceps')
+        details.trial: str
+            Name of trial (.e.g. 'fatigue_5min')
+        details.units: str
+            Units of recorded signal (e.g., 'Volts' or 'Nm')
+        details.sampling_frequency: int
+            In Hertz (e.g. 2048)
+    times: numpy.ndarray
+        Sample times of data or events, in seconds
+    """
 
-        Parameters
-        ----------
-        name: str
-            Channel name
-        trial_name: str
-            Trial name
-        """
-        self.name = name
-        self.trial_name = trial_name
+    def __init__(self, details, times):
+        self.details = details
+        self.times = times
 
 
 class Event(Channel):
-    """Event channel class"""
+    """Event channel class
+    Parameters
+    ----------
+    times: numpy.ndarray
+        Times of events, in seconds
+    """
 
-    def __init__(self, name, trial_name, times):
-        """Create Event channel instance
-
-        Parameters
-        ----------
-        times: numpy.ndarray
-            Times of events, in seconds
-        """
-        self.times = times
-        super().__init__(name, trial_name)
+    def __init__(self, details, times):
+        super().__init__(details, times)
 
 
-class Keyboard(Event):
-    """Keyboard channel class"""
+class Keyboard(Channel):
+    """Keyboard channel class
 
-    def __init__(self, name, trial_name, times, codes):
-        """Create Keyboard channel instance
+    Parameters
+    ----------
+    codes: str
+        Keyboard inputs
+    """
 
-        Parameters
-        ----------
-        times: numpy.ndarray
-            Times of keyboard inputs, in seconds
-        codes: str
-            Keyboard inputs
-        """
-
+    def __init__(self, details, times, codes):
         self.codes = codes
-        super().__init__(name, trial_name, times)
+        super().__init__(details, times)
 
 
-class Waveform(Event):
-    """Waveform channel class"""
-
-    def __init__(self, name, trial_name, times, units, values, sampling_frequency):
-        """Create Waveform channel instance
+class Waveform(Channel, SignalProcessing):
+    """Waveform channel class
 
         Parameters
         ----------
-        times: numpy.ndarray
-            Time axis in seconds
-        units: str
-            Measurement units of `values`, if provided
         values: numpy.ndarray
             Sampled data
             Same length as `times`
-        sampling_frequency: int
-            Sampling frequency used to record data
-        """
+    """
 
-        self.units = units
+    def __init__(self, details, times, values):
         self.values = values
-        self.sampling_frequency = sampling_frequency
-        super().__init__(name, trial_name, times)
+        super().__init__(details, times)
 
 
-class Wavemark(Event):
-    """Wavemark channel class"""
+class Wavemark(Channel):
+    """Wavemark channel class
 
-    def __init__(self, name, trial_name, times, units, template_length,
-                 sampling_frequency, action_potentials, ):
-        """Create Wavemark channel instance
+    Parameters
+    ----------
+    action_potentials: list
+        A list of lists containing wavemark data of length `template_length`
+        for each occurrence of the wavemark, of which there are `len(times)`
+    """
 
-        Parameters
-        ----------
-        units str
-            Measurement units of `values`, if provided
-            Will usually be Volts
-        template_length: int
-            Length, in samples, of the template used to sort the wavemark
-        times: numpy.ndarray
-            Times of wavemarks, in seconds
-        sampling_frequency: int
-            Sampling frequency used to record data from which wavemarks were obtained
-        action_potentials: list
-            A list of lists containing wavemark data of length `template_length` for each
-            occurrence of the wavemark, of which there are `len(times)`
-        """
-
-        self.units = units
-        self.template_length = template_length
-        self.sampling_frequency = sampling_frequency
+    def __init__(self, details, times, action_potentials):
         self.action_potentials = action_potentials
-        super().__init__(name, trial_name, times)
+        super().__init__(details, times)
+        self._calc_instantaneous_firing_frequency()
+
+    def _calc_instantaneous_firing_frequency(self):
+        time1 = self.times[0]
+        instantaneous_firing_frequency = list()
+        for time2 in self.times[1:]:
+            instantaneous_firing_frequency.append(1/(time2-time1))
+        self.instantaneous_firing_frequency = instantaneous_firing_frequency

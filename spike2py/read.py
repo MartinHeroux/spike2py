@@ -86,8 +86,8 @@ def _parse_mat_data(mat_data):
     return parsed_data
 
 
-def _parse_mat_waveform(mat_waveform):
-    """Parse waveform channel data as exported by Spike2 to .mat
+def _parse_mat_events(mat_events):
+    """Parse event channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
@@ -99,14 +99,9 @@ def _parse_mat_waveform(mat_waveform):
     dict
         Data from waveform channel.
     """
-    units_flattened = _flatten(mat_waveform['units'])
-    units = None
-    if units_flattened.size > 0:
-        units = units_flattened[0]
-    return {'times': _flatten(mat_waveform['times']),
-            'units': units,
-            'values': _flatten(mat_waveform['values']),
-            'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
+
+    return {'times': _flatten(mat_events['times']),
+            'ch_type': 'event',
             }
 
 
@@ -130,6 +125,7 @@ def _parse_mat_keyboard(mat_keyboard):
         characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
             'times': _flatten(mat_keyboard['times']),
+            'ch_type': 'keyboard',
             }
 
 
@@ -154,8 +150,8 @@ def _keyboard_codes_to_characters(keyboard_codes):
             for hex_code in hex_keyboard_codes]
 
 
-def _parse_mat_events(mat_events):
-    """Parse event channel data as exported by Spike2 to .mat
+def _parse_mat_waveform(mat_waveform):
+    """Parse waveform channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
@@ -167,8 +163,19 @@ def _parse_mat_events(mat_events):
     dict
         Data from waveform channel.
     """
-
-    return {'times': _flatten(mat_events['times'])}
+    units_flattened = _flatten(mat_waveform['units'])
+    units = None
+    if units_flattened.size > 0:
+        units = units_flattened[0]
+    times = _flatten(mat_waveform['times'])
+    values = _flatten(mat_waveform['values'])
+    shortest_array = min(len(times), len(values))
+    return {'times': times[:shortest_array],
+            'units': units,
+            'values': values[:shortest_array],
+            'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
+            'ch_type': 'waveform',
+            }
 
 
 def _parse_mat_wavemark(mat_wavemark):
@@ -188,8 +195,7 @@ def _parse_mat_wavemark(mat_wavemark):
     units_flattened = _flatten(mat_wavemark['units'])
     units = None
     times = None
-    sampling_frequency = None
-    template_length = None
+    fs = None
     action_potentials = None
     if units_flattened.size > 0:
         units = units_flattened[0]
@@ -201,10 +207,10 @@ def _parse_mat_wavemark(mat_wavemark):
         number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
         action_potentials = concatenated_wavemarks.reshape(template_length, number_of_wavemarks)
     return {'units': units,
-            'template_length': template_length,
             'times': times,
             'sampling_frequency': sampling_frequency,
             'action_potentials': action_potentials,
+            'ch_type': 'wavemark',
             }
 
 
