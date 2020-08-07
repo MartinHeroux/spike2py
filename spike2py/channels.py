@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from signal_processing import SignalProcessing
+from .signal_processing import SignalProcessing
 
 
 def channel_details(name=None, trial=None, units=None, sampling_frequency=None):
