@@ -1,15 +1,11 @@
 from collections import namedtuple
 
 from .signal_processing import SignalProcessing
+import plot
 
 
-def channel_details(name=None, trial=None, units=None, sampling_frequency=None):
-    Details = namedtuple('Details', 'name trial units sampling_frequency')
-    return Details(name=name,
-                   trial=trial,
-                   units=units,
-                   sampling_frequency=sampling_frequency,
-                   )
+Details = namedtuple('Details', 'name units sampling_frequency')
+Details.__new__.__defaults__ = (None, None, None)
 
 
 class Channel:
@@ -20,8 +16,6 @@ class Channel:
     details: namedtuple
         details.name: str
             Name of channel (.e.g 'left biceps')
-        details.trial: str
-            Name of trial (.e.g. 'fatigue_5min')
         details.units: str
             Units of recorded signal (e.g., 'Volts' or 'Nm')
         details.sampling_frequency: int
@@ -43,8 +37,15 @@ class Event(Channel):
         Times of events, in seconds
     """
 
-    def __init__(self, details, times):
-        super().__init__(details, times)
+    def __init__(self, name, data_dict):
+        details = Details(name=name)
+        super().__init__(details, data_dict['times'])
+
+    def __repr__(self):
+        return 'Event channel'
+
+    def plot(self):
+        plot.event(self.details, self.times)
 
 
 class Keyboard(Channel):
@@ -56,9 +57,16 @@ class Keyboard(Channel):
         Keyboard inputs
     """
 
-    def __init__(self, details, times, codes):
-        self.codes = codes
-        super().__init__(details, times)
+    def __init__(self, name, data_dict):
+        details = Details(name=name)
+        self.codes = data_dict['codes']
+        super().__init__(details, data_dict['times'])
+
+    def __repr__(self):
+        return 'Keyboard channel'
+
+    def plot(self):
+        plot.keyboard(self.details, self.times, self.codes)
 
 
 class Waveform(Channel, SignalProcessing):
@@ -71,9 +79,16 @@ class Waveform(Channel, SignalProcessing):
             Same length as `times`
     """
 
-    def __init__(self, details, times, values):
-        self.values = values
-        super().__init__(details, times)
+    def __init__(self, name, data_dict):
+        details = Details(name=name, units=data_dict['units'], sampling_frequency=data_dict['sampling_frequency'])
+        self.values = data_dict['values']
+        super().__init__(details, data_dict['times'])
+
+    def __repr__(self):
+        return 'Waveform channel'
+
+    def plot(self):
+        plot.waveform(self.details, self.times, self.values)
 
 
 class Wavemark(Channel):
@@ -86,10 +101,14 @@ class Wavemark(Channel):
         for each occurrence of the wavemark, of which there are `len(times)`
     """
 
-    def __init__(self, details, times, action_potentials):
-        self.action_potentials = action_potentials
-        super().__init__(details, times)
+    def __init__(self, name, data_dict):
+        details = Details(name=name, units=data_dict['units'], sampling_frequency=data_dict['sampling_frequency'])
+        self.action_potentials = data_dict['action_potentials']
+        super().__init__(details, data_dict['times'])
         self._calc_instantaneous_firing_frequency()
+
+    def __repr__(self):
+        return 'Wavemark channel'
 
     def _calc_instantaneous_firing_frequency(self):
         time1 = self.times[0]
@@ -97,3 +116,6 @@ class Wavemark(Channel):
         for time2 in self.times[1:]:
             instantaneous_firing_frequency.append(1/(time2-time1))
         self.instantaneous_firing_frequency = instantaneous_firing_frequency
+
+    def plot(self):
+        plot.wavemark(self.details, self.times, self.action_potentials)

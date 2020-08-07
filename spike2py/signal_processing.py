@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.signal import butter, filtfilt
+from sklearn.linear_model import LinearRegression
 
 
 class SignalProcessing:
@@ -166,3 +167,12 @@ class SignalProcessing:
         self.values = np.interp(x=new_times,
                                 xp=self.times,
                                 fp=self.values)
+
+    def linear_detrend(self):
+        """Remove linear trend from `values`"""
+        times = np.reshape(self.times, (len(self.times), 1))
+        model = LinearRegression()
+        model.fit(times, self.values)
+        trend = model.predict(times)
+        self.values = [self.values[i] - trend[i] for i in range(0, len(self.values))]
+        return self
