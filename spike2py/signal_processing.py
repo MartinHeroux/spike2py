@@ -19,7 +19,7 @@ class SignalProcessing:
 
         """
         values_slice = slice(0, -1)
-        if not first_n_samples:
+        if first_n_samples:
             values_slice = slice(0, first_n_samples)
         self.values -= np.mean(self.values[values_slice])
         self._setattr('proc_remove_mean')
