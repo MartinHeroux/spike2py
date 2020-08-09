@@ -24,7 +24,7 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    file_extension = Path(file).name
+    file_extension = Path(file).suffix
     if file_extension == '.smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
@@ -200,7 +200,7 @@ def _parse_mat_wavemark(mat_wavemark):
     units_flattened = _flatten(mat_wavemark['units'])
     units = None
     times = None
-    fs = None
+    sampling_frequency = None
     action_potentials = None
     if units_flattened.size > 0:
         units = units_flattened[0]
