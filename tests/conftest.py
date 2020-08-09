@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import random
 
 import pytest
@@ -8,14 +8,14 @@ import scipy.io as sio
 from spike2py import channels
 
 
-PAYLOADS_DIR = ('tests', 'payloads')
+PAYLOADS_DIR = Path.cwd() / 'tests' / 'payloads'
 
 
 @pytest.fixture()
 def data_setup():
-    files = {'biomech': os.path.join(*PAYLOADS_DIR, 'biomech0deg.mat'),
-             'motor_unit': os.path.join(*PAYLOADS_DIR, 'motor_units.mat'),
-             'physiology': os.path.join(*PAYLOADS_DIR, 'physiology.mat')
+    files = {'biomech': PAYLOADS_DIR / 'biomech0deg.mat',
+             'motor_unit': PAYLOADS_DIR / 'motor_units.mat',
+             'physiology':  PAYLOADS_DIR / 'physiology.mat',
              }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {'mat_datasets': mat_datasets,
