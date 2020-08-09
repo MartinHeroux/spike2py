@@ -5,6 +5,13 @@ import textwrap
 import scipy.io as sio
 
 
+CHANNEL_DATA_LENGTH = {'event': 5,
+                       'keyboard': 6,
+                       'waveform': 10,
+                       'wavemark': 14,
+                       }
+
+
 def read(file, channels=None):
     """Interface to read data files
 
@@ -33,9 +40,7 @@ def read(file, channels=None):
         print(f'Processing {file_extension} files is currently not supported.'
               f'\nIn Spike2 export the data to .mat and start over.')
         sys.exit(1)
-    data = _read_mat(file, channels)
-    data = _parse_mat_data(data)
-    return data
+    return _parse_mat_data(_read_mat(file, channels))
 
 
 def _read_mat(mat_file, channels):
@@ -60,7 +65,9 @@ def _read_mat(mat_file, channels):
         channels = [data_key
                     for data_key in data.keys()
                     if not data_key.startswith('__')]
-    return {key: value for (key, value) in data.items() if key in channels}
+    return {key: value
+            for (key, value) in data.items()
+            if key in channels}
 
 
 def _parse_mat_data(mat_data):
@@ -78,13 +85,13 @@ def _parse_mat_data(mat_data):
         The `keys` and `values` will differ for the different channel types.
         See the `_parse_mat_<channel type>` helper functions for details.
     """
-    signal_type_parser = {5: _parse_mat_events,
-                          6: _parse_mat_keyboard,
-                          10: _parse_mat_waveform,
-                          14: _parse_mat_wavemark}
+    parser_lookup = {CHANNEL_DATA_LENGTH['event']: _parse_mat_events,
+                     CHANNEL_DATA_LENGTH['keyboard']: _parse_mat_keyboard,
+                     CHANNEL_DATA_LENGTH['waveform']: _parse_mat_waveform,
+                     CHANNEL_DATA_LENGTH['wavemark']: _parse_mat_wavemark}
     parsed_data = dict()
     for key, value in mat_data.items():
-        parsed_data[key] = signal_type_parser[len(value.dtype)](value)
+        parsed_data[key] = parser_lookup[len((value.dtype))](value)
     return parsed_data
 
 
@@ -105,6 +112,10 @@ def _parse_mat_events(mat_events):
     return {'times': _flatten(mat_events['times']),
             'ch_type': 'event',
             }
+
+
+def _flatten(array):
+    return array[0][0].flatten()
 
 
 def _parse_mat_keyboard(mat_keyboard):
@@ -132,16 +143,15 @@ def _parse_mat_keyboard(mat_keyboard):
 
 
 def _keyboard_codes_to_characters(keyboard_codes):
-    """Helper function that converts encoded character(s) into str
+    """Helper function that converts encoded character(s) into list of str
 
     Parameters
     ----------
     keyboard_codes: list
          List of int values, where each keyboard entry is encoded by four int
          values.
-         Example of single keyboard entry: [42, 0, 0, 0]
-         Example of multiple keyboard entries:
-                                        [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]
+         e.g. single keyboard entry: [42, 0, 0, 0]
+         e.g. multi keyboard entries: [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]
 
     Returns
     -------
@@ -197,22 +207,18 @@ def _parse_mat_wavemark(mat_wavemark):
         Data from wavemark channel.
     """
 
-    units_flattened = _flatten(mat_wavemark['units'])
     units = None
     times = None
     sampling_frequency = None
     action_potentials = None
+
+    units_flattened = _flatten(mat_wavemark['units'])
+
     if units_flattened.size > 0:
         units = units_flattened[0]
         times = mat_wavemark['times'][0][0].flatten()
         sampling_frequency = int(1 / mat_wavemark['interval'][0][0].flatten())
-        template_length = int(_flatten(mat_wavemark['length']))
-
-        concatenated_wavemarks = _flatten(mat_wavemark['values'])
-        number_of_wavemarks = int(len(concatenated_wavemarks) /
-                                  template_length)
-        action_potentials = concatenated_wavemarks.reshape(
-            template_length, number_of_wavemarks)
+        action_potentials = _extract_wavemarks(mat_wavemark)
     return {'units': units,
             'times': times,
             'sampling_frequency': sampling_frequency,
@@ -221,5 +227,9 @@ def _parse_mat_wavemark(mat_wavemark):
             }
 
 
-def _flatten(array):
-    return array[0][0].flatten()
+def _extract_wavemarks(mat_wavemark):
+    """Helper function to flatten, extract and group wavemark values"""
+    template_length = int(_flatten(mat_wavemark['length']))
+    concatenated_wavemarks = _flatten(mat_wavemark['values'])
+    number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
+    return concatenated_wavemarks.reshape(template_length, number_of_wavemarks)

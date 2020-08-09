@@ -87,9 +87,7 @@ class SignalProcessing:
 
     def _filt(self, cutoff, order, filt_type):
         critical_fq = cutoff / (self.details.sampling_frequency / 2)
-        filt_coef_b, filt_coef_a = butter(N=order,
-                                          Wn=critical_fq,
-                                          btype=filt_type)
+        filt_coef_b, filt_coef_a = butter(order, critical_fq, filt_type)
         self.values = filtfilt(filt_coef_b, filt_coef_a, self.values)
         self._setattr(f'proc_filt_{cutoff}_{filt_type}')
 

@@ -115,8 +115,8 @@ class Wavemark(Channel):
         details = Details(name=name,
                           units=data_dict['units'],
                           sampling_frequency=data_dict['sampling_frequency'])
-        self.action_potentials = data_dict['action_potentials']
         super().__init__(details, data_dict['times'])
+        self.action_potentials = data_dict['action_potentials']
         self._calc_instantaneous_firing_frequency()
 
     def __repr__(self):
