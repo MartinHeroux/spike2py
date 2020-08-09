@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import sys
 import textwrap
 
@@ -24,7 +24,7 @@ def read(file, channels=None):
         are deeply nested numpy.ndarray
     """
 
-    file_extension = os.path.splitext(file)[-1]
+    file_extension = Path(file).name
     if file_extension == '.smr':
         print('Processing .smr files is currently not supported.\n'
               'In Spike2 export the data to .mat and start over.')
