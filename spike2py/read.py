@@ -30,8 +30,8 @@ def read(file, channels=None):
               'In Spike2 export the data to .mat and start over.')
         sys.exit(1)
     if file_extension != '.mat':
-        print(f'Processing {file_extension} files is currently not supported.\n'
-              'In Spike2 export the data to .mat and start over.')
+        print(f'Processing {file_extension} files is currently not supported.'
+              f'\nIn Spike2 export the data to .mat and start over.')
         sys.exit(1)
     data = _read_mat(file, channels)
     data = _parse_mat_data(data)
@@ -57,7 +57,9 @@ def _read_mat(mat_file, channels):
     """
     data = sio.loadmat(mat_file)
     if channels is None:
-        channels = [data_key for data_key in data.keys() if not data_key.startswith('__')]
+        channels = [data_key
+                    for data_key in data.keys()
+                    if not data_key.startswith('__')]
     return {key: value for (key, value) in data.items() if key in channels}
 
 
@@ -135,9 +137,11 @@ def _keyboard_codes_to_characters(keyboard_codes):
     Parameters
     ----------
     keyboard_codes: list
-         List of int values, where each keyboard entry is encoded by four int values.
+         List of int values, where each keyboard entry is encoded by four int
+         values.
          Example of single keyboard entry: [42, 0, 0, 0]
-         Example of multiple keyboard entries: [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]
+         Example of multiple keyboard entries:
+                                        [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]
 
     Returns
     -------
@@ -145,7 +149,8 @@ def _keyboard_codes_to_characters(keyboard_codes):
         List of str values, corresponding to each of the keyboard entries.
     """
 
-    hex_keyboard_codes = textwrap.fill(keyboard_codes.tostring().hex(), 8).split('\n')
+    hex_keyboard_codes = textwrap.fill(
+        keyboard_codes.tostring().hex(), 8).split('\n')
     return [bytearray.fromhex(hex_code[0:8][:2]).decode()
             for hex_code in hex_keyboard_codes]
 
@@ -204,8 +209,10 @@ def _parse_mat_wavemark(mat_wavemark):
         template_length = int(_flatten(mat_wavemark['length']))
 
         concatenated_wavemarks = _flatten(mat_wavemark['values'])
-        number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
-        action_potentials = concatenated_wavemarks.reshape(template_length, number_of_wavemarks)
+        number_of_wavemarks = int(len(concatenated_wavemarks) /
+                                  template_length)
+        action_potentials = concatenated_wavemarks.reshape(
+            template_length, number_of_wavemarks)
     return {'units': units,
             'times': times,
             'sampling_frequency': sampling_frequency,
