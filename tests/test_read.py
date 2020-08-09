@@ -1,23 +1,24 @@
-import os
+from pathlib import Path
 import pytest
+
 import numpy as np
 
 
 from spike2py import read
 
 
-PAYLOADS_DIR = ('tests', 'payloads')
+PAYLOADS_DIR = Path.cwd() / 'tests' / 'payloads'
 
 
 def test_read_smoke_test():
-    file = os.path.join(*PAYLOADS_DIR, 'tremor_kinetic.mat')
+    file = PAYLOADS_DIR / 'tremor_kinetic.mat'
     data = read.read(file)
     actual = list(data.keys())
     assert actual == ['Flex', 'Ext', 'Angle', 'triangle', 'Keyboard']
 
 
 def test_read_with_channels_smoke_test():
-    file = os.path.join(*PAYLOADS_DIR, 'tremor_kinetic.mat')
+    file = PAYLOADS_DIR / 'tremor_kinetic.mat'
     channels = ['Flex', 'Ext', 'Angle']
     data = read.read(file, channels)
     actual = list(data.keys())
@@ -58,7 +59,8 @@ def test_parse_mat_keyboard_times(data_setup):
 
 
 def test_parse_mat_keyboard_empty(data_setup):
-    actual = read._parse_mat_keyboard(data_setup['mat_keyboard_empty'])['times']
+    actual = read._parse_mat_keyboard(
+        data_setup['mat_keyboard_empty'])['times']
     assert len(actual) == 0
 
 
@@ -84,7 +86,8 @@ def test_parse_mat_waveform_units(data_setup):
 
 
 def test_parse_mat_waveform_sampling_frequency(data_setup):
-    actual = read._parse_mat_waveform(data_setup['mat_waveform'])['sampling_frequency']
+    actual = read._parse_mat_waveform(
+        data_setup['mat_waveform'])['sampling_frequency']
     assert actual == 200
 
 
@@ -102,14 +105,17 @@ def test_parse_mat_wavemark_discharge_times(data_setup):
     actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['times']
     actual_int = [int(val * 100000) for val in actual]
     actual_int_sample = actual_int[:3] + actual_int[-3:]
-    assert actual_int_sample == [399001, 405992, 411668, 1173429, 1184660, 1195989]
+    assert actual_int_sample == \
+           [399001, 405992, 411668, 1173429, 1184660, 1195989]
 
 
 def test_parse_mat_wavemark_sampling_frequency(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['sampling_frequency']
+    actual = read._parse_mat_wavemark(
+        data_setup['mat_wavemark'])['sampling_frequency']
     assert actual == 25000
 
 
 def test_parse_mat_wavemark_action_potentials(data_setup):
-    actual = read._parse_mat_wavemark(data_setup['mat_wavemark'])['action_potentials']
+    actual = read._parse_mat_wavemark(
+        data_setup['mat_wavemark'])['action_potentials']
     assert actual.shape == (62, 256)

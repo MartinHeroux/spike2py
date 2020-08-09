@@ -10,7 +10,8 @@ class SignalProcessing:
         setattr(self, name, self.values)
 
     def remove_mean(self, first_n_samples=None):
-        """Subtracts mean calculated from all `values` (default) or first n samples.
+        """Subtracts mean calculated from all `values` (default) or first
+        n samples.
 
         Parameters
         ----------
@@ -85,9 +86,11 @@ class SignalProcessing:
         return self
 
     def _filt(self, cutoff, order, filt_type):
-        Wn = cutoff / (self.details.sampling_frequency / 2)
-        b, a = butter(N=order, Wn=Wn, btype=filt_type)
-        self.values = filtfilt(b, a, self.values)
+        critical_fq = cutoff / (self.details.sampling_frequency / 2)
+        filt_coef_b, filt_coef_a = butter(N=order,
+                                          Wn=critical_fq,
+                                          btype=filt_type)
+        self.values = filtfilt(filt_coef_b, filt_coef_a, self.values)
         self._setattr(f'proc_filt_{cutoff}_{filt_type}')
 
     def calibrate(self, slope=None, offset=None):
@@ -174,5 +177,6 @@ class SignalProcessing:
         model = LinearRegression()
         model.fit(times, self.values)
         trend = model.predict(times)
-        self.values = [self.values[i] - trend[i] for i in range(0, len(self.values))]
+        self.values = [self.values[i] - trend[i]
+                       for i in range(0, len(self.values))]
         return self

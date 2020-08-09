@@ -1,7 +1,7 @@
 from collections import namedtuple
 
-from .signal_processing import SignalProcessing
-import plot
+from spike2py import plot
+from spike2py.signal_processing import SignalProcessing
 
 
 Details = namedtuple('Details', 'name units sampling_frequency')
@@ -14,11 +14,11 @@ class Channel:
    Parameters
     ----------
     details: namedtuple
-        details.name: str
+        details.name: str, default None
             Name of channel (.e.g 'left biceps')
-        details.units: str
+        details.units: str, default None
             Units of recorded signal (e.g., 'Volts' or 'Nm')
-        details.sampling_frequency: int
+        details.sampling_frequency: int, default None
             In Hertz (e.g. 2048)
     times: numpy.ndarray
         Sample times of data or events, in seconds
@@ -33,13 +33,14 @@ class Event(Channel):
     """Event channel class
     Parameters
     ----------
-    times: numpy.ndarray
-        Times of events, in seconds
+    name: str
+        Channel name
+    data_dict: dict
+        data_dict['times']: np.array of event times in seconds
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name)
-        super().__init__(details, data_dict['times'])
+        super().__init__(Details(name=name), data_dict['times'])
 
     def __repr__(self):
         return 'Event channel'
@@ -53,14 +54,16 @@ class Keyboard(Channel):
 
     Parameters
     ----------
-    codes: str
-        Keyboard inputs
+    name: str
+        Channel name
+    data_dict: dict
+        data_dict['times']: np.array of times of keyboard events, in seconds
+        data_dict['codes']: np.array of str associated with keyboard events
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name)
         self.codes = data_dict['codes']
-        super().__init__(details, data_dict['times'])
+        super().__init__(Details(name=name), data_dict['times'])
 
     def __repr__(self):
         return 'Keyboard channel'
@@ -74,13 +77,17 @@ class Waveform(Channel, SignalProcessing):
 
         Parameters
         ----------
-        values: numpy.ndarray
-            Sampled data
-            Same length as `times`
+    data_dict: dict
+        data_dict['times']: np.array of times of recorded signal, in seconds
+        data_dict['values']: np.array of recorded signal values
+        data_dict['units']: str describing measurement units (e.g. 'Volts')
+        data_dict['sampling_frequency']: int
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name, units=data_dict['units'], sampling_frequency=data_dict['sampling_frequency'])
+        details = Details(name=name,
+                          units=data_dict['units'],
+                          sampling_frequency=data_dict['sampling_frequency'])
         self.values = data_dict['values']
         super().__init__(details, data_dict['times'])
 
@@ -96,13 +103,18 @@ class Wavemark(Channel):
 
     Parameters
     ----------
-    action_potentials: list
-        A list of lists containing wavemark data of length `template_length`
-        for each occurrence of the wavemark, of which there are `len(times)`
+    data_dict: dict
+        data_dict['times']: np.array of action potential times, in seconds
+        data_dict['action_potentials']: list of lists, where each list is a
+            wavemark.
+        data_dict['units']: str describing measurement units (e.g. 'Volts')
+        data_dict['sampling_frequency']: int
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name, units=data_dict['units'], sampling_frequency=data_dict['sampling_frequency'])
+        details = Details(name=name,
+                          units=data_dict['units'],
+                          sampling_frequency=data_dict['sampling_frequency'])
         self.action_potentials = data_dict['action_potentials']
         super().__init__(details, data_dict['times'])
         self._calc_instantaneous_firing_frequency()

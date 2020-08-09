@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import random
 
 import pytest
@@ -8,14 +8,16 @@ import scipy.io as sio
 from spike2py import channels
 
 
-PAYLOADS_DIR = ('tests', 'payloads')
-
+PAYLOADS_DIR = Path.cwd() / 'tests' / 'payloads'
+ACTION_POTENTIALS = [[random.random() for i in range(62)],
+                     [random.random() for i in range(62)],
+                     [random.random() for i in range(62)]]
 
 @pytest.fixture()
 def data_setup():
-    files = {'biomech': os.path.join(*PAYLOADS_DIR, 'biomech0deg.mat'),
-             'motor_unit': os.path.join(*PAYLOADS_DIR, 'motor_units.mat'),
-             'physiology': os.path.join(*PAYLOADS_DIR, 'physiology.mat')
+    files = {'biomech': PAYLOADS_DIR / 'biomech0deg.mat',
+             'motor_unit': PAYLOADS_DIR / 'motor_units.mat',
+             'physiology':  PAYLOADS_DIR / 'physiology.mat',
              }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {'mat_datasets': mat_datasets,
@@ -29,26 +31,66 @@ def data_setup():
 
 @pytest.fixture()
 def channels_init():
-    event_details = channels.channel_details(name='stimulator', trial='fatigue2')
-    event = {'details': event_details,
-             'times': np.array([7.654, 7.882]),
+    event = {'name': 'stimulator',
+             'data_dict': {'times': np.array([7.654, 7.882]),
+                           'ch_type': 'event',
+                           }
              }
-    keyboard_details = channels.channel_details(name='keyboard', trial='stim20_1')
-    keyboard = {'details': keyboard_details,
-                'times': np.array([1.34, 100.334]),
-                'codes': ['t', 'a', '5'],
+    keyboard = {'name': 'keyboard',
+                'data_dict': {'codes': ['t', 'a', '5'],
+                              'times': np.array([1.34, 100.334]),
+                              'ch_type': 'keyboard',
+                              }
                 }
-    waveform_details = channels.channel_details(name='biceps', trial='max100', units='Volts', sampling_frequency=2048)
-    waveform = {'details': waveform_details,
+    waveform = {'name': 'biceps',
+                'data_dict': {'times': np.arange(0, 2, 0.25),
+                              'units': 'Volts',
+                              'values': np.array([32, 23, 65, 67,
+                                                  46, 91, 29, 44]) / 1000,
+                              'sampling_frequency': 2048,
+                              'ch_type': 'waveform',
+                              }
+                }
+    wavemark = {'name': 'MG',
+                'data_dict': {'units': 'Volts',
+                              'times': np.array([7.432, 7.765, 7.915]),
+                              'sampling_frequency': 10240,
+                              'action_potentials': ACTION_POTENTIALS,
+                              'ch_type': 'wavemark',
+                              }
+                }
+    return {'event': event,
+            'keyboard': keyboard,
+            'waveform': waveform,
+            'wavemark': wavemark,
+            }
+
+
+@pytest.fixture()
+def channels_mock():
+
+    event = {'details': channels.Details(name='stimulator'),
+             'times': np.array([7.654, 7.882]),
+             'ch_type': 'keyboard',
+             }
+    keyboard = {'details': channels.Details(name='keyboard'),
+                'codes': ['t', 'a', '5'],
+                'times': np.array([1.34, 100.334]),
+                'ch_type': 'keyboard',
+                }
+    waveform = {'details': channels.Details(name='biceps',
+                                            units='Volts',
+                                            sampling_frequency=2048),
                 'times': np.arange(0, 2, 0.25),
                 'values': np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
+                'ch_type': 'waveform'
                 }
-    wavemark_details = channels.channel_details(name='MG', trial='post_50_1', units='Volts', sampling_frequency=10240)
-    wavemark = {'details': wavemark_details,
+    wavemark = {'details': channels.Details(name='MG',
+                                            units='Volts',
+                                            sampling_frequency=10240),
                 'times': np.array([7.432, 7.765, 7.915]),
-                'action_potentials': [[random.random() for i in range(62)],
-                                      [random.random() for i in range(62)],
-                                      [random.random() for i in range(62)]],
+                'action_potentials': ACTION_POTENTIALS,
+                'ch_type': 'wavemark'
                 }
     return {'event': event,
             'keyboard': keyboard,
