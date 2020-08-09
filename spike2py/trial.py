@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from spike2py import read, channels
 
@@ -19,7 +19,7 @@ class Trial:
         Parameters
         ----------
         file: str
-            Absolute path to data file. Only .mat files are currently supported.
+            Absolute path to data file. Only .mat files supported.
         channels: list
             List of channel names, as they appeared in the original .smr file.
             Example: ['biceps', 'triceps', 'torque']
@@ -31,7 +31,7 @@ class Trial:
 
         """
         if name is None:
-            name = os.path.split(file)[-1].split('.')[0]
+            name = Path(file).stem
         self.name = name
         self.file = file
         self.subject_id = subject_id
