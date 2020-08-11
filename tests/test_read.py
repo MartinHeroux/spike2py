@@ -1,24 +1,18 @@
-from pathlib import Path
 import pytest
-
 import numpy as np
-
 
 from spike2py import read
 
 
-PAYLOADS_DIR = Path.cwd() / 'tests' / 'payloads'
-
-
-def test_read_smoke_test():
-    file = PAYLOADS_DIR / 'tremor_kinetic.mat'
+def test_read_smoke_test(payload_dir):
+    file = payload_dir / 'tremor_kinetic.mat'
     data = read.read(file)
     actual = list(data.keys())
     assert actual == ['Flex', 'Ext', 'Angle', 'triangle', 'Keyboard']
 
 
-def test_read_with_channels_smoke_test():
-    file = PAYLOADS_DIR / 'tremor_kinetic.mat'
+def test_read_with_channels_smoke_test(payload_dir):
+    file = payload_dir / 'tremor_kinetic.mat'
     channels = ['Flex', 'Ext', 'Angle']
     data = read.read(file, channels)
     actual = list(data.keys())
