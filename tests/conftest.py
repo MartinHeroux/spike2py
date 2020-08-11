@@ -8,10 +8,14 @@ import scipy.io as sio
 from spike2py import channels
 
 
-PAYLOADS_DIR = Path.cwd() / 'tests' / 'payloads'
-ACTION_POTENTIALS = [[random.random() for i in range(62)],
-                     [random.random() for i in range(62)],
-                     [random.random() for i in range(62)]]
+ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
+PAYLOADS_DIR = Path(__file__).parent / 'payloads'
+
+
+@pytest.fixture()
+def payload_dir():
+    return PAYLOADS_DIR
+
 
 @pytest.fixture()
 def data_setup():

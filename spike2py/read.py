@@ -91,7 +91,7 @@ def _parse_mat_data(mat_data):
                      CHANNEL_DATA_LENGTH['wavemark']: _parse_mat_wavemark}
     parsed_data = dict()
     for key, value in mat_data.items():
-        parsed_data[key] = parser_lookup[len((value.dtype))](value)
+        parsed_data[key] = parser_lookup[len(value.dtype)](value)
     return parsed_data
 
 
@@ -109,12 +109,12 @@ def _parse_mat_events(mat_events):
         Data from waveform channel.
     """
 
-    return {'times': _flatten(mat_events['times']),
+    return {'times': _flatten_array(mat_events['times']),
             'ch_type': 'event',
             }
 
 
-def _flatten(array):
+def _flatten_array(array):
     return array[0][0].flatten()
 
 
@@ -132,12 +132,12 @@ def _parse_mat_keyboard(mat_keyboard):
         Data from keyboard channel.
     """
 
-    keyboard_codes = _flatten(mat_keyboard['codes'])
+    keyboard_codes = _flatten_array(mat_keyboard['codes'])
     characters = None
     if len(keyboard_codes) != 0:
         characters = _keyboard_codes_to_characters(keyboard_codes)
     return {'codes': characters,
-            'times': _flatten(mat_keyboard['times']),
+            'times': _flatten_array(mat_keyboard['times']),
             'ch_type': 'keyboard',
             }
 
@@ -178,17 +178,18 @@ def _parse_mat_waveform(mat_waveform):
     dict
         Data from waveform channel.
     """
-    units_flattened = _flatten(mat_waveform['units'])
+    units_flattened = _flatten_array(mat_waveform['units'])
     units = None
     if units_flattened.size > 0:
         units = units_flattened[0]
-    times = _flatten(mat_waveform['times'])
-    values = _flatten(mat_waveform['values'])
+    times = _flatten_array(mat_waveform['times'])
+    values = _flatten_array(mat_waveform['values'])
     shortest_array = min(len(times), len(values))
     return {'times': times[:shortest_array],
             'units': units,
             'values': values[:shortest_array],
-            'sampling_frequency': int(1 / _flatten(mat_waveform['interval'])),
+            'sampling_frequency':
+                int(1 / _flatten_array(mat_waveform['interval'])),
             'ch_type': 'waveform',
             }
 
@@ -212,7 +213,7 @@ def _parse_mat_wavemark(mat_wavemark):
     sampling_frequency = None
     action_potentials = None
 
-    units_flattened = _flatten(mat_wavemark['units'])
+    units_flattened = _flatten_array(mat_wavemark['units'])
 
     if units_flattened.size > 0:
         units = units_flattened[0]
@@ -229,7 +230,7 @@ def _parse_mat_wavemark(mat_wavemark):
 
 def _extract_wavemarks(mat_wavemark):
     """Helper function to flatten, extract and group wavemark values"""
-    template_length = int(_flatten(mat_wavemark['length']))
-    concatenated_wavemarks = _flatten(mat_wavemark['values'])
+    template_length = int(_flatten_array(mat_wavemark['length']))
+    concatenated_wavemarks = _flatten_array(mat_wavemark['values'])
     number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
     return concatenated_wavemarks.reshape(template_length, number_of_wavemarks)
