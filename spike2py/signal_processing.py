@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.signal import butter, filtfilt
+from scipy.signal import butter, filtfilt, detrend
 from sklearn.linear_model import LinearRegression
 
 
@@ -34,8 +34,12 @@ class SignalProcessing:
 
         """
         self.values -= value
-        self._setattr(f'proc_remove_value_{value}')
+        str_value = self._float_to_string_with_underscore(value)
+        self._setattr(f'proc_remove_value_{str_value}')
         return self
+
+    def _float_to_string_with_underscore(self, float_value):
+        return str(float_value).replace('.', '_')
 
     def lowpass(self, cutoff, order=4):
         """Apply dual-pass Butterworth lowpass filter to `values`
@@ -89,7 +93,17 @@ class SignalProcessing:
         critical_fq = cutoff / (self.details.sampling_frequency / 2)
         filt_coef_b, filt_coef_a = butter(order, critical_fq, filt_type)
         self.values = filtfilt(filt_coef_b, filt_coef_a, self.values)
+        if not isinstance(cutoff, int):
+            cutoff = self._cutoff_to_string(cutoff)
         self._setattr(f'proc_filt_{cutoff}_{filt_type}')
+
+    def _cutoff_to_string(self, cutoff):
+        if isinstance(cutoff, np.ndarray):
+            low = self._float_to_string_with_underscore(cutoff[0])
+            high = self._float_to_string_with_underscore(cutoff[1])
+            return f'{low}_{high}'
+        if isinstance(cutoff, float):
+            return self._float_to_string_with_underscore(cutoff)
 
     def calibrate(self, slope=None, offset=None):
         """Calibrate `values` using linear formula y=slope*x+offset
@@ -171,10 +185,6 @@ class SignalProcessing:
 
     def linear_detrend(self):
         """Remove linear trend from `values`"""
-        times = np.reshape(self.times, (len(self.times), 1))
-        model = LinearRegression()
-        model.fit(times, self.values)
-        trend = model.predict(times)
-        self.values = [self.values[i] - trend[i]
-                       for i in range(0, len(self.values))]
+        self.values = detrend(self.values, type='linear')
+        self._setattr('linear_detrend')
         return self
