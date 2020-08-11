@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+import numpy as np
+
 from spike2py import plot
 from spike2py.signal_processing import SignalProcessing
 
@@ -124,10 +126,10 @@ class Wavemark(Channel):
 
     def _calc_instantaneous_firing_frequency(self):
         time1 = self.times[0]
-        instantaneous_firing_frequency = list()
+        inst_firing_frequency = list()
         for time2 in self.times[1:]:
-            instantaneous_firing_frequency.append(1/(time2-time1))
-        self.instantaneous_firing_frequency = instantaneous_firing_frequency
+            inst_firing_frequency.append(1/(time2-time1))
+        self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self):
         plot.wavemark(self.details, self.times, self.action_potentials)
