@@ -160,7 +160,7 @@ def _keyboard_codes_to_characters(keyboard_codes):
     """
 
     hex_keyboard_codes = textwrap.fill(
-        keyboard_codes.tostring().hex(), 8).split('\n')
+        keyboard_codes.tobytes().hex(), 8).split('\n')
     return [bytearray.fromhex(hex_code[0:8][:2]).decode()
             for hex_code in hex_keyboard_codes]
 
