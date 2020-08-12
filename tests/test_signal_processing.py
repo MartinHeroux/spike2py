@@ -99,7 +99,7 @@ def test_mixin_bandpass_cutoff(mixin):
     mean_bandpass_fq = int(
         np.mean(power_spectral_density[fq_bandpass_bool] * 10e15))
     assert mean_not_bandpass_fq == 5909656213
-    assert mean_bandpass_fq == 1396973349240
+    assert mean_bandpass_fq == 1396973349243
 
 
 def test_mixin_bandpass_cutoff_order(mixin):
@@ -132,8 +132,8 @@ def test_mixin_bandstop_cutoff(mixin):
         np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e15))
     mean_bandstop_fq = int(
         np.mean(power_spectral_density[fq_bandstop_bool] * 10e15))
-    assert mean_not_bandstop_fq == 1580149786346
-    assert mean_bandstop_fq == 28136638802
+    assert mean_not_bandstop_fq == 1580149786352
+    assert mean_bandstop_fq ==  28136638780
 
 
 def test_mixin_bandstop_cutoff_order(mixin):
