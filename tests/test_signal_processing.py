@@ -95,11 +95,11 @@ def test_mixin_bandpass_cutoff(mixin):
     fq_bandpass_bool = list((freq > 50) & (freq < 100))
     fq_not_bandpass_bool = [not boolean for boolean in fq_bandpass_bool]
     mean_not_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e15))
+        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e10))
     mean_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_bandpass_bool] * 10e15))
-    assert mean_not_bandpass_fq == 5909656213
-    assert mean_bandpass_fq == 1396973349243
+        np.mean(power_spectral_density[fq_bandpass_bool] * 10e10))
+    assert mean_not_bandpass_fq == 59096
+    assert mean_bandpass_fq == 13969733
 
 
 def test_mixin_bandpass_cutoff_order(mixin):
@@ -112,11 +112,11 @@ def test_mixin_bandpass_cutoff_order(mixin):
     fq_bandpass_bool = list((freq > 5) & (freq < 200))
     fq_not_bandpass_bool = [not boolean for boolean in fq_bandpass_bool]
     mean_not_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e15))
+        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e10))
     mean_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_bandpass_bool] * 10e15))
-    assert mean_not_bandpass_fq == 38579335669
-    assert mean_bandpass_fq == 1291038336160
+        np.mean(power_spectral_density[fq_bandpass_bool] * 10e10))
+    assert mean_not_bandpass_fq == 385793
+    assert mean_bandpass_fq == 12910383
 
 
 def test_mixin_bandstop_cutoff(mixin):
@@ -129,11 +129,11 @@ def test_mixin_bandstop_cutoff(mixin):
     fq_bandstop_bool = list((freq > 50) & (freq < 100))
     fq_not_bandstop_bool = [not boolean for boolean in fq_bandstop_bool]
     mean_not_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e15))
+        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e10))
     mean_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_bandstop_bool] * 10e15))
-    assert mean_not_bandstop_fq == 1580149786352
-    assert mean_bandstop_fq ==  28136638780
+        np.mean(power_spectral_density[fq_bandstop_bool] * 10e10))
+    assert mean_not_bandstop_fq == 15801497
+    assert mean_bandstop_fq ==  281366
 
 
 def test_mixin_bandstop_cutoff_order(mixin):
@@ -146,8 +146,8 @@ def test_mixin_bandstop_cutoff_order(mixin):
     fq_bandstop_bool = list((freq > 5) & (freq < 200))
     fq_not_bandstop_bool = [not boolean for boolean in fq_bandstop_bool]
     mean_not_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e15))
+        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e10))
     mean_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_bandstop_bool] * 10e15))
-    assert mean_not_bandstop_fq == 1369084776753
-    assert mean_bandstop_fq == 57886781964
+        np.mean(power_spectral_density[fq_bandstop_bool] * 10e10))
+    assert mean_not_bandstop_fq == 13690847
+    assert mean_bandstop_fq == 578867
