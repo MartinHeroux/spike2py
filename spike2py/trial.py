@@ -3,11 +3,12 @@ from pathlib import Path
 from spike2py import read, channels
 
 
-CHANNEL_GENERATOR = {'event': channels.Event,
-                     'keyboard': channels.Keyboard,
-                     'waveform': channels.Waveform,
-                     'wavemark': channels.Wavemark,
-                     }
+CHANNEL_GENERATOR = {
+    "event": channels.Event,
+    "keyboard": channels.Keyboard,
+    "waveform": channels.Waveform,
+    "wavemark": channels.Wavemark,
+}
 
 
 class Trial:
@@ -39,15 +40,17 @@ class Trial:
         self._parse_trial_data()
 
     def __repr__(self):
-        return (f'Trial(file={repr(self.file)}, \n\tchannels={self.channels}, '
-                f'\n\tname={self.name}, \n\tsubject_id={self.subject_id}\n\t)')
+        return (
+            f"Trial(file={repr(self.file)}, \n\tchannels={self.channels}, "
+            f"\n\tname={self.name}, \n\tsubject_id={self.subject_id}\n\t)"
+        )
 
     def _parse_trial_data(self):
         trial_data = self._import_trial_data()
         channel_names = list()
         for key, value in trial_data.items():
-            channel_names.append((key, value['ch_type']))
-            setattr(self, key, CHANNEL_GENERATOR[value['ch_type']](key, value))
+            channel_names.append((key, value["ch_type"]))
+            setattr(self, key, CHANNEL_GENERATOR[value["ch_type"]](key, value))
         self.channels = channel_names
 
     def _import_trial_data(self):

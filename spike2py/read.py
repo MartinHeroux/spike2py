@@ -5,11 +5,12 @@ import textwrap
 import scipy.io as sio
 
 
-CHANNEL_DATA_LENGTH = {'event': 5,
-                       'keyboard': 6,
-                       'waveform': 10,
-                       'wavemark': 14,
-                       }
+CHANNEL_DATA_LENGTH = {
+    "event": 5,
+    "keyboard": 6,
+    "waveform": 10,
+    "wavemark": 14,
+}
 
 
 def read(file, channels=None):
@@ -32,13 +33,17 @@ def read(file, channels=None):
     """
 
     file_extension = Path(file).suffix
-    if file_extension == '.smr':
-        print('Processing .smr files is currently not supported.\n'
-              'In Spike2 export the data to .mat and start over.')
+    if file_extension == ".smr":
+        print(
+            "Processing .smr files is currently not supported.\n"
+            "In Spike2 export the data to .mat and start over."
+        )
         sys.exit(1)
-    if file_extension != '.mat':
-        print(f'Processing {file_extension} files is currently not supported.'
-              f'\nIn Spike2 export the data to .mat and start over.')
+    if file_extension != ".mat":
+        print(
+            f"Processing {file_extension} files is currently not supported."
+            f"\nIn Spike2 export the data to .mat and start over."
+        )
         sys.exit(1)
     return _parse_mat_data(_read_mat(file, channels))
 
@@ -62,12 +67,10 @@ def _read_mat(mat_file, channels):
     """
     data = sio.loadmat(mat_file)
     if channels is None:
-        channels = [data_key
-                    for data_key in data.keys()
-                    if not data_key.startswith('__')]
-    return {key: value
-            for (key, value) in data.items()
-            if key in channels}
+        channels = [
+            data_key for data_key in data.keys() if not data_key.startswith("__")
+        ]
+    return {key: value for (key, value) in data.items() if key in channels}
 
 
 def _parse_mat_data(mat_data):
@@ -85,10 +88,12 @@ def _parse_mat_data(mat_data):
         The `keys` and `values` will differ for the different channel types.
         See the `_parse_mat_<channel type>` helper functions for details.
     """
-    parser_lookup = {CHANNEL_DATA_LENGTH['event']: _parse_mat_events,
-                     CHANNEL_DATA_LENGTH['keyboard']: _parse_mat_keyboard,
-                     CHANNEL_DATA_LENGTH['waveform']: _parse_mat_waveform,
-                     CHANNEL_DATA_LENGTH['wavemark']: _parse_mat_wavemark}
+    parser_lookup = {
+        CHANNEL_DATA_LENGTH["event"]: _parse_mat_events,
+        CHANNEL_DATA_LENGTH["keyboard"]: _parse_mat_keyboard,
+        CHANNEL_DATA_LENGTH["waveform"]: _parse_mat_waveform,
+        CHANNEL_DATA_LENGTH["wavemark"]: _parse_mat_wavemark,
+    }
     parsed_data = dict()
     for key, value in mat_data.items():
         parsed_data[key] = parser_lookup[len(value.dtype)](value)
@@ -109,9 +114,10 @@ def _parse_mat_events(mat_events):
         Data from waveform channel.
     """
 
-    return {'times': _flatten_array(mat_events['times']),
-            'ch_type': 'event',
-            }
+    return {
+        "times": _flatten_array(mat_events["times"]),
+        "ch_type": "event",
+    }
 
 
 def _flatten_array(array):
@@ -132,14 +138,15 @@ def _parse_mat_keyboard(mat_keyboard):
         Data from keyboard channel.
     """
 
-    keyboard_codes = _flatten_array(mat_keyboard['codes'])
+    keyboard_codes = _flatten_array(mat_keyboard["codes"])
     characters = None
     if len(keyboard_codes) != 0:
         characters = _keyboard_codes_to_characters(keyboard_codes)
-    return {'codes': characters,
-            'times': _flatten_array(mat_keyboard['times']),
-            'ch_type': 'keyboard',
-            }
+    return {
+        "codes": characters,
+        "times": _flatten_array(mat_keyboard["times"]),
+        "ch_type": "keyboard",
+    }
 
 
 def _keyboard_codes_to_characters(keyboard_codes):
@@ -159,10 +166,10 @@ def _keyboard_codes_to_characters(keyboard_codes):
         List of str values, corresponding to each of the keyboard entries.
     """
 
-    hex_keyboard_codes = textwrap.fill(
-        keyboard_codes.tostring().hex(), 8).split('\n')
-    return [bytearray.fromhex(hex_code[0:8][:2]).decode()
-            for hex_code in hex_keyboard_codes]
+    hex_keyboard_codes = textwrap.fill(keyboard_codes.tobytes().hex(), 8).split("\n")
+    return [
+        bytearray.fromhex(hex_code[0:8][:2]).decode() for hex_code in hex_keyboard_codes
+    ]
 
 
 def _parse_mat_waveform(mat_waveform):
@@ -178,20 +185,20 @@ def _parse_mat_waveform(mat_waveform):
     dict
         Data from waveform channel.
     """
-    units_flattened = _flatten_array(mat_waveform['units'])
+    units_flattened = _flatten_array(mat_waveform["units"])
     units = None
     if units_flattened.size > 0:
         units = units_flattened[0]
-    times = _flatten_array(mat_waveform['times'])
-    values = _flatten_array(mat_waveform['values'])
+    times = _flatten_array(mat_waveform["times"])
+    values = _flatten_array(mat_waveform["values"])
     shortest_array = min(len(times), len(values))
-    return {'times': times[:shortest_array],
-            'units': units,
-            'values': values[:shortest_array],
-            'sampling_frequency':
-                int(1 / _flatten_array(mat_waveform['interval'])),
-            'ch_type': 'waveform',
-            }
+    return {
+        "times": times[:shortest_array],
+        "units": units,
+        "values": values[:shortest_array],
+        "sampling_frequency": int(1 / _flatten_array(mat_waveform["interval"])),
+        "ch_type": "waveform",
+    }
 
 
 def _parse_mat_wavemark(mat_wavemark):
@@ -213,24 +220,25 @@ def _parse_mat_wavemark(mat_wavemark):
     sampling_frequency = None
     action_potentials = None
 
-    units_flattened = _flatten_array(mat_wavemark['units'])
+    units_flattened = _flatten_array(mat_wavemark["units"])
 
     if units_flattened.size > 0:
         units = units_flattened[0]
-        times = mat_wavemark['times'][0][0].flatten()
-        sampling_frequency = int(1 / mat_wavemark['interval'][0][0].flatten())
+        times = mat_wavemark["times"][0][0].flatten()
+        sampling_frequency = int(1 / mat_wavemark["interval"][0][0].flatten())
         action_potentials = _extract_wavemarks(mat_wavemark)
-    return {'units': units,
-            'times': times,
-            'sampling_frequency': sampling_frequency,
-            'action_potentials': action_potentials,
-            'ch_type': 'wavemark',
-            }
+    return {
+        "units": units,
+        "times": times,
+        "sampling_frequency": sampling_frequency,
+        "action_potentials": action_potentials,
+        "ch_type": "wavemark",
+    }
 
 
 def _extract_wavemarks(mat_wavemark):
     """Helper function to flatten, extract and group wavemark values"""
-    template_length = int(_flatten_array(mat_wavemark['length']))
-    concatenated_wavemarks = _flatten_array(mat_wavemark['values'])
+    template_length = int(_flatten_array(mat_wavemark["length"]))
+    concatenated_wavemarks = _flatten_array(mat_wavemark["values"])
     number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
     return concatenated_wavemarks.reshape(template_length, number_of_wavemarks)

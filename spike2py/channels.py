@@ -6,7 +6,7 @@ from spike2py import plot
 from spike2py.signal_processing import SignalProcessing
 
 
-Details = namedtuple('Details', 'name units sampling_frequency')
+Details = namedtuple("Details", "name units sampling_frequency")
 Details.__new__.__defaults__ = (None, None, None)
 
 
@@ -42,10 +42,10 @@ class Event(Channel):
     """
 
     def __init__(self, name, data_dict):
-        super().__init__(Details(name=name), data_dict['times'])
+        super().__init__(Details(name=name), data_dict["times"])
 
     def __repr__(self):
-        return 'Event channel'
+        return "Event channel"
 
     def plot(self):
         plot.event(self.details, self.times)
@@ -64,11 +64,11 @@ class Keyboard(Channel):
     """
 
     def __init__(self, name, data_dict):
-        self.codes = data_dict['codes']
-        super().__init__(Details(name=name), data_dict['times'])
+        self.codes = data_dict["codes"]
+        super().__init__(Details(name=name), data_dict["times"])
 
     def __repr__(self):
-        return 'Keyboard channel'
+        return "Keyboard channel"
 
     def plot(self):
         plot.keyboard(self.details, self.times, self.codes)
@@ -87,14 +87,17 @@ class Waveform(Channel, SignalProcessing):
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name,
-                          units=data_dict['units'],
-                          sampling_frequency=data_dict['sampling_frequency'])
-        self.values = data_dict['values']
-        super().__init__(details, data_dict['times'])
+        details = Details(
+            name=name,
+            units=data_dict["units"],
+            sampling_frequency=data_dict["sampling_frequency"],
+        )
+        self.values = data_dict["values"]
+        self.raw_values = self.values
+        super().__init__(details, data_dict["times"])
 
     def __repr__(self):
-        return 'Waveform channel'
+        return "Waveform channel"
 
     def plot(self):
         plot.waveform(self.details, self.times, self.values)
@@ -114,21 +117,23 @@ class Wavemark(Channel):
     """
 
     def __init__(self, name, data_dict):
-        details = Details(name=name,
-                          units=data_dict['units'],
-                          sampling_frequency=data_dict['sampling_frequency'])
-        super().__init__(details, data_dict['times'])
-        self.action_potentials = data_dict['action_potentials']
+        details = Details(
+            name=name,
+            units=data_dict["units"],
+            sampling_frequency=data_dict["sampling_frequency"],
+        )
+        super().__init__(details, data_dict["times"])
+        self.action_potentials = data_dict["action_potentials"]
         self._calc_instantaneous_firing_frequency()
 
     def __repr__(self):
-        return 'Wavemark channel'
+        return "Wavemark channel"
 
     def _calc_instantaneous_firing_frequency(self):
         time1 = self.times[0]
         inst_firing_frequency = list()
         for time2 in self.times[1:]:
-            inst_firing_frequency.append(1/(time2-time1))
+            inst_firing_frequency.append(1 / (time2 - time1))
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self):
