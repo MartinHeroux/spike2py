@@ -91,6 +91,7 @@ class Waveform(Channel, SignalProcessing):
                           units=data_dict['units'],
                           sampling_frequency=data_dict['sampling_frequency'])
         self.values = data_dict['values']
+        self.raw_values = self.values
         super().__init__(details, data_dict['times'])
 
     def __repr__(self):

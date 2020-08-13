@@ -18,6 +18,7 @@ def test_channels_keyboard_init(channels_init, channels_mock):
 
 def test_channels_waveform_init(channels_init, channels_mock):
     waveform = channels.Waveform(**channels_init['waveform'])
+    assert "raw_values" in waveform.__dir__()
     assert waveform.details.name == channels_mock['waveform']['details'].name
     assert list(waveform.times) == list(channels_mock['waveform']['times'])
     assert waveform.details.units == channels_mock['waveform']['details'].units

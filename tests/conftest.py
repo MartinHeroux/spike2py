@@ -73,10 +73,10 @@ def channels_init():
 
 @pytest.fixture()
 def channel_instances():
-    return {'event': channels.Event(EVENT),
-            'keyboard': channels.Keyboard(KEYBOARD),
-            'waveform': channels.Waveform(WAVEFORM),
-            'wavemark': channels.Wavemark(WAVEMARK),
+    return {'event': channels.Event(**EVENT),
+            'keyboard': channels.Keyboard(**KEYBOARD),
+            'waveform': channels.Waveform(**WAVEFORM),
+            'wavemark': channels.Wavemark(**WAVEMARK),
             }
 
 
@@ -132,19 +132,27 @@ def _generate_mixin_values():
     random.seed(42)
     line = np.linspace(0, 5, 10000)
     noise = np.array([random.random() for i in range(10000)])
-    return line + noise
-
-
-@pytest.fixture()
-def mixin_values():
-    return _generate_mixin_values()
+    values = line + noise
+    times = np.linspace(0, 100, 10000)
+    return values, times
 
 
 @pytest.fixture()
 def mixin():
     mixin = signal_processing.SignalProcessing()
-    mixin.values = _generate_mixin_values()
+    mixin.values, mixin.times = _generate_mixin_values()
     mixin.details = channels.Details(name='mix_master',
                                      units='mic',
-                                     sampling_frequency=1024)
+                                     sampling_frequency=1000)
+    return mixin
+
+
+@pytest.fixture()
+def negative_value_mixin():
+    mixin = signal_processing.SignalProcessing()
+    values, _ = _generate_mixin_values()
+    mixin.values = -1 * values
+    mixin.details = channels.Details(name='mix_master',
+                                     units='mic',
+                                     sampling_frequency=1000)
     return mixin
