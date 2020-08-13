@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-COLOR = 'black'
+COLOR = "black"
 LINE_WIDTH = 3
 FONTSIZE = 10
 TICK_FIG_SIZE = (12, 4)
@@ -13,10 +13,9 @@ CHAR_Y_VALUE = 1.1
 def event(channel_details, event_times):
     plt.figure(figsize=TICK_FIG_SIZE)
     _plot_ticks(event_times)
-    _plot_horiz_line(start=event_times[0],
-                     end=event_times[-1],
-                     ch_name=channel_details.name,
-                     )
+    _plot_horiz_line(
+        start=event_times[0], end=event_times[-1], ch_name=channel_details.name,
+    )
     _finalise_plot(TICK_Y_LIMIT)
 
 
@@ -30,15 +29,16 @@ def _plot_tick(time):
 
 
 def _plot_horiz_line(start, end, ch_name):
-    plt.plot((start, end), Y_LINE_VALUES,
-             linewidth=LINE_WIDTH, label=ch_name, color=COLOR)
+    plt.plot(
+        (start, end), Y_LINE_VALUES, linewidth=LINE_WIDTH, label=ch_name, color=COLOR
+    )
 
 
 def _finalise_plot(y_lim=None):
     if y_lim:
         plt.ylim(TICK_Y_LIMIT)
         plt.gca().axes.get_yaxis().set_visible(False)
-    plt.xlabel('time (s)')
+    plt.xlabel("time (s)")
     plt.grid()
     plt.legend()
     plt.tight_layout()
@@ -65,8 +65,8 @@ def _plot_text(time, code):
 def waveform(channel_details, times, values):
     plt.figure(figsize=(12, 8))
     plt.plot(times, values, label=channel_details.name, color=COLOR)
-    units = channel_details.units if not None else 'a.u.'
-    plt.ylabel(f'amplitude ({units})')
+    units = channel_details.units if not None else "a.u."
+    plt.ylabel(f"amplitude ({units})")
     _finalise_plot()
 
 
@@ -74,9 +74,7 @@ def wavemark(channel_details, times, action_potentials):
     plt.figure(figsize=TICK_FIG_SIZE)
     plt.subplot(1, 14, (1, 12))
     _plot_ticks(times)
-    _plot_horiz_line(start=times[0],
-                     end=times[-1],
-                     ch_name=channel_details.name)
+    _plot_horiz_line(start=times[0], end=times[-1], ch_name=channel_details.name)
     _finalise_plot(TICK_Y_LIMIT)
     plt.subplot(1, 14, (13, 14))
     for action_potential in action_potentials:
@@ -87,4 +85,3 @@ def wavemark(channel_details, times, action_potentials):
 def _remove_xy_ticks_labels():
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.gca().axes.get_xaxis().set_visible(False)
-
