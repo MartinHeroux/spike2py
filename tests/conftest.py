@@ -17,8 +17,8 @@ EVENT = {
     "data_dict": {
         "times": np.array([7.654, 7.882]),
         "ch_type": "event",
-        "path": Path("."),
-        "trialname": "strong_you_are",
+        "fig_path": Path("."),
+        "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
 }
@@ -28,8 +28,8 @@ KEYBOARD = {
         "codes": ["t", "a", "5"],
         "times": np.array([1.34, 100.334]),
         "ch_type": "keyboard",
-        "path": Path("."),
-        "trialname": "strong_you_are",
+        "fig_path": Path("."),
+        "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
 }
@@ -41,8 +41,8 @@ WAVEFORM = {
         "values": np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
         "sampling_frequency": 2048,
         "ch_type": "waveform",
-        "path": Path("."),
-        "trialname": "strong_you_are",
+        "fig_path": Path("."),
+        "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
 }
@@ -54,8 +54,8 @@ WAVEMARK = {
         "sampling_frequency": 10240,
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
-        "path": Path("."),
-        "trialname": "strong_you_are",
+        "fig_path": Path("."),
+        "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
 }
@@ -66,12 +66,24 @@ def payload_dir():
     return PAYLOADS_DIR
 
 
+PATH_TO_MAT_FILES = [
+    PAYLOADS_DIR / "biomech0deg.mat",
+    PAYLOADS_DIR / "motor_units.mat",
+    PAYLOADS_DIR / "physiology.mat",
+]
+
+
+@pytest.fixture(params=PATH_TO_MAT_FILES)
+def mat_file(request):
+    return request.param
+
+
 @pytest.fixture()
 def data_setup():
     files = {
-        "biomech": PAYLOADS_DIR / "biomech0deg.mat",
-        "motor_unit": PAYLOADS_DIR / "motor_units.mat",
-        "physiology": PAYLOADS_DIR / "physiology.mat",
+        "biomech": PATH_TO_MAT_FILES[0],
+        "motor_unit": PATH_TO_MAT_FILES[1],
+        "physiology": PATH_TO_MAT_FILES[2],
     }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {
@@ -107,13 +119,23 @@ def channel_instances():
 @pytest.fixture()
 def channels_mock():
     event = {
-        "details": channels.Details(name="stimulator", path=PATH),
+        "details": channels.Details(
+            name="stimulator",
+            fig_path=Path("."),
+            trial_name="strong_you_are",
+            subject_id="Yoda",
+        ),
         "times": np.array([7.654, 7.882]),
         "ch_type": "keyboard",
         "__repr__": "Event channel",
     }
     keyboard = {
-        "details": channels.Details(name="keyboard", path=PATH),
+        "details": channels.Details(
+            name="keyboard",
+            fig_path=Path("."),
+            trial_name="strong_you_are",
+            subject_id="Yoda",
+        ),
         "codes": ["t", "a", "5"],
         "times": np.array([1.34, 100.334]),
         "ch_type": "keyboard",
@@ -121,7 +143,12 @@ def channels_mock():
     }
     waveform = {
         "details": channels.Details(
-            name="biceps", units="Volts", sampling_frequency=2048, path=PATH
+            name="biceps",
+            units="Volts",
+            sampling_frequency=2048,
+            fig_path=Path("."),
+            trial_name="strong_you_are",
+            subject_id="Yoda",
         ),
         "times": np.arange(0, 2, 0.25),
         "values": np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
@@ -130,7 +157,12 @@ def channels_mock():
     }
     wavemark = {
         "details": channels.Details(
-            name="MG", units="Volts", sampling_frequency=10240, path=PATH
+            name="MG",
+            units="Volts",
+            sampling_frequency=10240,
+            fig_path=Path("."),
+            trial_name="strong_you_are",
+            subject_id="Yoda",
         ),
         "times": np.array([7.432, 7.765, 7.915]),
         "action_potentials": ACTION_POTENTIALS,
