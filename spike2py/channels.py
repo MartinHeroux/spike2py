@@ -8,7 +8,7 @@ from spike2py.signal_processing import SignalProcessing
 
 
 Details = namedtuple(
-    "Details", "name units sampling_frequency fig_path trial_name subject_id",
+    "Details", "name units sampling_frequency path_figures trial_name subject_id",
 )
 Details.__new__.__defaults__ = (None, None, None, None, None, None)
 
@@ -54,7 +54,7 @@ class Event(Channel):
         super().__init__(
             Details(
                 name=name,
-                fig_path=data_dict["fig_path"],
+                path_figures=data_dict["path_figures"],
                 trial_name=data_dict["trial_name"],
                 subject_id=data_dict["subject_id"],
             ),
@@ -72,7 +72,7 @@ def _plot(channel, save, save_path):
     if save_path:
         save_path = Path(save_path)
     else:
-        save_path = channel.details.fig_path
+        save_path = channel.details.path_figures
     plot.channel(channel, save=save, save_path=save_path)
 
 
@@ -93,7 +93,7 @@ class Keyboard(Channel):
         super().__init__(
             Details(
                 name=name,
-                fig_path=data_dict["fig_path"],
+                path_figures=data_dict["path_figures"],
                 trial_name=data_dict["trial_name"],
                 subject_id=data_dict["subject_id"],
             ),
@@ -124,7 +124,7 @@ class Waveform(Channel, SignalProcessing):
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
-            fig_path=data_dict["fig_path"],
+            path_figures=data_dict["path_figures"],
             trial_name=data_dict["trial_name"],
             subject_id=data_dict["subject_id"],
         )
@@ -157,7 +157,7 @@ class Wavemark(Channel):
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
-            fig_path=data_dict["fig_path"],
+            path_figures=data_dict["path_figures"],
             trial_name=data_dict["trial_name"],
             subject_id=data_dict["subject_id"],
         )

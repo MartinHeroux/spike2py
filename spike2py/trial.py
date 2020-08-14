@@ -58,7 +58,7 @@ class Trial:
         channel_names = list()
         for key, value in trial_data.items():
             channel_names.append((key, value["ch_type"]))
-            value["fig_path"] = self.trial_info.path_figures
+            value["path_figures"] = self.trial_info.path_figures
             value["trial_name"] = self.trial_info.name
             value["subject_id"] = self.trial_info.subject_id
             setattr(
