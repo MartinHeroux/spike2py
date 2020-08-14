@@ -1,7 +1,8 @@
 import pytest
 import numpy as np
 from scipy.signal import welch
-from spike2py import signal_processing
+
+import spike2py.signal_processing as signal_processing
 
 
 def test_signal_processing_methods_present(mixin_methods):

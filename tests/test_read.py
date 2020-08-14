@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from spike2py import read
+import spike2py.read as read
 
 
 def test_read_smoke_test(payload_dir):

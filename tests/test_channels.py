@@ -1,4 +1,4 @@
-from spike2py import channels
+import spike2py.channels as channels
 
 
 def test_channels_event_init(channels_init, channels_mock):

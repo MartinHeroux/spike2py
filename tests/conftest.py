@@ -4,9 +4,12 @@ import random
 import pytest
 import numpy as np
 import scipy.io as sio
+import sys
 
-from spike2py import channels
-from spike2py import signal_processing
+sys.path.insert(1, '../spike2py/')
+
+import channels
+import signal_processing
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
@@ -114,7 +117,7 @@ def channel_instances():
 @pytest.fixture()
 def channels_mock():
     event = {
-        "details": channels.Details(
+        "details": channels.Channel_Details(
             name="stimulator",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -125,7 +128,7 @@ def channels_mock():
         "__repr__": "Event channel",
     }
     keyboard = {
-        "details": channels.Details(
+        "details": channels.Channel_Details(
             name="keyboard",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -137,7 +140,7 @@ def channels_mock():
         "__repr__": "Keyboard channel",
     }
     waveform = {
-        "details": channels.Details(
+        "details": channels.Channel_Details(
             name="biceps",
             units="Volts",
             sampling_frequency=2048,
@@ -151,7 +154,7 @@ def channels_mock():
         "__repr__": "Waveform channel",
     }
     wavemark = {
-        "details": channels.Details(
+        "details": channels.Channel_Details(
             name="MG",
             units="Volts",
             sampling_frequency=10240,
@@ -215,7 +218,7 @@ def _generate_mixin_values():
 def mixin():
     mixin = signal_processing.SignalProcessing()
     mixin.values, mixin.times = _generate_mixin_values()
-    mixin.details = channels.Details(
+    mixin.details = channels.Channel_Details(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin
@@ -226,7 +229,7 @@ def negative_value_mixin():
     mixin = signal_processing.SignalProcessing()
     values, _ = _generate_mixin_values()
     mixin.values = -1 * values
-    mixin.details = channels.Details(
+    mixin.details = channels.Channel_Details(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin

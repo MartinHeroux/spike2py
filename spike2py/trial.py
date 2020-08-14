@@ -1,7 +1,8 @@
 from collections import namedtuple
 from pathlib import Path
 
-from spike2py import read, channels
+import read
+import channels
 
 
 CHANNEL_GENERATOR = {
@@ -12,10 +13,10 @@ CHANNEL_GENERATOR = {
 }
 
 
-TrialInfo = namedtuple(
+Trial_Info = namedtuple(
     "TrialInfo", "file channels name subject_id path_save_figures path_save_trial",
 )
-TrialInfo.__new__.__defaults__ = (None, None, None, None, None, None)
+Trial_Info.__new__.__defaults__ = (None, None, None, None, None, None)
 
 
 class Trial:
@@ -73,7 +74,7 @@ class Trial:
             path_to_check=trial_info.path_save_trial,
             path_to_make=Path(trial_info.file).parent / "data",
         )
-        self.trial_info = TrialInfo(
+        self.trial_info = Trial_Info(
             file=trial_info.file,
             channels=trial_info.channels,
             name=name.upper(),
