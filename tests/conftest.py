@@ -17,7 +17,7 @@ EVENT = {
     "data_dict": {
         "times": np.array([7.654, 7.882]),
         "ch_type": "event",
-        "path_figures": Path("."),
+        "path_save_figures": Path("."),
         "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
@@ -28,7 +28,7 @@ KEYBOARD = {
         "codes": ["t", "a", "5"],
         "times": np.array([1.34, 100.334]),
         "ch_type": "keyboard",
-        "path_figures": Path("."),
+        "path_save_figures": Path("."),
         "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
@@ -41,7 +41,7 @@ WAVEFORM = {
         "values": np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
         "sampling_frequency": 2048,
         "ch_type": "waveform",
-        "path_figures": Path("."),
+        "path_save_figures": Path("."),
         "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
@@ -54,11 +54,18 @@ WAVEMARK = {
         "sampling_frequency": 10240,
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
-        "path_figures": Path("."),
+        "path_save_figures": Path("."),
         "trial_name": "strong_you_are",
         "subject_id": "Yoda",
     },
 }
+
+
+PATH_TO_MAT_FILES = [
+    PAYLOADS_DIR / "physiology.mat",
+    PAYLOADS_DIR / "biomech0deg.mat",
+    PAYLOADS_DIR / "motor_units.mat",
+]
 
 
 @pytest.fixture()
@@ -66,24 +73,12 @@ def payload_dir():
     return PAYLOADS_DIR
 
 
-PATH_TO_MAT_FILES = [
-    PAYLOADS_DIR / "biomech0deg.mat",
-    PAYLOADS_DIR / "motor_units.mat",
-    PAYLOADS_DIR / "physiology.mat",
-]
-
-
-@pytest.fixture(params=PATH_TO_MAT_FILES)
-def mat_file(request):
-    return request.param
-
-
 @pytest.fixture()
 def data_setup():
     files = {
-        "biomech": PATH_TO_MAT_FILES[0],
-        "motor_unit": PATH_TO_MAT_FILES[1],
-        "physiology": PATH_TO_MAT_FILES[2],
+        "physiology": PATH_TO_MAT_FILES[0],
+        "biomech": PATH_TO_MAT_FILES[1],
+        "motor_unit": PATH_TO_MAT_FILES[2],
     }
     mat_datasets = {key: sio.loadmat(value) for key, value in files.items()}
     return {
@@ -121,7 +116,7 @@ def channels_mock():
     event = {
         "details": channels.Details(
             name="stimulator",
-            path_figures=Path("."),
+            path_save_figures=Path("."),
             trial_name="strong_you_are",
             subject_id="Yoda",
         ),
@@ -132,7 +127,7 @@ def channels_mock():
     keyboard = {
         "details": channels.Details(
             name="keyboard",
-            path_figures=Path("."),
+            path_save_figures=Path("."),
             trial_name="strong_you_are",
             subject_id="Yoda",
         ),
@@ -146,7 +141,7 @@ def channels_mock():
             name="biceps",
             units="Volts",
             sampling_frequency=2048,
-            path_figures=Path("."),
+            path_save_figures=Path("."),
             trial_name="strong_you_are",
             subject_id="Yoda",
         ),
@@ -160,7 +155,7 @@ def channels_mock():
             name="MG",
             units="Volts",
             sampling_frequency=10240,
-            path_figures=Path("."),
+            path_save_figures=Path("."),
             trial_name="strong_you_are",
             subject_id="Yoda",
         ),
@@ -235,3 +230,43 @@ def negative_value_mixin():
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin
+
+
+@pytest.fixture()
+def trial_default():
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+    yield PAYLOADS_DIR / "tremor_kinetic.mat"
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+
+
+def _remove_files_in_folder_in_payloads_dir(folder):
+    path = PAYLOADS_DIR / folder
+    if path.exists():
+        for file in path.glob("*"):
+            file.unlink()
+        path.rmdir()
+
+
+@pytest.fixture()
+def trial_default():
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+    yield PAYLOADS_DIR / "tremor_kinetic.mat"
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+
+
+@pytest.fixture()
+def trial_info_dict():
+    yield {
+        "file": PATH_TO_MAT_FILES[1],
+        "channels": ["K_angle", "K_torque", "Prox_EMG"],
+        "name": "TREMOR",
+        "subject_id": "ET01",
+        "path_save_figures": PAYLOADS_DIR / "trial_figures",
+        "path_save_trial": PAYLOADS_DIR / "study_data",
+    }
+    _remove_files_in_folder_in_payloads_dir(folder="trial_figures")
+    _remove_files_in_folder_in_payloads_dir(folder="study_data")

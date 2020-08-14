@@ -100,9 +100,7 @@ def _wavemark(wavemark):
     plt.subplot(1, 14, (1, 12))
     _plot_ticks(wavemark.times)
     _plot_horiz_line(
-        start=wavemark.times[0],
-        end=wavemark.times[-1],
-        ch_name=wavemark.details.name,
+        start=wavemark.times[0], end=wavemark.times[-1], ch_name=wavemark.details.name,
     )
     _finalise_plot(TICK_Y_LIMIT)
     plt.subplot(1, 14, (13, 14))

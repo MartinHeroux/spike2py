@@ -4,7 +4,10 @@ from spike2py import channels
 def test_channels_event_init(channels_init, channels_mock):
     event = channels.Event(**channels_init["event"])
     assert event.details.name == channels_mock["event"]["details"].name
-    assert event.details.path_figures == channels_mock["keyboard"]["details"].path_figures
+    assert (
+        event.details.path_save_figures
+        == channels_mock["keyboard"]["details"].path_save_figures
+    )
     assert event.details.trial_name == channels_mock["keyboard"]["details"].trial_name
     assert event.details.subject_id == channels_mock["keyboard"]["details"].subject_id
     assert list(event.times) == list(channels_mock["event"]["times"])
@@ -14,7 +17,10 @@ def test_channels_event_init(channels_init, channels_mock):
 def test_channels_keyboard_init(channels_init, channels_mock):
     keyboard = channels.Keyboard(**channels_init["keyboard"])
     assert keyboard.details.name == channels_mock["keyboard"]["details"].name
-    assert keyboard.details.path_figures == channels_mock["keyboard"]["details"].path_figures
+    assert (
+        keyboard.details.path_save_figures
+        == channels_mock["keyboard"]["details"].path_save_figures
+    )
     assert (
         keyboard.details.trial_name == channels_mock["keyboard"]["details"].trial_name
     )
@@ -30,7 +36,10 @@ def test_channels_waveform_init(channels_init, channels_mock):
     waveform = channels.Waveform(**channels_init["waveform"])
     assert "raw_values" in waveform.__dir__()
     assert waveform.details.name == channels_mock["waveform"]["details"].name
-    assert waveform.details.path_figures == channels_mock["waveform"]["details"].path_figures
+    assert (
+        waveform.details.path_save_figures
+        == channels_mock["waveform"]["details"].path_save_figures
+    )
     assert (
         waveform.details.trial_name == channels_mock["waveform"]["details"].trial_name
     )
@@ -50,7 +59,10 @@ def test_channels_waveform_init(channels_init, channels_mock):
 def test_channels_wavemark_init(channels_init, channels_mock):
     wavemark = channels.Wavemark(**channels_init["wavemark"])
     assert wavemark.details.name == channels_mock["wavemark"]["details"].name
-    assert wavemark.details.path_figures == channels_mock["wavemark"]["details"].path_figures
+    assert (
+        wavemark.details.path_save_figures
+        == channels_mock["wavemark"]["details"].path_save_figures
+    )
     assert (
         wavemark.details.trial_name == channels_mock["wavemark"]["details"].trial_name
     )
