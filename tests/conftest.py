@@ -11,9 +11,16 @@ from spike2py import signal_processing
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
 PAYLOADS_DIR = Path(__file__).parent / "payloads"
+PATH = Path(".")
 EVENT = {
     "name": "stimulator",
-    "data_dict": {"times": np.array([7.654, 7.882]), "ch_type": "event",},
+    "data_dict": {
+        "times": np.array([7.654, 7.882]),
+        "ch_type": "event",
+        "path": Path("."),
+        "trialname": "strong_you_are",
+        "subject_id": "Yoda",
+    },
 }
 KEYBOARD = {
     "name": "keyboard",
@@ -21,6 +28,9 @@ KEYBOARD = {
         "codes": ["t", "a", "5"],
         "times": np.array([1.34, 100.334]),
         "ch_type": "keyboard",
+        "path": Path("."),
+        "trialname": "strong_you_are",
+        "subject_id": "Yoda",
     },
 }
 WAVEFORM = {
@@ -31,6 +41,9 @@ WAVEFORM = {
         "values": np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
         "sampling_frequency": 2048,
         "ch_type": "waveform",
+        "path": Path("."),
+        "trialname": "strong_you_are",
+        "subject_id": "Yoda",
     },
 }
 WAVEMARK = {
@@ -41,6 +54,9 @@ WAVEMARK = {
         "sampling_frequency": 10240,
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
+        "path": Path("."),
+        "trialname": "strong_you_are",
+        "subject_id": "Yoda",
     },
 }
 
@@ -90,15 +106,14 @@ def channel_instances():
 
 @pytest.fixture()
 def channels_mock():
-
     event = {
-        "details": channels.Details(name="stimulator"),
+        "details": channels.Details(name="stimulator", path=PATH),
         "times": np.array([7.654, 7.882]),
         "ch_type": "keyboard",
         "__repr__": "Event channel",
     }
     keyboard = {
-        "details": channels.Details(name="keyboard"),
+        "details": channels.Details(name="keyboard", path=PATH),
         "codes": ["t", "a", "5"],
         "times": np.array([1.34, 100.334]),
         "ch_type": "keyboard",
@@ -106,7 +121,7 @@ def channels_mock():
     }
     waveform = {
         "details": channels.Details(
-            name="biceps", units="Volts", sampling_frequency=2048
+            name="biceps", units="Volts", sampling_frequency=2048, path=PATH
         ),
         "times": np.arange(0, 2, 0.25),
         "values": np.array([32, 23, 65, 67, 46, 91, 29, 44]) / 1000,
@@ -114,7 +129,9 @@ def channels_mock():
         "__repr__": "Waveform channel",
     }
     wavemark = {
-        "details": channels.Details(name="MG", units="Volts", sampling_frequency=10240),
+        "details": channels.Details(
+            name="MG", units="Volts", sampling_frequency=10240, path=PATH
+        ),
         "times": np.array([7.432, 7.765, 7.915]),
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
@@ -137,16 +154,20 @@ def mixin_methods():
         "_setattr",
         "remove_mean",
         "remove_value",
+        "_float_to_string_with_underscore",
         "lowpass",
         "highpass",
         "bandpass",
         "bandstop",
         "_filt",
+        "_check_cutoff_in_range",
+        "_cutoff_to_string",
         "calibrate",
         "norm_percentage",
         "norm_proportion",
         "norm_percent_value",
         "interp_new_times",
+        "_check_new_times",
         "interp_new_fs",
         "_interp",
         "rect",
