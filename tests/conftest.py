@@ -1,15 +1,13 @@
 from pathlib import Path
 import random
+import sys
 
 import pytest
 import numpy as np
 import scipy.io as sio
-import sys
 
-sys.path.insert(1, '../spike2py/')
-
-import channels
-import signal_processing
+from spike2py import (Channel_Details, Event, Keyboard,
+                      Waveform, Wavemark, SignalProcessing)
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
@@ -107,17 +105,17 @@ def channels_init():
 @pytest.fixture()
 def channel_instances():
     return {
-        "event": channels.Event(**EVENT),
-        "keyboard": channels.Keyboard(**KEYBOARD),
-        "waveform": channels.Waveform(**WAVEFORM),
-        "wavemark": channels.Wavemark(**WAVEMARK),
+        "event": Event(**EVENT),
+        "keyboard": Keyboard(**KEYBOARD),
+        "waveform": Waveform(**WAVEFORM),
+        "wavemark": Wavemark(**WAVEMARK),
     }
 
 
 @pytest.fixture()
 def channels_mock():
     event = {
-        "details": channels.Channel_Details(
+        "details": Channel_Details(
             name="stimulator",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -128,7 +126,7 @@ def channels_mock():
         "__repr__": "Event channel",
     }
     keyboard = {
-        "details": channels.Channel_Details(
+        "details": Channel_Details(
             name="keyboard",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -140,7 +138,7 @@ def channels_mock():
         "__repr__": "Keyboard channel",
     }
     waveform = {
-        "details": channels.Channel_Details(
+        "details": Channel_Details(
             name="biceps",
             units="Volts",
             sampling_frequency=2048,
@@ -154,7 +152,7 @@ def channels_mock():
         "__repr__": "Waveform channel",
     }
     wavemark = {
-        "details": channels.Channel_Details(
+        "details": Channel_Details(
             name="MG",
             units="Volts",
             sampling_frequency=10240,
@@ -216,9 +214,9 @@ def _generate_mixin_values():
 
 @pytest.fixture()
 def mixin():
-    mixin = signal_processing.SignalProcessing()
+    mixin = SignalProcessing()
     mixin.values, mixin.times = _generate_mixin_values()
-    mixin.details = channels.Channel_Details(
+    mixin.details = Channel_Details(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin
@@ -226,10 +224,10 @@ def mixin():
 
 @pytest.fixture()
 def negative_value_mixin():
-    mixin = signal_processing.SignalProcessing()
+    mixin = SignalProcessing()
     values, _ = _generate_mixin_values()
     mixin.values = -1 * values
-    mixin.details = channels.Channel_Details(
+    mixin.details = Channel_Details(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin

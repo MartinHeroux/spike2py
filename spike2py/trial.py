@@ -1,8 +1,8 @@
 from collections import namedtuple
 from pathlib import Path
 
-import read
-import channels
+from . import read
+from . import channels
 
 
 CHANNEL_GENERATOR = {
