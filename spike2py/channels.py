@@ -1,5 +1,4 @@
 from collections import namedtuple
-from pathlib import Path
 
 import numpy as np
 
@@ -7,10 +6,10 @@ from spike2py import plot
 from spike2py.signal_processing import SignalProcessing
 
 
-Details = namedtuple(
+ChannelDetails = namedtuple(
     "Details", "name units sampling_frequency path_save_figures trial_name subject_id",
 )
-Details.__new__.__defaults__ = (None, None, None, None, None, None)
+ChannelDetails.__new__.__defaults__ = (None, None, None, None, None, None)
 
 
 class Channel:
@@ -52,7 +51,7 @@ class Event(Channel):
 
     def __init__(self, name, data_dict):
         super().__init__(
-            Details(
+            ChannelDetails(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -83,7 +82,7 @@ class Keyboard(Channel):
     def __init__(self, name, data_dict):
         self.codes = data_dict["codes"]
         super().__init__(
-            Details(
+            ChannelDetails(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -112,7 +111,7 @@ class Waveform(Channel, SignalProcessing):
     """
 
     def __init__(self, name, data_dict):
-        details = Details(
+        details = ChannelDetails(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
@@ -145,7 +144,7 @@ class Wavemark(Channel):
     """
 
     def __init__(self, name, data_dict):
-        details = Details(
+        details = ChannelDetails(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
