@@ -1,4 +1,5 @@
 from collections import namedtuple
+from pathlib import Path
 
 import numpy as np
 
@@ -6,8 +7,10 @@ from spike2py import plot
 from spike2py.signal_processing import SignalProcessing
 
 
-Details = namedtuple("Details", "name units sampling_frequency")
-Details.__new__.__defaults__ = (None, None, None)
+Details = namedtuple(
+    "Details", "name units sampling_frequency path_save_figures trial_name subject_id",
+)
+Details.__new__.__defaults__ = (None, None, None, None, None, None)
 
 
 class Channel:
@@ -15,6 +18,7 @@ class Channel:
 
    Parameters
     ----------
+    TODO: Update parameters and their definitions
     details: namedtuple
         details.name: str, default None
             Name of channel (.e.g 'left biceps')
@@ -22,6 +26,11 @@ class Channel:
             Units of recorded signal (e.g., 'Volts' or 'Nm')
         details.sampling_frequency: int, default None
             In Hertz (e.g. 2048)
+        details.path: pathlib.Path
+            Defaults to path where data initially retrieved
+        details.trialname: str
+            Defaults to name of data file
+        details.subject_id: str
     times: numpy.ndarray
         Sample times of data or events, in seconds
     """
@@ -42,13 +51,29 @@ class Event(Channel):
     """
 
     def __init__(self, name, data_dict):
-        super().__init__(Details(name=name), data_dict["times"])
+        super().__init__(
+            Details(
+                name=name,
+                path_save_figures=data_dict["path_save_figures"],
+                trial_name=data_dict["trial_name"],
+                subject_id=data_dict["subject_id"],
+            ),
+            data_dict["times"],
+        )
 
     def __repr__(self):
         return "Event channel"
 
-    def plot(self):
-        plot.event(self.details, self.times)
+    def plot(self, save=None, save_path=None):
+        _plot(self, save, save_path)
+
+
+def _plot(channel, save, save_path):
+    if save_path:
+        save_path = Path(save_path)
+    else:
+        save_path = channel.details.path_save_figures
+    plot.channel(channel, save=save, save_path=save_path)
 
 
 class Keyboard(Channel):
@@ -65,13 +90,21 @@ class Keyboard(Channel):
 
     def __init__(self, name, data_dict):
         self.codes = data_dict["codes"]
-        super().__init__(Details(name=name), data_dict["times"])
+        super().__init__(
+            Details(
+                name=name,
+                path_save_figures=data_dict["path_save_figures"],
+                trial_name=data_dict["trial_name"],
+                subject_id=data_dict["subject_id"],
+            ),
+            data_dict["times"],
+        )
 
     def __repr__(self):
         return "Keyboard channel"
 
-    def plot(self):
-        plot.keyboard(self.details, self.times, self.codes)
+    def plot(self, save=None, save_path=None):
+        _plot(self, save, save_path)
 
 
 class Waveform(Channel, SignalProcessing):
@@ -91,6 +124,9 @@ class Waveform(Channel, SignalProcessing):
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
+            path_save_figures=data_dict["path_save_figures"],
+            trial_name=data_dict["trial_name"],
+            subject_id=data_dict["subject_id"],
         )
         self.values = data_dict["values"]
         self.raw_values = self.values
@@ -99,8 +135,8 @@ class Waveform(Channel, SignalProcessing):
     def __repr__(self):
         return "Waveform channel"
 
-    def plot(self):
-        plot.waveform(self.details, self.times, self.values)
+    def plot(self, save=None, save_path=None):
+        _plot(self, save, save_path)
 
 
 class Wavemark(Channel):
@@ -121,6 +157,9 @@ class Wavemark(Channel):
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
+            path_save_figures=data_dict["path_save_figures"],
+            trial_name=data_dict["trial_name"],
+            subject_id=data_dict["subject_id"],
         )
         super().__init__(details, data_dict["times"])
         self.action_potentials = data_dict["action_potentials"]
@@ -136,5 +175,5 @@ class Wavemark(Channel):
             inst_firing_frequency.append(1 / (time2 - time1))
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
-    def plot(self):
-        plot.wavemark(self.details, self.times, self.action_potentials)
+    def plot(self, save=None, save_path=None):
+        _plot(self, save, save_path)
