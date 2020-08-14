@@ -64,16 +64,8 @@ class Event(Channel):
     def __repr__(self):
         return "Event channel"
 
-    def plot(self, save=None, save_path=None):
-        _plot(self, save, save_path)
-
-
-def _plot(channel, save, save_path):
-    if save_path:
-        save_path = Path(save_path)
-    else:
-        save_path = channel.details.path_save_figures
-    plot.channel(channel, save=save, save_path=save_path)
+    def plot(self, save=None):
+        plot.channel(self, save=save)
 
 
 class Keyboard(Channel):
@@ -103,8 +95,8 @@ class Keyboard(Channel):
     def __repr__(self):
         return "Keyboard channel"
 
-    def plot(self, save=None, save_path=None):
-        _plot(self, save, save_path)
+    def plot(self, save=None):
+        plot.channel(self, save)
 
 
 class Waveform(Channel, SignalProcessing):
@@ -135,8 +127,8 @@ class Waveform(Channel, SignalProcessing):
     def __repr__(self):
         return "Waveform channel"
 
-    def plot(self, save=None, save_path=None):
-        _plot(self, save, save_path)
+    def plot(self, save=None):
+        plot.channel(self, save)
 
 
 class Wavemark(Channel):
@@ -175,5 +167,5 @@ class Wavemark(Channel):
             inst_firing_frequency.append(1 / (time2 - time1))
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
-    def plot(self, save=None, save_path=None):
-        _plot(self, save, save_path)
+    def plot(self, save=None):
+        plot.channel(self, save)

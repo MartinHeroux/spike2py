@@ -10,11 +10,11 @@ TICK_Y_LIMIT = (-2, 3)
 CHAR_Y_VALUE = 1.1
 
 
-def channel(channel, save, save_path):
+def channel(channel, save):
     channel_type = repr(channel).split()[0]
     _plot_channels()[channel_type](channel)
     if save:
-        _save_plot(channel.details, save_path)
+        _save_plot(channel.details)
 
 
 def _plot_channels():
@@ -26,11 +26,9 @@ def _plot_channels():
     }
 
 
-def _save_plot(details, save_path):
-    if not save_path.exists():
-        save_path.mkdir(parents=True)
+def _save_plot(details):
     fig_name = f"{details.subject_id}_" f"{details.trial_name}_" f"{details.name}.png"
-    fig_path = save_path / fig_name
+    fig_path = details.path_save_figures / fig_name
     plt.savefig(fig_path)
     plt.close()
 
