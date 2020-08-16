@@ -1,7 +1,5 @@
 from . import read
 from . import channels
-from . import trial
+from . import sig_proc
 from . import plot
-from . import signal_processing
-from .trial import TrialInfo, Trial
-
+from . import trial

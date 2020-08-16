@@ -1,7 +1,7 @@
 from collections import namedtuple
 from pathlib import Path
 
-from spike2py import read, channels
+from spike2py import channels, read
 
 
 CHANNEL_GENERATOR = {

@@ -1,11 +1,14 @@
 from pathlib import Path
 import sys
 import textwrap
+from typing import List, Final, Dict, Union
+
 
 import scipy.io as sio
+import numpy as np
 
 
-CHANNEL_DATA_LENGTH = {
+CHANNEL_DATA_LENGTH: Final = {
     "event": 5,
     "keyboard": 6,
     "waveform": 10,
@@ -13,14 +16,14 @@ CHANNEL_DATA_LENGTH = {
 }
 
 
-def read(file, channels=None):
+def read(file: Path, channels: List[str] = None) -> Dict[str, np.ndarray]:
     """Interface to read data files
 
     Parameters
     ----------
-    file: str
+    file
         Absolute path to data file. Only .mat files are currently supported.
-    channels: list
+    channels
         List of channel names, as they appeared in the original .smr file.
         Example: ['biceps', 'triceps', 'torque']
         If not included, all channels will be processed.
@@ -48,14 +51,14 @@ def read(file, channels=None):
     return _parse_mat_data(_read_mat(file, channels))
 
 
-def _read_mat(mat_file, channels):
+def _read_mat(mat_file: Path, channels: List[str]) -> Dict[str, np.ndarray]:
     """Read Spike2 data exported to a Matlab .mat file
 
     Parameters
     ----------
-    mat_file: str
+    mat_file
         Absolute path to .mat file
-    channels: list, None
+    channels
         List of channel names, as they appeared in the original .smr file,
         or None, in which case all channels are processed.
 
@@ -65,7 +68,7 @@ def _read_mat(mat_file, channels):
         Requested channels with channel names as `keys` and deeply nested
         arrays containing channel data as `values`.
     """
-    data = sio.loadmat(mat_file)
+    data: dict = sio.loadmat(mat_file)
     if channels is None:
         channels = [
             data_key for data_key in data.keys() if not data_key.startswith("__")
@@ -73,12 +76,12 @@ def _read_mat(mat_file, channels):
     return {key: value for (key, value) in data.items() if key in channels}
 
 
-def _parse_mat_data(mat_data):
+def _parse_mat_data(mat_data: Dict[str, np.ndarray]) -> Dict[str, Union[int, str, np.ndarray]]:
     """Parse deeply nested array that contain channel data
 
     Parameters
     ----------
-    mat_data: array
+    mat_data
         Deeply nested array containing channel data and metadata.
 
     Returns
@@ -100,18 +103,18 @@ def _parse_mat_data(mat_data):
     return parsed_data
 
 
-def _parse_mat_events(mat_events):
+def _parse_mat_events(mat_events: np.ndarray) -> Dict[str, Union[np.ndarray, str]]:
     """Parse event channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
-    mat_waveform: array
+    mat_events
          Deeply nested array containing waveform channel data and metadata.
 
     Returns
     -------
     dict
-        Data from waveform channel.
+        Data from event channel.
     """
 
     return {
@@ -124,12 +127,12 @@ def _flatten_array(array):
     return array[0][0].flatten()
 
 
-def _parse_mat_keyboard(mat_keyboard):
+def _parse_mat_keyboard(mat_keyboard: np.ndarray) -> Dict[str, Union[List[str], np.ndarray, str]]:
     """Parse keyboard channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
-    mat_keyboard: array
+    mat_keyboard
          Deeply nested array containing keyboard channel data and metadata.
 
     Returns
@@ -149,12 +152,12 @@ def _parse_mat_keyboard(mat_keyboard):
     }
 
 
-def _keyboard_codes_to_characters(keyboard_codes):
+def _keyboard_codes_to_characters(keyboard_codes: List[int]) -> List[str]:
     """Helper function that converts encoded character(s) into list of str
 
     Parameters
     ----------
-    keyboard_codes: list
+    keyboard_codes
          List of int values, where each keyboard entry is encoded by four int
          values.
          e.g. single keyboard entry: [42, 0, 0, 0]
@@ -172,12 +175,12 @@ def _keyboard_codes_to_characters(keyboard_codes):
     ]
 
 
-def _parse_mat_waveform(mat_waveform):
+def _parse_mat_waveform(mat_waveform: np.ndarray) -> Dict[str, Union[int, np.ndarray]]:
     """Parse waveform channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
-    mat_waveform: array
+    mat_waveform
          Deeply nested array containing waveform channel data and metadata.
 
     Returns
@@ -201,12 +204,12 @@ def _parse_mat_waveform(mat_waveform):
     }
 
 
-def _parse_mat_wavemark(mat_wavemark):
+def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> Dict[str, Union[int, List[int]]]:
     """Parse wavemark channel data as exported by Spike2 to .mat
 
     Parameters
     ----------
-    mat_wavemark: array
+    mat_wavemark
          Deeply nested array containing wavemark channel data and metadata.
 
     Returns
@@ -236,7 +239,7 @@ def _parse_mat_wavemark(mat_wavemark):
     }
 
 
-def _extract_wavemarks(mat_wavemark):
+def _extract_wavemarks(mat_wavemark: np.ndarray) -> List[List[int]]:
     """Helper function to flatten, extract and group wavemark values"""
     template_length = int(_flatten_array(mat_wavemark["length"]))
     concatenated_wavemarks = _flatten_array(mat_wavemark["values"])

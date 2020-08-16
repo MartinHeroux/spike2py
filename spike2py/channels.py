@@ -2,8 +2,7 @@ from collections import namedtuple
 
 import numpy as np
 
-from spike2py import plot
-from spike2py.signal_processing import SignalProcessing
+from spike2py import plot, sig_proc
 
 
 ChannelDetails = namedtuple(
@@ -17,7 +16,6 @@ class Channel:
 
    Parameters
     ----------
-    TODO: Update parameters and their definitions
     details: namedtuple
         details.name: str, default None
             Name of channel (.e.g 'left biceps')
@@ -98,7 +96,7 @@ class Keyboard(Channel):
         plot.channel(self, save)
 
 
-class Waveform(Channel, SignalProcessing):
+class Waveform(Channel, sig_proc.SignalProcessing):
     """Waveform channel class
 
         Parameters
