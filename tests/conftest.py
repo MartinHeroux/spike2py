@@ -1,5 +1,6 @@
 from pathlib import Path
 import random
+import sys
 
 import pytest
 import numpy as np
@@ -103,10 +104,10 @@ def channels_init():
 @pytest.fixture()
 def channel_instances():
     return {
-        "event": channels.Event(**EVENT),
-        "keyboard": channels.Keyboard(**KEYBOARD),
-        "waveform": channels.Waveform(**WAVEFORM),
-        "wavemark": channels.Wavemark(**WAVEMARK),
+        "event": Event(**EVENT),
+        "keyboard": Keyboard(**KEYBOARD),
+        "waveform": Waveform(**WAVEFORM),
+        "wavemark": Wavemark(**WAVEMARK),
     }
 
 

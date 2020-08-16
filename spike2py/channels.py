@@ -107,7 +107,7 @@ class Keyboard(Channel):
     def plot(self, save: Literal[True, False] = None) -> None:
         plot.channel(self, save=save)
 
-
+        
 class Waveform(Channel, sig_proc.SignalProcessing):
     """Waveform channel class
 

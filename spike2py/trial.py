@@ -77,7 +77,7 @@ class Trial:
             path_to_check=trial_info.path_save_trial,
             path_to_make=Path(trial_info.file).parent / "data",
         )
-        self.trial_info = TrialInfo(
+        self.trial_info = Trial_Info(
             file=trial_info.file,
             channels=trial_info.channels,
             name=name.upper(),
