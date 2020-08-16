@@ -2,8 +2,8 @@ from collections import namedtuple
 
 import numpy as np
 
-from spike2py import plot
-from spike2py.signal_processing import SignalProcessing
+from .plot import channel
+from .signal_processing import SignalProcessing
 
 
 ChannelDetails = namedtuple(
@@ -64,7 +64,7 @@ class Event(Channel):
         return "Event channel"
 
     def plot(self, save=None):
-        plot.channel(self, save=save)
+        channel(self, save=save)
 
 
 class Keyboard(Channel):
@@ -95,7 +95,7 @@ class Keyboard(Channel):
         return "Keyboard channel"
 
     def plot(self, save=None):
-        plot.channel(self, save)
+        channel(self, save)
 
 
 class Waveform(Channel, SignalProcessing):
@@ -127,7 +127,7 @@ class Waveform(Channel, SignalProcessing):
         return "Waveform channel"
 
     def plot(self, save=None):
-        plot.channel(self, save)
+        channel(self, save)
 
 
 class Wavemark(Channel):
@@ -167,4 +167,4 @@ class Wavemark(Channel):
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self, save=None):
-        plot.channel(self, save)
+        channel(self, save)

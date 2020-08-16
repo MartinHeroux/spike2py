@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
 from scipy.signal import welch
+
 from spike2py import signal_processing
 
 

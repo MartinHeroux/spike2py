@@ -4,7 +4,7 @@ from spike2py import trial
 
 
 def test_trial_init_defaults(trial_default):
-    info = trial.TrialInfo(file=trial_default)
+    info = trial.Trial_Info(file=trial_default)
     trial1 = trial.Trial(info)
     assert trial1.trial_info.file == trial_default
     assert trial1.trial_info.channels is None
@@ -15,7 +15,7 @@ def test_trial_init_defaults(trial_default):
 
 
 def test_trial_init_fully_loaded(trial_info_dict):
-    info = trial.TrialInfo(**trial_info_dict)
+    info = trial.Trial_Info(**trial_info_dict)
     trial1 = trial.Trial(info)
     assert trial1.trial_info.file == trial_info_dict["file"]
     assert trial1.trial_info.channels == trial_info_dict["channels"]
@@ -27,6 +27,6 @@ def test_trial_init_fully_loaded(trial_info_dict):
 
 @pytest.mark.parametrize("channel", ["Flex", "Ext", "Angle", "Triangle", "Keyboard"])
 def test_trial_init_channels_present(trial_default, channel):
-    info = trial.TrialInfo(file=trial_default)
+    info = trial.Trial_Info(file=trial_default)
     trial1 = trial.Trial(info)
     assert channel in trial1.__dir__()

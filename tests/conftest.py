@@ -1,12 +1,13 @@
 from pathlib import Path
 import random
+import sys
 
 import pytest
 import numpy as np
 import scipy.io as sio
 
-from spike2py import channels
-from spike2py import signal_processing
+from spike2py import (Channel_Details, Event, Keyboard,
+                      Waveform, Wavemark, SignalProcessing)
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
@@ -104,10 +105,10 @@ def channels_init():
 @pytest.fixture()
 def channel_instances():
     return {
-        "event": channels.Event(**EVENT),
-        "keyboard": channels.Keyboard(**KEYBOARD),
-        "waveform": channels.Waveform(**WAVEFORM),
-        "wavemark": channels.Wavemark(**WAVEMARK),
+        "event": Event(**EVENT),
+        "keyboard": Keyboard(**KEYBOARD),
+        "waveform": Waveform(**WAVEFORM),
+        "wavemark": Wavemark(**WAVEMARK),
     }
 
 
@@ -213,7 +214,7 @@ def _generate_mixin_values():
 
 @pytest.fixture()
 def mixin():
-    mixin = signal_processing.SignalProcessing()
+    mixin = SignalProcessing()
     mixin.values, mixin.times = _generate_mixin_values()
     mixin.details = channels.ChannelDetails(
         name="mix_master", units="mic", sampling_frequency=1000
@@ -223,7 +224,7 @@ def mixin():
 
 @pytest.fixture()
 def negative_value_mixin():
-    mixin = signal_processing.SignalProcessing()
+    mixin = SignalProcessing()
     values, _ = _generate_mixin_values()
     mixin.values = -1 * values
     mixin.details = channels.ChannelDetails(
