@@ -1,12 +1,20 @@
 from pathlib import Path
 import sys
 import textwrap
-from typing import List, Final, Dict, Union
-
+from typing import List, Final
 
 import scipy.io as sio
 import numpy as np
 
+from spike2py.types import (
+    mat_data,
+    parsed_wavemark,
+    parsed_waveform,
+    parsed_event,
+    parsed_keyboard,
+    parsed_spike2py_data,
+    parsed_mat_data,
+)
 
 CHANNEL_DATA_LENGTH: Final = {
     "event": 5,
@@ -16,7 +24,7 @@ CHANNEL_DATA_LENGTH: Final = {
 }
 
 
-def read(file: Path, channels: List[str] = None) -> Dict[str, np.ndarray]:
+def read(file: Path, channels: List[str] = None) -> parsed_spike2py_data:
     """Interface to read data files
 
     Parameters
@@ -51,7 +59,7 @@ def read(file: Path, channels: List[str] = None) -> Dict[str, np.ndarray]:
     return _parse_mat_data(_read_mat(file, channels))
 
 
-def _read_mat(mat_file: Path, channels: List[str]) -> Dict[str, np.ndarray]:
+def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
     """Read Spike2 data exported to a Matlab .mat file
 
     Parameters
@@ -76,7 +84,7 @@ def _read_mat(mat_file: Path, channels: List[str]) -> Dict[str, np.ndarray]:
     return {key: value for (key, value) in data.items() if key in channels}
 
 
-def _parse_mat_data(mat_data: Dict[str, np.ndarray]) -> Dict[str, Union[int, str, np.ndarray]]:
+def _parse_mat_data(mat_data: mat_data) -> parsed_mat_data:
     """Parse deeply nested array that contain channel data
 
     Parameters
@@ -103,7 +111,7 @@ def _parse_mat_data(mat_data: Dict[str, np.ndarray]) -> Dict[str, Union[int, str
     return parsed_data
 
 
-def _parse_mat_events(mat_events: np.ndarray) -> Dict[str, Union[np.ndarray, str]]:
+def _parse_mat_events(mat_events: np.ndarray) -> parsed_event:
     """Parse event channel data as exported by Spike2 to .mat
 
     Parameters
@@ -127,7 +135,7 @@ def _flatten_array(array):
     return array[0][0].flatten()
 
 
-def _parse_mat_keyboard(mat_keyboard: np.ndarray) -> Dict[str, Union[List[str], np.ndarray, str]]:
+def _parse_mat_keyboard(mat_keyboard: np.ndarray) -> parsed_keyboard:
     """Parse keyboard channel data as exported by Spike2 to .mat
 
     Parameters
@@ -175,7 +183,7 @@ def _keyboard_codes_to_characters(keyboard_codes: List[int]) -> List[str]:
     ]
 
 
-def _parse_mat_waveform(mat_waveform: np.ndarray) -> Dict[str, Union[int, np.ndarray]]:
+def _parse_mat_waveform(mat_waveform: np.ndarray) -> parsed_waveform:
     """Parse waveform channel data as exported by Spike2 to .mat
 
     Parameters
@@ -204,7 +212,7 @@ def _parse_mat_waveform(mat_waveform: np.ndarray) -> Dict[str, Union[int, np.nda
     }
 
 
-def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> Dict[str, Union[int, List[int]]]:
+def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> parsed_wavemark:
     """Parse wavemark channel data as exported by Spike2 to .mat
 
     Parameters
