@@ -5,10 +5,11 @@ import numpy as np
 from .plot import channel
 from .signal_processing import SignalProcessing
 
-Channel_Details = namedtuple(
+
+ChannelDetails = namedtuple(
     "Details", "name units sampling_frequency path_save_figures trial_name subject_id",
 )
-Channel_Details.__new__.__defaults__ = (None, None, None, None, None, None)
+ChannelDetails.__new__.__defaults__ = (None, None, None, None, None, None)
 
 
 class Channel:
@@ -50,7 +51,7 @@ class Event(Channel):
 
     def __init__(self, name, data_dict):
         super().__init__(
-            Channel_Details(
+            ChannelDetails(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -81,7 +82,7 @@ class Keyboard(Channel):
     def __init__(self, name, data_dict):
         self.codes = data_dict["codes"]
         super().__init__(
-            Channel_Details(
+            ChannelDetails(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -110,7 +111,7 @@ class Waveform(Channel, SignalProcessing):
     """
 
     def __init__(self, name, data_dict):
-        details = Channel_Details(
+        details = ChannelDetails(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
@@ -143,7 +144,7 @@ class Wavemark(Channel):
     """
 
     def __init__(self, name, data_dict):
-        details = Channel_Details(
+        details = ChannelDetails(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
