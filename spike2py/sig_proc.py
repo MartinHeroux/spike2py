@@ -1,3 +1,5 @@
+from typing import Union, List, Literal
+
 import numpy as np
 from scipy.signal import butter, filtfilt, detrend
 
@@ -5,18 +7,11 @@ from scipy.signal import butter, filtfilt, detrend
 class SignalProcessing:
     """Mixin class that adds signal processing methods"""
 
-    def _setattr(self, name):
+    def _setattr(self, name: str):
         setattr(self, name, self.values)
 
-    def remove_mean(self, first_n_samples=None):
-        """Subtracts mean calculated from all `values` (default) or first
-        n samples.
-
-        Parameters
-        ----------
-        first_n_samples: int
-
-        """
+    def remove_mean(self, first_n_samples: int = None):
+        """Subtract mean of first n samples (default is all samples)"""
         values_slice = slice(0, -1)
         if first_n_samples is not None:
             error_msg = (
@@ -32,14 +27,8 @@ class SignalProcessing:
         self._setattr("proc_remove_mean")
         return self
 
-    def remove_value(self, value):
-        """Subtracts value from `values`
-
-        Parameters
-        ----------
-        value: int, float
-
-        """
+    def remove_value(self, value: float):
+        """Subtracts value from `values` """
         try:
             self.values -= value
             str_value = self._float_to_string_with_underscore(value)
@@ -48,58 +37,35 @@ class SignalProcessing:
         except np.core._exceptions.UFuncTypeError:
             raise TypeError("`value` must be a whole number or a decimal number.")
 
-    def _float_to_string_with_underscore(self, float_value):
+    def _float_to_string_with_underscore(self, float_value: float):
         return str(abs(float_value)).replace(".", "_")
 
-    def lowpass(self, cutoff, order=4):
-        """Apply dual-pass Butterworth lowpass filter to `values`
-
-        Parameters
-        ----------
-        cutoff: int, float
-        order: int
-
-        """
+    def lowpass(self, cutoff: float, order: int = 4):
+        """Apply dual-pass Butterworth lowpass filter to `values` """
         self._filt(cutoff, order, "lowpass")
         return self
 
-    def highpass(self, cutoff, order=4):
-        """Apply dual-pass Butterworth highpass filter to `values`
-
-        Parameters
-        ----------
-        cutoff: int, float
-        order: int
-
-        """
+    def highpass(self, cutoff: float, order: int = 4):
+        """Apply dual-pass Butterworth highpass filter to `values` """
         self._filt(cutoff, order, "highpass")
         return self
 
-    def bandpass(self, cutoff, order=4):
-        """Apply dual-pass Butterworth bandpass filter to `values`
-
-        Parameters
-        ----------
-        cutoff: list[int, int], list[float, float]
-        order: int
-
-        """
+    def bandpass(self, cutoff: List[float], order: int = 4):
+        """Apply dual-pass Butterworth bandpass filter to `values` """
         self._filt(np.array(cutoff), order, "bandpass")
         return self
 
-    def bandstop(self, cutoff, order=4):
-        """Apply dual-pass Butterworth bandstop filter to `values`
-
-        Parameters
-        ----------
-        cutoff: list[int, int], list[float, float]
-        order: int
-
-        """
+    def bandstop(self, cutoff: List[float], order: int = 4):
+        """Apply dual-pass Butterworth bandstop filter to `values` """
         self._filt(np.array(cutoff), order, "bandstop")
         return self
 
-    def _filt(self, cutoff, order, filt_type):
+    def _filt(
+        self,
+        cutoff: Union[List[float], float],
+        order: int,
+        filt_type: Literal["lowpass", "highpass", "bandstop", "bandpass"],
+    ):
         self._check_cutoff_in_range(cutoff)
         self._check_filter_order_appropriate(order)
         critical_fq = cutoff / (self.details.sampling_frequency / 2)
@@ -109,7 +75,7 @@ class SignalProcessing:
             cutoff = self._cutoff_to_string(cutoff)
         self._setattr(f"proc_filt_{cutoff}_{filt_type}")
 
-    def _check_cutoff_in_range(self, cutoff):
+    def _check_cutoff_in_range(self, cutoff: List[float]):
         if isinstance(cutoff, (int, float)):
             cutoff = [cutoff]
         for value in cutoff:
@@ -119,11 +85,11 @@ class SignalProcessing:
                     f"{int(self.details.sampling_frequency/2)}"
                 )
 
-    def _check_filter_order_appropriate(self, order):
+    def _check_filter_order_appropriate(self, order: int):
         if (order < 1) or (order > 16):
             raise ValueError("Filter order must be a whole number between 1 and 16")
 
-    def _cutoff_to_string(self, cutoff):
+    def _cutoff_to_string(self, cutoff: Union[List[float], float]):
         if isinstance(cutoff, np.ndarray):
             low = self._float_to_string_with_underscore(cutoff[0])
             high = self._float_to_string_with_underscore(cutoff[1])
@@ -131,15 +97,8 @@ class SignalProcessing:
         if isinstance(cutoff, float):
             return self._float_to_string_with_underscore(cutoff)
 
-    def calibrate(self, slope, offset=None):
-        """Calibrate `values` using linear formula y=slope*x+offset
-
-        Parameters
-        ----------
-        slope: float
-        offset: float
-
-        """
+    def calibrate(self, slope: float, offset: float = None):
+        """Calibrate `values` using linear formula y=slope*x+offset"""
         if not offset:
             self.values = self.values * slope
         if slope and offset:
@@ -159,13 +118,8 @@ class SignalProcessing:
         self._setattr(f"proc_norm_proportion")
         return self
 
-    def norm_percent_value(self, value):
-        """Normalise `values` to a percentage of `value`
-
-        Parameters
-        ----------
-        value: int, float
-        """
+    def norm_percent_value(self, value: float):
+        """Normalise `values` to a percentage of `value`"""
         self.values = (self.values / value) * 100
         self._setattr(f"proc_norm_value")
         return self
@@ -176,12 +130,12 @@ class SignalProcessing:
         self._setattr("proc_rect")
         return self
 
-    def interp_new_times(self, new_times):
+    def interp_new_times(self, new_times: List[float]):
         """Interpolate `values` to a new time axis
 
         Parameters
         ----------
-        new_times: list, np.array
+        new_times
             New time axis for interpolated data. Cannot be longer in duration
             than current time axis. If includes only a portion of the current
             time axis, only values associated with that portion of the time
@@ -192,20 +146,15 @@ class SignalProcessing:
         self._setattr("proc_interp_new_times")
         return self
 
-    def _check_new_times(self, new_times):
+    def _check_new_times(self, new_times: List[float]):
         if new_times[-1] > self.times[-1]:
             raise ValueError(
                 "New time axis for interpolation cannot be longer"
                 "in duration than current time axis."
             )
 
-    def interp_new_fs(self, new_sampling_frequency):
-        """Interpolate `values` to a new sampling frequency
-
-        Parameters
-        ----------
-        new_sampling_frequency: int
-        """
+    def interp_new_fs(self, new_sampling_frequency: int):
+        """Interpolate `values` to a new sampling frequency"""
         new_times = np.arange(
             start=self.times[0], stop=self.times[-1], step=1 / new_sampling_frequency
         )
@@ -213,7 +162,7 @@ class SignalProcessing:
         self._setattr("proc_interp_new_fs")
         return self
 
-    def _interp(self, new_times):
+    def _interp(self, new_times: List[float]):
         self.values = np.interp(x=new_times, xp=self.times, fp=self.values)
         self.times_pre_interp = self.times
         self.times = new_times

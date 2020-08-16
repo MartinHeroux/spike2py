@@ -19,16 +19,18 @@ def test_read_with_channels_smoke_test(payload_dir):
     assert actual == ["Flex", "Ext", "Angle"]
 
 
-def test_exit_code_no_smr_file():
+def test_exit_code_no_smr_file(payload_dir):
+    file = payload_dir / "tremor_kinetic.smr"
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        read.read("file.smr")
+        read.read(file)
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
 
 
-def test_message_no_smr_file(capfd):
+def test_message_no_smr_file(capfd, payload_dir):
+    file = payload_dir / "tremor_kinetic.smr"
     with pytest.raises(SystemExit):
-        read.read("file.smr")
+        read.read(file)
         actual = capfd.readouterr()[0].strip()
         expected = (
             "Processing .smr files is currently not supported.\n "

@@ -1,8 +1,7 @@
-from collections import namedtuple
+from typing import NamedTuple, List
 from pathlib import Path
 
-from . import read
-from . import channels
+from spike2py import channels, read
 
 
 CHANNEL_GENERATOR = {
@@ -13,36 +12,40 @@ CHANNEL_GENERATOR = {
 }
 
 
-Trial_Info = namedtuple(
-    "TrialInfo", "file channels name subject_id path_save_figures path_save_trial",
-)
-Trial_Info.__new__.__defaults__ = (None, None, None, None, None, None)
+class TrialInfo(NamedTuple):
+    file: Path = None
+    channels: List[str] = None
+    name: str = None
+    subject_id: str = None
+    path_save_figures: Path = None
+    path_save_trial: Path = None
 
 
 class Trial:
     """Class for experimental trial recorded using Spike2."""
 
-    def __init__(self, trial_info):
+    def __init__(self, trial_info: TrialInfo) -> None:
         """
 
         Parameters
         ----------
-        trial_info.file: str
-            Absolute path to data file. Only .mat files supported.
-        trial_info.channels: list
-            List of channel names, as they appeared in the original .smr file.
-            Example: ['biceps', 'triceps', 'torque']
-            If not included, all channels will be processed.
-        trial_info.name: str (Default: name of file)
-            Descriptive name of trial.
-        trial_info.subject_id: str
-            Subject's study identifier
-        trial_info.path_save_figures: str
-            Path where trial and channel figures are to be saved
-            Defaults to new 'figures' folder where .mat was retrieved
-        trial_info.path_save_trial: str
-            Path where trial data to be saved
-            Defaults to new 'data' folder where .mat was retrieved
+        trial_info
+            file
+                Absolute path to data file. Only .mat files supported.
+            channels
+                List of channel names, as they appeared in the original .smr file.
+                Example: ['biceps', 'triceps', 'torque']
+                If not included, all channels will be processed.
+            name
+                Descriptive name of trial.
+            subject_id
+                Subject's study identifier
+            path_save_figures
+                Path where trial and channel figures are to be saved
+                Defaults to new 'figures' folder where .mat was retrieved
+            path_save_trial
+                Path where trial data to be saved
+                Defaults to new 'data' folder where .mat was retrieved
         """
         if not trial_info.file:
             raise ValueError(
@@ -51,7 +54,7 @@ class Trial:
         self._if_needed_add_defaults_to_trial_info(trial_info)
         self._parse_trial_data()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         channel_text = list()
         for channel_name, channel_type in self.channels:
             channel_text.append(f"\n\t\t{channel_name} ({channel_type})")
@@ -63,7 +66,7 @@ class Trial:
             f"\n\tchannels {channel_info}"
         )
 
-    def _if_needed_add_defaults_to_trial_info(self, trial_info):
+    def _if_needed_add_defaults_to_trial_info(self, trial_info: TrialInfo):
         name = trial_info.name if trial_info.name else "trial"
         subject_id = trial_info.subject_id if trial_info.subject_id else "sub"
         path_save_figures = _check_make_path(
@@ -100,7 +103,7 @@ class Trial:
         return read.read(self.trial_info.file, self.trial_info.channels)
 
 
-def _check_make_path(path_to_check, path_to_make):
+def _check_make_path(path_to_check: Path, path_to_make: Path):
     if path_to_check:
         path_to_check = Path(path_to_check)
     else:

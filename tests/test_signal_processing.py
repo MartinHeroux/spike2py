@@ -1,12 +1,13 @@
 import pytest
+
 import numpy as np
 from scipy.signal import welch
 
-from spike2py import signal_processing
+from spike2py import sig_proc
 
 
 def test_signal_processing_methods_present(mixin_methods):
-    mixin = signal_processing.SignalProcessing()
+    mixin = sig_proc.SignalProcessing()
     for method in mixin_methods:
         assert method in mixin.__dir__()
 

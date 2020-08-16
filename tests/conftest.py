@@ -6,8 +6,7 @@ import pytest
 import numpy as np
 import scipy.io as sio
 
-from spike2py import (Channel_Details, Event, Keyboard,
-                      Waveform, Wavemark, SignalProcessing)
+from spike2py import channels, sig_proc
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
@@ -214,7 +213,7 @@ def _generate_mixin_values():
 
 @pytest.fixture()
 def mixin():
-    mixin = SignalProcessing()
+    mixin = sig_proc.SignalProcessing()
     mixin.values, mixin.times = _generate_mixin_values()
     mixin.details = channels.ChannelDetails(
         name="mix_master", units="mic", sampling_frequency=1000
@@ -224,7 +223,7 @@ def mixin():
 
 @pytest.fixture()
 def negative_value_mixin():
-    mixin = SignalProcessing()
+    mixin = sig_proc.SignalProcessing()
     values, _ = _generate_mixin_values()
     mixin.values = -1 * values
     mixin.details = channels.ChannelDetails(

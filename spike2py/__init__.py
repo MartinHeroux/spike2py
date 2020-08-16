@@ -1,5 +1,6 @@
-from .channels import ChannelDetails, Event, Keyboard, Waveform, Wavemark
-from .trial import Trial_Info, Trial
-from .plot import channel
-from .signal_processing import SignalProcessing
-
+from . import read
+from . import channels
+from . import sig_proc
+from . import plot
+from . import trial
+from . import types
