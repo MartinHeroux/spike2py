@@ -1,5 +1,6 @@
 from typing import NamedTuple, List
 from pathlib import Path
+import pickle
 
 from spike2py import channels, read
 
@@ -51,7 +52,7 @@ class Trial:
             raise ValueError(
                 "trial_info must include a valid full path to a data file."
             )
-        self._if_needed_add_defaults_to_trial_info(trial_info)
+        self._add_defaults_to_trial_info(trial_info)
         self._parse_trial_data()
 
     def __repr__(self) -> str:
@@ -66,7 +67,7 @@ class Trial:
             f"\n\tchannels {channel_info}"
         )
 
-    def _if_needed_add_defaults_to_trial_info(self, trial_info: TrialInfo):
+    def _add_defaults_to_trial_info(self, trial_info: TrialInfo):
         name = trial_info.name if trial_info.name else "trial"
         subject_id = trial_info.subject_id if trial_info.subject_id else "sub"
         path_save_figures = _check_make_path(
@@ -77,7 +78,7 @@ class Trial:
             path_to_check=trial_info.path_save_trial,
             path_to_make=Path(trial_info.file).parent / "data",
         )
-        self.trial_info = Trial_Info(
+        self.trial_info = TrialInfo(
             file=trial_info.file,
             channels=trial_info.channels,
             name=name.upper(),
@@ -102,6 +103,13 @@ class Trial:
     def _import_trial_data(self):
         return read.read(self.trial_info.file, self.trial_info.channels)
 
+    def save(self):
+        if not self.trial_info.path_save_trial.exists():
+            self.trial_info.path_save_trial.mkdir()
+        pickle_file = self.trial_info.path_save_trial / (self.trial_info.name + '.pkl')
+        with open(pickle_file, 'wb') as output:
+            pickle.dump(self, output, pickle.HIGHEST_PROTOCOL)
+
 
 def _check_make_path(path_to_check: Path, path_to_make: Path):
     if path_to_check:
@@ -111,3 +119,8 @@ def _check_make_path(path_to_check: Path, path_to_make: Path):
     if not path_to_check.exists():
         path_to_check.mkdir(parents=True)
     return path_to_check
+
+
+def load_trial(file: Path) -> Trial:
+    with open(file, 'rb') as trial_file:
+        return pickle.load(trial_file)
