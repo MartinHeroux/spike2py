@@ -102,16 +102,6 @@ def channels_init():
 
 
 @pytest.fixture()
-def channel_instances():
-    return {
-        "event": Event(**EVENT),
-        "keyboard": Keyboard(**KEYBOARD),
-        "waveform": Waveform(**WAVEFORM),
-        "wavemark": Wavemark(**WAVEMARK),
-    }
-
-
-@pytest.fixture()
 def channels_mock():
     event = {
         "details": channels.ChannelDetails(
