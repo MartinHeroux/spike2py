@@ -175,7 +175,7 @@ class Wavemark(Channel):
         for time2 in self.times[1:]:
             inst_firing_frequency.append(1 / (time2 - time1))
             time1 = time2
-        self.inst_firing_frequency = np.ndarray(inst_firing_frequency)
+        self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self, save: Literal[True, False] = None) -> None:
         plot.channel(self, save=save)

@@ -3,7 +3,6 @@ from typing import List, Dict, Union
 
 import numpy as np
 
-# read.py
 mat_data = Dict[str, np.ndarray]
 parsed_mat_data = Dict[str, dict]
 parsed_event = Dict[str, Union[np.ndarray, str, Path]]
