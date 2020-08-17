@@ -16,6 +16,7 @@ CHAR_Y_VALUE = 1.1
 
 
 def channel(spike2py_channel, save: Literal[True, False]) -> None:
+    """Interface to plot individual channels."""
     channel_type = repr(spike2py_channel).split()[0]
     _plot_channels()[channel_type](spike2py_channel)
     if save:
