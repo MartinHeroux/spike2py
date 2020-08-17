@@ -1,7 +1,7 @@
 API reference
 =============
 
-.. module:: trial
+.. module:: spike2py.trial
 
 Trial
 ------
