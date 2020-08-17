@@ -1,13 +1,15 @@
 spike2py
 ========
 
-.. include:: overview.rst
+.. include:: pages/homepage.rst
 
 .. toctree::
    :maxdepth: 2
 
-   api
-   alternatives
-   contact
-   help
-   license
+   pages/first_steps
+   pages/tutorials
+   pages/how_to_guides
+   pages/topic_guides
+   pages/reference_guides
+   pages/help
+   pages/license
