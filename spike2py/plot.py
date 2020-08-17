@@ -19,7 +19,7 @@ def channel(spike2py_channel, save: Literal[True, False]) -> None:
     channel_type = repr(spike2py_channel).split()[0]
     _plot_channels()[channel_type](spike2py_channel)
     if save:
-        _save_plot(spike2py_channel.channel_details)
+        _save_plot(spike2py_channel.details)
 
 
 def _plot_channels():
@@ -48,7 +48,7 @@ def _event(event: "channels.Event") -> None:
     _plot_horiz_line(
         start=event.times[0],
         end=event.times[-1],
-        ch_name=event.channel_details.name,
+        ch_name=event.details.name,
     )
     _finalise_plot(TICK_Y_LIMIT)
 
@@ -84,7 +84,7 @@ def _keyboard(keyboard: "channels.Keyboard") -> None:
     _plot_ticks_and_codes(
         keyboard.times,
         keyboard.codes,
-        keyboard.channel_details.name,
+        keyboard.details.name,
     )
     _finalise_plot(TICK_Y_LIMIT)
 
@@ -105,10 +105,10 @@ def _waveform(waveform: "channels.Waveform") -> None:
     plt.plot(
         waveform.times,
         waveform.values,
-        label=waveform.channel_details.name,
+        label=waveform.details.name,
         color=COLOR,
     )
-    units = waveform.channel_details.units if not None else "a.u."
+    units = waveform.details.units if not None else "a.u."
     plt.ylabel(f"amplitude ({units})")
     _finalise_plot()
 
@@ -120,7 +120,7 @@ def _wavemark(wavemark: "channels.Wavemark") -> None:
     _plot_horiz_line(
         start=wavemark.times[0],
         end=wavemark.times[-1],
-        ch_name=wavemark.channel_details.name,
+        ch_name=wavemark.details.name,
     )
     _finalise_plot(TICK_Y_LIMIT)
     plt.subplot(1, 14, (13, 14))
