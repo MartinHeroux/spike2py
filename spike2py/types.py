@@ -12,3 +12,6 @@ parsed_wavemark = Dict[str, Union[int, List[int], str, np.ndarray, Path]]
 parsed_spike2py_data = Dict[
     str, Union[parsed_event, parsed_keyboard, parsed_waveform, parsed_wavemark]
 ]
+filt_cutoff_single = Union[float, int]
+filt_cutoff_pair = Union[List[float], List[float]]
+filt_cutoff = Union[filt_cutoff_single, filt_cutoff_pair]
