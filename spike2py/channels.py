@@ -3,7 +3,8 @@ from typing import NamedTuple, Literal
 
 import numpy as np
 
-from spike2py import plot, sig_proc
+import spike2py.plot as plot
+import spike2py.sig_proc as sig_proc
 
 from spike2py.types import (
     parsed_wavemark,
