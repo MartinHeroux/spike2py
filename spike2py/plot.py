@@ -87,7 +87,7 @@ def _plot_waveform(
     ax.grid()
 
 
-def _save_plot(channel_details: "channels.ChannelDetails") -> None:
+def _save_plot(channel_details: "channels.ChannelInfo") -> None:
     fig_name = (
         f"{channel_details.subject_id}_"
         f"{channel_details.trial_name}_"
