@@ -3,7 +3,8 @@ from typing import NamedTuple, Literal
 
 import numpy as np
 
-from spike2py import plot, sig_proc
+import spike2py.plot as plot
+import spike2py.sig_proc as sig_proc
 
 from spike2py.types import (
     parsed_wavemark,
@@ -13,7 +14,7 @@ from spike2py.types import (
 )
 
 
-class ChannelDetails(NamedTuple):
+class ChannelInfo(NamedTuple):
     name: str = None
     units: str = None
     sampling_frequency: int = None
@@ -44,7 +45,7 @@ class Channel:
         Sample times of data or events, in seconds
     """
 
-    def __init__(self, details: ChannelDetails, times: np.ndarray) -> None:
+    def __init__(self, details: ChannelInfo, times: np.ndarray) -> None:
         self.details = details
         self.times = times
 
@@ -61,7 +62,7 @@ class Event(Channel):
 
     def __init__(self, name: str, data_dict: parsed_event) -> None:
         super().__init__(
-            ChannelDetails(
+            ChannelInfo(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -74,7 +75,7 @@ class Event(Channel):
         return "Event channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
 
 class Keyboard(Channel):
@@ -92,7 +93,7 @@ class Keyboard(Channel):
     def __init__(self, name: str, data_dict: parsed_keyboard) -> None:
         self.codes = data_dict["codes"]
         super().__init__(
-            ChannelDetails(
+            ChannelInfo(
                 name=name,
                 path_save_figures=data_dict["path_save_figures"],
                 trial_name=data_dict["trial_name"],
@@ -105,7 +106,7 @@ class Keyboard(Channel):
         return "Keyboard channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
         
 class Waveform(Channel, sig_proc.SignalProcessing):
@@ -121,7 +122,7 @@ class Waveform(Channel, sig_proc.SignalProcessing):
     """
 
     def __init__(self, name: str, data_dict: parsed_waveform) -> None:
-        details = ChannelDetails(
+        details = ChannelInfo(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
@@ -137,7 +138,7 @@ class Waveform(Channel, sig_proc.SignalProcessing):
         return "Waveform channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
 
 class Wavemark(Channel):
@@ -154,7 +155,7 @@ class Wavemark(Channel):
     """
 
     def __init__(self, name: str, data_dict: parsed_wavemark) -> None:
-        details = ChannelDetails(
+        details = ChannelInfo(
             name=name,
             units=data_dict["units"],
             sampling_frequency=data_dict["sampling_frequency"],
@@ -178,4 +179,4 @@ class Wavemark(Channel):
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)

@@ -5,6 +5,8 @@ from scipy.signal import butter, filtfilt, detrend
 
 from spike2py.types import filt_cutoff_single, filt_cutoff_pair, filt_cutoff
 
+import spike2py.types as types
+
 
 class SignalProcessing:
     """Mixin class that adds signal processing methods"""

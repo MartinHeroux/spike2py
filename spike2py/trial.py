@@ -1,8 +1,8 @@
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Literal
 from pathlib import Path
 import pickle
 
-from spike2py import channels, read
+from spike2py import channels, read, plot
 
 
 CHANNEL_GENERATOR = {
@@ -102,6 +102,9 @@ class Trial:
 
     def _import_trial_data(self):
         return read.read(self.trial_info.file, self.trial_info.channels)
+
+    def plot(self, save: Literal[True, False] = None) -> None:
+        plot.plot_trial(self, save=save)
 
     def save(self):
         if not self.trial_info.path_save_trial.exists():
