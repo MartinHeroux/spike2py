@@ -16,4 +16,4 @@ To demonstrate, the following snippet of code shows you how to:
 >>> sample.muscle_emg.remove_mean(first_n_samples=500).rect().plot()
 ```
 
-![emg_raw](./docs/source/img/EMG_200x66.png)
+![emg_raw](./docs/source/img/EMG_400x132.png)
