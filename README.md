@@ -2,6 +2,11 @@
   <img width="600" height="300" src="./docs/source/img/spike2py_icon_600x300.png">
 </p>
 
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+
 **spike2py** provides a simple interface to analyse and visualise data collected using [Spike2](http://ced.co.uk/products/spkovin) software and [Cambridge Electronics Design (CED)](http://ced.co.uk/) data acquisition boards. With it you can easily plot individual channels to as well as all channels from a given trial. In addition, you can easily apply various signal processing methods to your `waveform` data. Finally, you can easily save your data at any point, allowing you to re-open and continue your work from where they left off.
 
 To demonstrate, the following snippet of code shows you how to:
@@ -14,7 +19,36 @@ To demonstrate, the following snippet of code shows you how to:
 >>> from spike2py.trial import TrialInfo, Trial
 >>> trial_info = TrialInfo(file="sample.mat")
 >>> sample = Trial(trial_info)
+>>> sample.muscle_emg.plot()
 >>> sample.muscle_emg.remove_mean(first_n_samples=500).rect().plot()
 ```
 
 ![emg_raw](./docs/source/img/EMG_400x132.png)
+
+
+## Documentation
+
+Introductory tutorials, how-to's and other useful documentation are available on [Read the Docs](https://???)
+
+## Installing
+
+**spike2py** is available on PyPI:
+
+```console
+$ python -m pip install spike2py
+```
+
+**spike2py** officially supports Python 3.8+.
+
+## Contributing 
+
+Like this project? Want to help? Want to make a suggestion? We would love to have your contribution! Please see [CONTRIBUTING](CONTRIBUTING.md) to get started.
+
+## Code of conduct
+
+This project adheres to the Contributor Covenant code of conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to [heroux.martin@gmail.com](heroux.martin@gmail.com).
+ 
+
+## License
+
+[GPLv3](./LICENSE)
