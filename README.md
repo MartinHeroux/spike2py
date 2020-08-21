@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" height="200" src="./docs/source/img/spike2py_icon_200x100.png">
+  <img width="600" height="300" src="./docs/source/img/spike2py_icon_200x100.png">
 </p>
 
 
