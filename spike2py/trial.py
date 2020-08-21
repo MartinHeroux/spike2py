@@ -104,7 +104,7 @@ class Trial:
         return read.read(self.trial_info.file, self.trial_info.channels)
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.trial(self, save=save)
+        plot.plot_trial(self, save=save)
 
     def save(self):
         if not self.trial_info.path_save_trial.exists():

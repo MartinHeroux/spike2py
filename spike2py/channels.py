@@ -75,7 +75,7 @@ class Event(Channel):
         return "Event channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
 
 class Keyboard(Channel):
@@ -106,7 +106,7 @@ class Keyboard(Channel):
         return "Keyboard channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
         
 class Waveform(Channel, sig_proc.SignalProcessing):
@@ -138,7 +138,7 @@ class Waveform(Channel, sig_proc.SignalProcessing):
         return "Waveform channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
 
 
 class Wavemark(Channel):
@@ -179,4 +179,4 @@ class Wavemark(Channel):
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self, save: Literal[True, False] = None) -> None:
-        plot.channel(self, save=save)
+        plot.plot_channel(self, save=save)
