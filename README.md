@@ -42,7 +42,7 @@ $ python -m pip install spike2py
 
 ## Contributing 
 
-Like this project? Want to help? Want to make a suggestion? We would love to have your contribution! Please see [CONTRIBUTING](CONTRIBUTING.md) to get started.
+Like this project? Want to help? We would love to have your contribution! Please see [CONTRIBUTING](CONTRIBUTING.md) to get started.
 
 ## Code of conduct
 
