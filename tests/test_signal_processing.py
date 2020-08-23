@@ -54,7 +54,7 @@ def test_signal_processing_lowpass_with_cutoff(mixin):
     assert "proc_filt_5_lowpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -81,7 +81,7 @@ def test_signal_processing_lowpass_with_cutoff_and_order(mixin):
     assert "proc_filt_50_lowpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -96,7 +96,7 @@ def test_signal_processing_highpass_with_cutoff(mixin):
     assert "proc_filt_250_highpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -111,7 +111,7 @@ def test_signal_processing_highpass_with_cutoff_and_order(mixin):
     assert "proc_filt_150_highpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -126,7 +126,7 @@ def test_signal_processing_bandpass_with_cutoff(mixin):
     assert "proc_filt_50_100_bandpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -150,7 +150,7 @@ def test_signal_processing_bandpass_with_cutoff_and_order(mixin):
     assert "proc_filt_5_200_bandpass" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -169,7 +169,7 @@ def test_signal_processing_bandstop_with_cutoff(mixin):
     assert "proc_filt_50_100_bandstop" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )
@@ -188,7 +188,7 @@ def test_signal_processing_bandstop_cutoff_and_order(mixin):
     assert "proc_filt_5_200_bandstop" in mixin.__dir__()
     freq, power_spectral_density = welch(
         x=mixin.values,
-        fs=mixin.details.sampling_frequency,
+        fs=mixin.info.sampling_frequency,
         nperseg=1024,
         detrend="linear",
     )

@@ -48,7 +48,7 @@ def plot_channel(spike2py_channel: all_channels, save: Literal[True, False]) -> 
     """
 
     if len(spike2py_channel.times) == 0:
-        print("{spike2py_channel.details.name} channel has no data to plot.")
+        print("{spike2py_channel.info.name} channel has no data to plot.")
         return
     channel_type = repr(spike2py_channel).split()[0]
     if channel_type == "Waveform":
@@ -68,7 +68,7 @@ def plot_channel(spike2py_channel: all_channels, save: Literal[True, False]) -> 
 
     plt.show()
     if save:
-        _save_plot(spike2py_channel.details)
+        _save_plot(spike2py_channel.info)
 
 
 def _get_color(index: int) -> str:
@@ -78,22 +78,22 @@ def _get_color(index: int) -> str:
 def _plot_waveform(
     waveform: "channels.Waveform", ax: Subplot, color: str = _get_color(0),
 ) -> None:
-    ax.plot(waveform.times, waveform.values, label=waveform.details.name, color=color)
+    ax.plot(waveform.times, waveform.values, label=waveform.info.name, color=color)
     ax.set_xlim(waveform.times[0], waveform.times[-1])
-    units = waveform.details.units if waveform.details.units is True else "a.u."
+    units = waveform.info.units if waveform.info.units is True else "a.u."
     ax.set_ylabel(f"amplitude ({units})")
     ax.legend(loc=LEGEND_LOC)
     ax.set_xlabel("time (s)")
     ax.grid()
 
 
-def _save_plot(channel_details: "channels.ChannelInfo") -> None:
+def _save_plot(channel_info: "channels.ChannelInfo") -> None:
     fig_name = (
-        f"{channel_details.subject_id}_"
-        f"{channel_details.trial_name}_"
-        f"{channel_details.name}.png"
+        f"{channel_info.subject_id}_"
+        f"{channel_info.trial_name}_"
+        f"{channel_info.name}.png"
     )
-    fig_path = channel_details.path_save_figures / fig_name
+    fig_path = channel_info.path_save_figures / fig_name
     plt.savefig(fig_path)
     plt.close()
 
@@ -155,7 +155,7 @@ class _TicksLine:
             self.line_start_end,
             self.line_y_vals,
             linewidth=LINE_WIDTH,
-            label=self.ch.details.name,
+            label=self.ch.info.name,
             color=self.color,
         )
 

@@ -24,6 +24,11 @@ CHANNEL_DATA_LENGTH: Final = {
 }
 
 
+class WrongFileType(Exception):
+    """Custom exception to use when `.mat` file not provided"""
+    pass
+
+
 def read(file: Path, channels: List[str] = None) -> parsed_spike2py_data:
     """Interface to read data files
 
@@ -36,6 +41,11 @@ def read(file: Path, channels: List[str] = None) -> parsed_spike2py_data:
         Example: ['biceps', 'triceps', 'torque']
         If not included, all channels will be processed.
 
+    Raises
+    ------
+    WrongFileType
+        `file` parameter is not a `.mat` file
+
     Returns
     -------
     dict
@@ -44,18 +54,11 @@ def read(file: Path, channels: List[str] = None) -> parsed_spike2py_data:
     """
 
     file_extension = Path(file).suffix
-    if file_extension == ".smr":
-        print(
-            "Processing .smr files is currently not supported.\n"
-            "In Spike2 export the data to .mat and start over."
-        )
-        sys.exit(1)
     if file_extension != ".mat":
-        print(
-            f"Processing {file_extension} files is currently not supported."
-            f"\nIn Spike2 export the data to .mat and start over."
+        raise WrongFileType(
+            f"Processing {file_extension} files is not supported."
+            "\nIn Spike2 export the data to .mat and start over."
         )
-        sys.exit(1)
     return _parse_mat_data(_read_mat(file, channels))
 
 

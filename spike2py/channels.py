@@ -15,6 +15,11 @@ from spike2py.types import (
 
 
 class ChannelInfo(NamedTuple):
+    """Information about channel
+
+    See :class:`spike2py.channels.Channel` parameters for details.
+    """
+
     name: str = None
     units: str = None
     sampling_frequency: int = None
@@ -28,7 +33,7 @@ class Channel:
 
    Parameters
     ----------
-    details
+    channel_info
         name
             Name of channel (.e.g 'left biceps')
         units
@@ -42,22 +47,28 @@ class Channel:
         subject_id
             str indentifier
     times
-        Sample times of data or events, in seconds
+        Sample times in seconds
     """
 
-    def __init__(self, details: ChannelInfo, times: np.ndarray) -> None:
-        self.details = details
+    def __init__(self, channel_info: ChannelInfo, times: np.ndarray) -> None:
+        self.info = channel_info
         self.times = times
 
 
 class Event(Channel):
     """Event channel class
+
+    Inherits from Channel
+
     Parameters
     ----------
     name
-        Channel name
-    data_dict
-        data_dict['times']: np.ndarray of event times in seconds
+        Name of Event channel
+    data_dict:
+        - ['path_save_figures']: Path - Directory where channel figure saved
+        - ['trial_name']: str - Name of trial where Event was recorded
+        - ['subject_id']: str - Identifier
+        - ['times']: np.ndarray - Event times in seconds
     """
 
     def __init__(self, name: str, data_dict: parsed_event) -> None:
@@ -74,20 +85,33 @@ class Event(Channel):
     def __repr__(self) -> str:
         return "Event channel"
 
-    def plot(self, save: Literal[True, False] = None) -> None:
+    def plot(self, save: Literal[True, False] = False) -> None:
+        """Save Event channel figure
+
+        Parameters
+        ----------
+        save
+            Set to `True` to save Event figure to `path_save_figures`
+        """
         plot.plot_channel(self, save=save)
+        return self
 
 
 class Keyboard(Channel):
     """Keyboard channel class
 
+    Inherits from Channel
+
     Parameters
     ----------
     name
-        Channel name
-    data_dict
-        data_dict['times']: np.ndarray of times of keyboard events, in seconds
-        data_dict['codes']: np.ndarray of str associated with keyboard events
+        Name of Keyboard channel; default is 'keyboard'
+    data_dict:
+        - ['path_save_figures']: Path - Directory where channel figure saved
+        - ['trial_name']: str - Name of trial where Keyboard was recorded
+        - ['subject_id']: str - Identifier
+        - ['times']: np.ndarray - Event times in seconds
+        - ['codes']: np.ndarray of str associated with keyboard events
     """
 
     def __init__(self, name: str, data_dict: parsed_keyboard) -> None:
@@ -105,65 +129,100 @@ class Keyboard(Channel):
     def __repr__(self) -> str:
         return "Keyboard channel"
 
-    def plot(self, save: Literal[True, False] = None) -> None:
-        plot.plot_channel(self, save=save)
-
-        
-class Waveform(Channel, sig_proc.SignalProcessing):
-    """Waveform channel class
+    def plot(self, save: Literal[True, False] = False) -> None:
+        """Save Keyboard channel figure
 
         Parameters
         ----------
-    data_dict
-        data_dict['times']: np.ndarray of times of recorded signal, in seconds
-        data_dict['values']: np.ndarray of recorded signal values
-        data_dict['units']: str describing measurement units (e.g. 'Volts')
-        data_dict['sampling_frequency']: int
+        save
+            Set to `True` to save Keyboard figure to `path_save_figures`
+        """
+
+        plot.plot_channel(self, save=save)
+        return self
+
+
+class Waveform(Channel, sig_proc.SignalProcessing):
+    """Waveform channel class
+
+    Inherits from Channel and sig_proc.SignalProcessing
+
+    Parameters
+    ----------
+    name
+        Name of Waveform channel
+    data_dict:
+        - ['path_save_figures']: Path - Directory where channel figure saved
+        - ['trial_name']: str - Name of trial where Waveform was recorded
+        - ['subject_id']: str - Identifier
+        - ['times']: np.ndarray - Waveform times in seconds
+        - ['values']: np.ndarray - Waveform float values
+        - ['units']: str - Measurement units (e.g. 'Volts')
+        - ['sampling_frequency']: int - Sampling frequency of Wavemark
     """
 
     def __init__(self, name: str, data_dict: parsed_waveform) -> None:
-        details = ChannelInfo(
-            name=name,
-            units=data_dict["units"],
-            sampling_frequency=data_dict["sampling_frequency"],
-            path_save_figures=data_dict["path_save_figures"],
-            trial_name=data_dict["trial_name"],
-            subject_id=data_dict["subject_id"],
-        )
         self.values = data_dict["values"]
         self.raw_values = self.values
-        super().__init__(details, data_dict["times"])
+        super().__init__(
+            ChannelInfo(
+                name=name,
+                units=data_dict["units"],
+                sampling_frequency=data_dict["sampling_frequency"],
+                path_save_figures=data_dict["path_save_figures"],
+                trial_name=data_dict["trial_name"],
+                subject_id=data_dict["subject_id"],
+            ),
+            data_dict["times"],
+        )
 
     def __repr__(self) -> str:
         return "Waveform channel"
 
     def plot(self, save: Literal[True, False] = None) -> None:
+        """Save Waveform channel figure
+
+        Parameters
+        ----------
+        save
+            Set to `True` to save Waveform figure to `path_save_figures`
+        """
         plot.plot_channel(self, save=save)
+        return self
 
 
 class Wavemark(Channel):
     """Wavemark channel class
 
+    Inherits from Channel
+
     Parameters
     ----------
-    data_dict
-        data_dict['times']: np.ndarray of action potential times, in seconds
-        data_dict['action_potentials']: list of lists, where each list is a
-            wavemark.
-        data_dict['units']: str describing measurement units (e.g. 'Volts')
-        data_dict['sampling_frequency']: int
+    name
+        Name of Wavemark channel
+    data_dict:
+        - ['path_save_figures']: Path - Directory where channel figure saved
+        - ['trial_name']: str - Name of trial where Wavemark was recorded
+        - ['subject_id']: str - Identifier
+        - ['times']: np.ndarray - Wavemark times in seconds
+        - ['values']: np.ndarray - Waveform float values
+        - ['action_potentials']: list of lists - Each list is a Wavemark
+        - ['units']: str - Measurement units (e.g. 'Volts')
+        - ['sampling_frequency']: int - Sampling frequency of Wavemark
     """
 
     def __init__(self, name: str, data_dict: parsed_wavemark) -> None:
-        details = ChannelInfo(
-            name=name,
-            units=data_dict["units"],
-            sampling_frequency=data_dict["sampling_frequency"],
-            path_save_figures=data_dict["path_save_figures"],
-            trial_name=data_dict["trial_name"],
-            subject_id=data_dict["subject_id"],
+        super().__init__(
+            ChannelInfo(
+                name=name,
+                units=data_dict["units"],
+                sampling_frequency=data_dict["sampling_frequency"],
+                path_save_figures=data_dict["path_save_figures"],
+                trial_name=data_dict["trial_name"],
+                subject_id=data_dict["subject_id"],
+            ),
+            data_dict["times"],
         )
-        super().__init__(details, data_dict["times"])
         self.action_potentials = data_dict["action_potentials"]
         self._calc_instantaneous_firing_frequency()
 
@@ -179,4 +238,12 @@ class Wavemark(Channel):
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
     def plot(self, save: Literal[True, False] = None) -> None:
+        """Save Waveform channel figure
+
+        Parameters
+        ----------
+        save
+            Set to `True` to save Wavemark figure to `path_save_figures`
+        """
         plot.plot_channel(self, save=save)
+        return self

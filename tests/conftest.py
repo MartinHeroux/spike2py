@@ -104,7 +104,7 @@ def channels_init():
 @pytest.fixture()
 def channels_mock():
     event = {
-        "details": channels.ChannelInfo(
+        "info": channels.ChannelInfo(
             name="stimulator",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -115,7 +115,7 @@ def channels_mock():
         "__repr__": "Event channel",
     }
     keyboard = {
-        "details": channels.ChannelInfo(
+        "info": channels.ChannelInfo(
             name="keyboard",
             path_save_figures=Path("."),
             trial_name="strong_you_are",
@@ -127,7 +127,7 @@ def channels_mock():
         "__repr__": "Keyboard channel",
     }
     waveform = {
-        "details": channels.ChannelInfo(
+        "info": channels.ChannelInfo(
             name="biceps",
             units="Volts",
             sampling_frequency=2048,
@@ -141,7 +141,7 @@ def channels_mock():
         "__repr__": "Waveform channel",
     }
     wavemark = {
-        "details": channels.ChannelInfo(
+        "info": channels.ChannelInfo(
             name="MG",
             units="Volts",
             sampling_frequency=10240,
@@ -206,7 +206,7 @@ def _generate_mixin_values():
 def mixin():
     mixin = sig_proc.SignalProcessing()
     mixin.values, mixin.times = _generate_mixin_values()
-    mixin.details = channels.ChannelInfo(
+    mixin.info = channels.ChannelInfo(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin
@@ -217,7 +217,7 @@ def negative_value_mixin():
     mixin = sig_proc.SignalProcessing()
     values, _ = _generate_mixin_values()
     mixin.values = -1 * values
-    mixin.details = channels.ChannelInfo(
+    mixin.info = channels.ChannelInfo(
         name="mix_master", units="mic", sampling_frequency=1000
     )
     return mixin

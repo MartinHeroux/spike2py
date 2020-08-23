@@ -3,29 +3,29 @@ from spike2py import channels
 
 def test_channels_event_init(channels_init, channels_mock):
     event = channels.Event(**channels_init["event"])
-    assert event.details.name == channels_mock["event"]["details"].name
+    assert event.info.name == channels_mock["event"]["info"].name
     assert (
-        event.details.path_save_figures
-        == channels_mock["keyboard"]["details"].path_save_figures
+        event.info.path_save_figures
+        == channels_mock["keyboard"]["info"].path_save_figures
     )
-    assert event.details.trial_name == channels_mock["keyboard"]["details"].trial_name
-    assert event.details.subject_id == channels_mock["keyboard"]["details"].subject_id
+    assert event.info.trial_name == channels_mock["keyboard"]["info"].trial_name
+    assert event.info.subject_id == channels_mock["keyboard"]["info"].subject_id
     assert list(event.times) == list(channels_mock["event"]["times"])
     assert repr(event) == "Event channel"
 
 
 def test_channels_keyboard_init(channels_init, channels_mock):
     keyboard = channels.Keyboard(**channels_init["keyboard"])
-    assert keyboard.details.name == channels_mock["keyboard"]["details"].name
+    assert keyboard.info.name == channels_mock["keyboard"]["info"].name
     assert (
-        keyboard.details.path_save_figures
-        == channels_mock["keyboard"]["details"].path_save_figures
+        keyboard.info.path_save_figures
+        == channels_mock["keyboard"]["info"].path_save_figures
     )
     assert (
-        keyboard.details.trial_name == channels_mock["keyboard"]["details"].trial_name
+        keyboard.info.trial_name == channels_mock["keyboard"]["info"].trial_name
     )
     assert (
-        keyboard.details.subject_id == channels_mock["keyboard"]["details"].subject_id
+        keyboard.info.subject_id == channels_mock["keyboard"]["info"].subject_id
     )
     assert list(keyboard.times) == list(channels_mock["keyboard"]["times"])
     assert keyboard.codes == channels_mock["keyboard"]["codes"]
@@ -35,45 +35,45 @@ def test_channels_keyboard_init(channels_init, channels_mock):
 def test_channels_waveform_init(channels_init, channels_mock):
     waveform = channels.Waveform(**channels_init["waveform"])
     assert "raw_values" in waveform.__dir__()
-    assert waveform.details.name == channels_mock["waveform"]["details"].name
+    assert waveform.info.name == channels_mock["waveform"]["info"].name
     assert (
-        waveform.details.path_save_figures
-        == channels_mock["waveform"]["details"].path_save_figures
+        waveform.info.path_save_figures
+        == channels_mock["waveform"]["info"].path_save_figures
     )
     assert (
-        waveform.details.trial_name == channels_mock["waveform"]["details"].trial_name
+        waveform.info.trial_name == channels_mock["waveform"]["info"].trial_name
     )
     assert (
-        waveform.details.subject_id == channels_mock["waveform"]["details"].subject_id
+        waveform.info.subject_id == channels_mock["waveform"]["info"].subject_id
     )
     assert list(waveform.times) == list(channels_mock["waveform"]["times"])
-    assert waveform.details.units == channels_mock["waveform"]["details"].units
+    assert waveform.info.units == channels_mock["waveform"]["info"].units
     assert list(waveform.values) == list(channels_mock["waveform"]["values"])
     assert (
-        waveform.details.sampling_frequency
-        == channels_mock["waveform"]["details"].sampling_frequency
+        waveform.info.sampling_frequency
+        == channels_mock["waveform"]["info"].sampling_frequency
     )
     assert repr(waveform) == "Waveform channel"
 
 
 def test_channels_wavemark_init(channels_init, channels_mock):
     wavemark = channels.Wavemark(**channels_init["wavemark"])
-    assert wavemark.details.name == channels_mock["wavemark"]["details"].name
+    assert wavemark.info.name == channels_mock["wavemark"]["info"].name
     assert (
-        wavemark.details.path_save_figures
-        == channels_mock["wavemark"]["details"].path_save_figures
+        wavemark.info.path_save_figures
+        == channels_mock["wavemark"]["info"].path_save_figures
     )
     assert (
-        wavemark.details.trial_name == channels_mock["wavemark"]["details"].trial_name
+        wavemark.info.trial_name == channels_mock["wavemark"]["info"].trial_name
     )
     assert (
-        wavemark.details.subject_id == channels_mock["wavemark"]["details"].subject_id
+        wavemark.info.subject_id == channels_mock["wavemark"]["info"].subject_id
     )
     assert list(wavemark.times) == list(channels_mock["wavemark"]["times"])
-    assert wavemark.details.units == channels_mock["wavemark"]["details"].units
+    assert wavemark.info.units == channels_mock["wavemark"]["info"].units
     assert (
-        wavemark.details.sampling_frequency
-        == channels_mock["wavemark"]["details"].sampling_frequency
+        wavemark.info.sampling_frequency
+        == channels_mock["wavemark"]["info"].sampling_frequency
     )
     assert wavemark.action_potentials == channels_mock["wavemark"]["action_potentials"]
     actual_inst_fq = [int(value) for value in wavemark.inst_firing_frequency * 100000]

@@ -5,8 +5,6 @@ from scipy.signal import butter, filtfilt, detrend
 
 from spike2py.types import filt_cutoff_single, filt_cutoff_pair, filt_cutoff
 
-import spike2py.types as types
-
 
 class SignalProcessing:
     """Mixin class that adds signal processing methods"""
@@ -72,7 +70,7 @@ class SignalProcessing:
         cutoff_1d_array = self._convert_cutoff_to_1d_array(cutoff)
         self._check_valid_cutoff(cutoff_1d_array)
         self._check_valid_filter_order(order)
-        critical_fq = cutoff_1d_array / (self.details.sampling_frequency / 2)
+        critical_fq = cutoff_1d_array / (self.info.sampling_frequency / 2)
         filt_coef_b, filt_coef_a = butter(order, critical_fq, filt_type)
         self.values = filtfilt(filt_coef_b, filt_coef_a, self.values)
         self._setattr(
@@ -86,12 +84,12 @@ class SignalProcessing:
             return np.array([cutoff])
 
     def _check_valid_cutoff(self, cutoff: np.ndarray):
-        nyquist_fq = self.details.sampling_frequency / 2
+        nyquist_fq = self.info.sampling_frequency / 2
         for value in cutoff:
             if (value <= 0) or (value > nyquist_fq):
                 raise ValueError(
                     f"Filter cutoff frequency must be between 0 and "
-                    f"{int(self.details.sampling_frequency/2)}"
+                    f"{int(self.info.sampling_frequency/2)}"
                 )
 
     def _check_valid_filter_order(self, order: int):
@@ -116,13 +114,13 @@ class SignalProcessing:
         return self
 
     def norm_percentage(self):
-        """Normalise `values` to 0-100%"""
+        """Normalise `values` to be between 0-100%"""
         self.values = (self.values / np.max(self.values)) * 100
         self._setattr(f"proc_norm_percentage")
         return self
 
     def norm_proportion(self):
-        """Normalise `values` to 0-1"""
+        """Normalise `values` to be between 0-1"""
         self.values = self.values / np.max(self.values)
         self._setattr(f"proc_norm_proportion")
         return self
@@ -134,7 +132,7 @@ class SignalProcessing:
         return self
 
     def rect(self):
-        """Rectify `values"""
+        """Rectify values"""
         self.values = abs(self.values)
         self._setattr("proc_rect")
         return self
@@ -146,7 +144,7 @@ class SignalProcessing:
         ----------
         new_times
             New time axis for interpolated data. Cannot be longer in duration
-            than current time axis. If includes only a portion of the current
+            than current time axis, `times`. If includes only a portion of the current
             time axis, only values associated with that portion of the time
             axis will be interpolated.
         """
