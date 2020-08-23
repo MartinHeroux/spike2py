@@ -48,7 +48,6 @@ Like this project? Want to help? We would love to have your contribution! Please
 
 This project adheres to the Contributor Covenant code of conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to [heroux.martin@gmail.com](heroux.martin@gmail.com).
  
-
 ## License
 
 [GPLv3](./LICENSE)

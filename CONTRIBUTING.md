@@ -1,28 +1,23 @@
 # Contributing to spike2py
-Thank you for wanting to contribute. 
-We want to make contributing to this project as easy and transparent as possible, whether it's:
+Thank you for taking the time to contribute. We want to make contributing to this project as easy and transparent as possible, whether it's:
 
 - Reporting a bug
 - Discussing the current state of the code
 - Submitting a fix
-- Proposing new features, keeping in mind the focused aims of [`spike2py`](https://???)
+- Proposing new features
 
 ## We Develop with Github
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
 ## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
-Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). 
-We actively welcome your pull requests:
+Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-1. [Fork](https://gist.github.com/Chaser324/ce0505fbed06b947d962) the repo and create your branch from `master`.
-2. If you've added code that should be tested, add tests and make sure your code passes.
-3. If required, update the documentation.
+1. Fork the repo and create your branch from `master`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
 4. Ensure the test suite passes.
-5. Make sure you run [`black`](https://github.com/psf/black) to format your code.
+5. Make sure you run black to format your code.
 6. Issue that pull request!
-
-If you are new to git and Github, and possibly even coding in general, you want to submit a `bug` or `new feature`
-as a issue. We can then work together to get that pull request written!
 
 ## Any contributions you make will be under the GPLv3 Software License
 In short, when you submit code changes, your submissions are understood to be under the same [GPLv3](https://choosealicense.com/licenses/gpl-3.0/) that covers the project. Feel free to contact the maintainers if that's a concern.
@@ -44,8 +39,8 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 ## Use a Consistent Coding Style
 
-* spike2py generally follows the recommendations of [PEP8](https://www.python.org/dev/peps/pep-0008/
-* Look through the code for guidance and inspiration and try to be [pythonic](https://docs.python-guide.org/writing/style/)) where possible. 
+* 2 spaces for indentation rather than tabs
+* You can try running `black <file.py>` for style unification
 
 ## License
 By contributing, you agree that your contributions will be licensed under its GPLv3 License.
