@@ -12,7 +12,7 @@ With the virtual environment you created during the :ref:`installation` activate
 .. code-block:: python
 
     >>> import spike2py as sp
-    >>> tutorial = spk.demo.tutorial_data()
+    >>> tutorial = sp.demo.tutorial_data()
 
 Part 2. Inspect the tutorial dataset
 ------------------------------------
