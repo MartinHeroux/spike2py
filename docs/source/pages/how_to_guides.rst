@@ -1,6 +1,3 @@
-How-To Guides
-=============
-
 .. _export:
 
 Export Spike2 data to `.mat`
