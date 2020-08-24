@@ -156,7 +156,7 @@ Now lets delete the `tutorial` object from our Python session to simulate the ne
 
    >>> tutorial = sp.trial.load(file='/home/madeleine/Desktop/data/tutorial.pkl')
 
-That's it. We now have our tutorial trial where we left off. We can confirm this by plotting the entire trial again, noticing that the `Flow`, `Volume` and `Diag_Smu` are indeed processed.
+That's it. We now have our tutorial trial where we left off. We can confirm this by plotting the entire trial again, noticing that the `Flow`, `Volume` and `Dia_Smu` are indeed processed.
 
 .. image:: ../img/tutorial_trial_plot_post_load.png
    :width: 600
