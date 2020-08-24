@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>spike2py.read &mdash; spike2py 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> spike2py
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/first_steps.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/tutorials.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/how_to_guides.html">Export Spike2 data to <cite>.mat</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/how_to_guides.html#import-mat-using-spike2py">Import <cite>.mat</cite> using spike2py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/how_to_guides.html#specify-channels-to-import">Specify channels to import</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/topic_guides.html">Topic Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/reference_guides.html">Reference Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">spike2py</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>spike2py.read</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for spike2py.read</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Final</span>
+
+<span class="kn">import</span> <span class="nn">scipy.io</span> <span class="k">as</span> <span class="nn">sio</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">spike2py.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mat_data</span><span class="p">,</span>
+    <span class="n">parsed_wavemark</span><span class="p">,</span>
+    <span class="n">parsed_waveform</span><span class="p">,</span>
+    <span class="n">parsed_event</span><span class="p">,</span>
+    <span class="n">parsed_keyboard</span><span class="p">,</span>
+    <span class="n">parsed_spike2py_data</span><span class="p">,</span>
+    <span class="n">parsed_mat_data</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">CHANNEL_DATA_LENGTH</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;keyboard&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s2">&quot;waveform&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;wavemark&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">WrongFileType</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom exception to use when `.mat` file not provided&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.read.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_spike2py_data</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Interface to read data files</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file</span>
+<span class="sd">        Absolute path to data file. Only .mat files are currently supported.</span>
+<span class="sd">    channels</span>
+<span class="sd">        List of channel names, as they appeared in the original .smr file.</span>
+<span class="sd">        Example: [&#39;biceps&#39;, &#39;triceps&#39;, &#39;torque&#39;]</span>
+<span class="sd">        If not included, all channels will be processed.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    WrongFileType</span>
+<span class="sd">        `file` parameter is not a `.mat` file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Data from a trial where `keys` are channel names and `values`</span>
+<span class="sd">        are deeply nested numpy.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">file_extension</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span>
+    <span class="k">if</span> <span class="n">file_extension</span> <span class="o">!=</span> <span class="s2">&quot;.mat&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">WrongFileType</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">file_extension</span><span class="si">}</span><span class="s2"> files is not supported.&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">In Spike2 export the data to .mat and start over.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">_parse_mat_data</span><span class="p">(</span><span class="n">_read_mat</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">channels</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">_read_mat</span><span class="p">(</span><span class="n">mat_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">mat_data</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read Spike2 data exported to a Matlab .mat file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_file</span>
+<span class="sd">        Absolute path to .mat file</span>
+<span class="sd">    channels</span>
+<span class="sd">        List of channel names, as they appeared in the original .smr file,</span>
+<span class="sd">        or None, in which case all channels are processed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Requested channels with channel names as `keys` and deeply nested</span>
+<span class="sd">        arrays containing channel data as `values`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">mat_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">channels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">data_key</span> <span class="k">for</span> <span class="n">data_key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">data_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_mat_data</span><span class="p">(</span><span class="n">mat_data</span><span class="p">:</span> <span class="n">mat_data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_mat_data</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse deeply nested array that contain channel data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_data</span>
+<span class="sd">        Deeply nested array containing channel data and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Channel data and metadata.</span>
+<span class="sd">        The `keys` and `values` will differ for the different channel types.</span>
+<span class="sd">        See the `_parse_mat_&lt;channel type&gt;` helper functions for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser_lookup</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">CHANNEL_DATA_LENGTH</span><span class="p">[</span><span class="s2">&quot;event&quot;</span><span class="p">]:</span> <span class="n">_parse_mat_events</span><span class="p">,</span>
+        <span class="n">CHANNEL_DATA_LENGTH</span><span class="p">[</span><span class="s2">&quot;keyboard&quot;</span><span class="p">]:</span> <span class="n">_parse_mat_keyboard</span><span class="p">,</span>
+        <span class="n">CHANNEL_DATA_LENGTH</span><span class="p">[</span><span class="s2">&quot;waveform&quot;</span><span class="p">]:</span> <span class="n">_parse_mat_waveform</span><span class="p">,</span>
+        <span class="n">CHANNEL_DATA_LENGTH</span><span class="p">[</span><span class="s2">&quot;wavemark&quot;</span><span class="p">]:</span> <span class="n">_parse_mat_wavemark</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">parsed_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">mat_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">parsed_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser_lookup</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="p">)](</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parsed_data</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_mat_events</span><span class="p">(</span><span class="n">mat_events</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_event</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse event channel data as exported by Spike2 to .mat</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_events</span>
+<span class="sd">         Deeply nested array containing waveform channel data and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Data from event channel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_events</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;ch_type&quot;</span><span class="p">:</span> <span class="s2">&quot;event&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_flatten_array</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_mat_keyboard</span><span class="p">(</span><span class="n">mat_keyboard</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_keyboard</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse keyboard channel data as exported by Spike2 to .mat</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_keyboard</span>
+<span class="sd">         Deeply nested array containing keyboard channel data and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Data from keyboard channel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">keyboard_codes</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_keyboard</span><span class="p">[</span><span class="s2">&quot;codes&quot;</span><span class="p">])</span>
+    <span class="n">characters</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keyboard_codes</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">characters</span> <span class="o">=</span> <span class="n">_keyboard_codes_to_characters</span><span class="p">(</span><span class="n">keyboard_codes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;codes&quot;</span><span class="p">:</span> <span class="n">characters</span><span class="p">,</span>
+        <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_keyboard</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;ch_type&quot;</span><span class="p">:</span> <span class="s2">&quot;keyboard&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_keyboard_codes_to_characters</span><span class="p">(</span><span class="n">keyboard_codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Helper function that converts encoded character(s) into list of str</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keyboard_codes</span>
+<span class="sd">         List of int values, where each keyboard entry is encoded by four int</span>
+<span class="sd">         values.</span>
+<span class="sd">         e.g. single keyboard entry: [42, 0, 0, 0]</span>
+<span class="sd">         e.g. multi keyboard entries: [42, 0, 0, 0, 57, 0, 0, 0, 73, 0, 0, 0]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of str values, corresponding to each of the keyboard entries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">hex_keyboard_codes</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">keyboard_codes</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">hex_code</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">][:</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="k">for</span> <span class="n">hex_code</span> <span class="ow">in</span> <span class="n">hex_keyboard_codes</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_mat_waveform</span><span class="p">(</span><span class="n">mat_waveform</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_waveform</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse waveform channel data as exported by Spike2 to .mat</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_waveform</span>
+<span class="sd">         Deeply nested array containing waveform channel data and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Data from waveform channel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">units_flattened</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_waveform</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">])</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">units_flattened</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">units_flattened</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_waveform</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">])</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_waveform</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+    <span class="n">shortest_array</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">times</span><span class="p">[:</span><span class="n">shortest_array</span><span class="p">],</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">values</span><span class="p">[:</span><span class="n">shortest_array</span><span class="p">],</span>
+        <span class="s2">&quot;sampling_frequency&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_waveform</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">])),</span>
+        <span class="s2">&quot;ch_type&quot;</span><span class="p">:</span> <span class="s2">&quot;waveform&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_mat_wavemark</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">parsed_wavemark</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Parse wavemark channel data as exported by Spike2 to .mat</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mat_wavemark</span>
+<span class="sd">         Deeply nested array containing wavemark channel data and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Data from wavemark channel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">units</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sampling_frequency</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">action_potentials</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">units_flattened</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">units_flattened</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">units_flattened</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">mat_wavemark</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">sampling_frequency</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mat_wavemark</span><span class="p">[</span><span class="s2">&quot;interval&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">action_potentials</span> <span class="o">=</span> <span class="n">_extract_wavemarks</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">&quot;times&quot;</span><span class="p">:</span> <span class="n">times</span><span class="p">,</span>
+        <span class="s2">&quot;sampling_frequency&quot;</span><span class="p">:</span> <span class="n">sampling_frequency</span><span class="p">,</span>
+        <span class="s2">&quot;action_potentials&quot;</span><span class="p">:</span> <span class="n">action_potentials</span><span class="p">,</span>
+        <span class="s2">&quot;ch_type&quot;</span><span class="p">:</span> <span class="s2">&quot;wavemark&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_wavemarks</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to flatten, extract and group wavemark values&quot;&quot;&quot;</span>
+    <span class="n">template_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]))</span>
+    <span class="n">concatenated_wavemarks</span> <span class="o">=</span> <span class="n">_flatten_array</span><span class="p">(</span><span class="n">mat_wavemark</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">])</span>
+    <span class="n">number_of_wavemarks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">concatenated_wavemarks</span><span class="p">)</span> <span class="o">/</span> <span class="n">template_length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">concatenated_wavemarks</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">template_length</span><span class="p">,</span> <span class="n">number_of_wavemarks</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Martin Heroux
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
