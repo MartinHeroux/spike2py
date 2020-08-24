@@ -1,5 +1,4 @@
 .idea/
 *pyc
 venv
-.docs/build/
 env
