@@ -1,11 +1,11 @@
 Tutorial
 ========
 
-This tutorial will get you up and running with spike2py in 10 min.
+This tutorial will get you up and running with *spike2py* in 10 min.
 
 Part 1. Import spike2py and load tutorial dataset
 -------------------------------------------------
-To get up and running quickly, spike2py ships with a tutorial dataset, which we will use in this tutorial. So the first thing we need to do is import spike2py and load the sample dataset.
+To get up and running quickly, *spike2py* ships with a tutorial dataset, which we will use in this tutorial. So the first thing we need to do is import *spike2py* and load the sample dataset.
 
 With the virtual environment you created during the :ref:`installation` activated, start Python and type the following:
 
@@ -48,7 +48,7 @@ Part 3. Plotting our tutorial trial
 -----------------------------------
 To understand and interpret scientific data, it is often best to visualise it. Plotting data gives immediate feedback about the trial. It also gives immediate feedback about the various signal processing methods that we apply to individual channels.
 
-That is why spike2py trials come with a built-in plotting method. Although relatively basic, it plots all of a trials channels on the same figure. Lets give it a try.
+That is why *spike2py* trials come with a built-in plotting method. Although relatively basic, it plots all of a trials channels on the same figure. Lets give it a try.
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ But some of our channels require cleaning up. We need to apply basic signal proc
 
 Part 4. Processing some of our channels
 ---------------------------------------
-Spike2 refers to channels that contain time-series data as `waveform` channels. To simplify things, spike2py includes several signal processing methods that can be applied to `waveform` channels.
+Spike2 refers to channels that contain time-series data as `waveform` channels. To simplify things, *spike2py* includes several signal processing methods that can be applied to `waveform` channels.
 
 Applying one method at a time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +100,7 @@ But there is some unwanted high-frequency noise on the signal. Let's get rid of 
 
 Chaining our methods
 ~~~~~~~~~~~~~~~~~~~~
-That was all pretty simple. Let's now look at one of spike2py's super powers: method chaining!
+That was all pretty simple. Let's now look at one of *spike2py*'s super powers: method chaining!
 Method chaining allows us to apply a series of signal processing steps, applying each step to the output of the previous step.
 
 For example, let's apply the following signal processing steps to the `volume` channel:
@@ -132,7 +132,7 @@ To provide another examples, lets process the `Dia_Smu` channel, which consists 
 
 Part 5. Save your progress, and start from where you left off
 -------------------------------------------------------------
-Great work! Hopefully you are following along and are starting to feel comfortable with the basics of spike2py. Now that we have imported our trial and done some basic signal processing, it might be a good time to save our trial so that we can start from this point the next time we want to work on this data.
+Great work! Hopefully you are following along and are starting to feel comfortable with the basics of *spike2py*. Now that we have imported our trial and done some basic signal processing, it might be a good time to save our trial so that we can start from this point the next time we want to work on this data.
 
 This is very simple. Let's type the following line:
 
@@ -144,17 +144,17 @@ That was easy. We just saved (pickled) our data to a Python binary file format t
 
 So, if our dataset was located here:
 
-   `/home/madeleine/Desktop/tutorial.mat`
+   `/home/martin/Desktop/tutorial.mat`
 
 Our pickled data would be located here:
 
-   `/home/madeleine/Desktop/data/tutorial.pkl`
+   `/home/martin/Desktop/data/tutorial.pkl`
 
 Now lets delete the `tutorial` object from our Python session to simulate the next the next time we site down to continue our work.
 
 .. code-block:: python
 
-   >>> tutorial = sp.trial.load(file='/home/madeleine/Desktop/data/tutorial.pkl')
+   >>> tutorial = sp.trial.load(file='/home/martin/Desktop/data/tutorial.pkl')
 
 That's it. We now have our tutorial trial where we left off. We can confirm this by plotting the entire trial again, noticing that the `Flow`, `Volume` and `Dia_Smu` are indeed processed.
 
@@ -165,7 +165,7 @@ That's it. We now have our tutorial trial where we left off. We can confirm this
 
 Now what?
 ---------
-Hopefully you were able to follow along and learned the basics of spike2py. You should be almost ready to analyse your own data with spike2py. You are only missing two small steps:
+Hopefully you were able to follow along and learned the basics of *spike2py*. You should be almost ready to analyse your own data with *spike2py*. You are only missing two small steps:
 
 
 
