@@ -91,7 +91,7 @@ class Trial:
         )
 
     def _add_defaults_to_trial_info(self, trial_info: TrialInfo):
-        name = trial_info.name if trial_info.name else trial_info.file.stem
+        name = trial_info.name if trial_info.name else Path(trial_info.file).stem
         subject_id = trial_info.subject_id if trial_info.subject_id else "sub"
         path_save_figures = _check_make_path(
             path_to_check=trial_info.path_save_figures,
