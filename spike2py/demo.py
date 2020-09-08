@@ -1,12 +1,17 @@
+import os
+from urllib.request import urlretrieve
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 from spike2py import trial
 
+DEMO_DATA_S3 = 'https://spike2py.s3-ap-southeast-2.amazonaws.com/motor_units.mat'
+
 
 def test_install():
-    info = trial.TrialInfo(file=Path("tests") / "payloads" / "motor_units.mat")
+    demo_data_local = _get_demo_data_from_S3()
+    info = trial.TrialInfo(file=demo_data_local)
     sample = trial.Trial(info)
     plt.close('all')
     print('\nFigure 1: sample.Flow.plot()\n'
@@ -21,7 +26,15 @@ def test_install():
     sample.plot()
 
 
+def _get_demo_data_from_S3():
+    tmp = os.getenv("TMP", "/tmp")
+    demo_data_local = os.path.join(tmp, os.path.basename(DEMO_DATA_S3))
+    urlretrieve(DEMO_DATA_S3, demo_data_local)
+    return Path(demo_data_local)
+
+
 def tutorial_data():
-    info = trial.TrialInfo(file=Path("tests") / "payloads" / "motor_units.mat")
+    demo_data_local = _get_demo_data_from_S3()
+    info = trial.TrialInfo(file=demo_data_local)
     sample = trial.Trial(info)
     return sample
