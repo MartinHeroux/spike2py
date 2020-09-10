@@ -240,15 +240,6 @@ def _remove_files_in_folder_in_payloads_dir(folder):
 
 
 @pytest.fixture()
-def trial_default():
-    _remove_files_in_folder_in_payloads_dir(folder="figures")
-    _remove_files_in_folder_in_payloads_dir(folder="data")
-    yield PAYLOADS_DIR / "tremor_kinetic.mat"
-    _remove_files_in_folder_in_payloads_dir(folder="figures")
-    _remove_files_in_folder_in_payloads_dir(folder="data")
-
-
-@pytest.fixture()
 def trial_info_dict():
     yield {
         "file": PATH_TO_MAT_FILES[1],

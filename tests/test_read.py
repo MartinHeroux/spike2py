@@ -21,22 +21,12 @@ def test_read_with_channels_smoke_test(payload_dir):
 
 def test_exit_code_no_smr_file(payload_dir):
     file = payload_dir / "tremor_kinetic.smr"
-    with pytest.raises(SystemExit) as pytest_wrapped_e:
-        read.read(file)
-    assert pytest_wrapped_e.type == SystemExit
-    assert pytest_wrapped_e.value.code == 1
-
-
-def test_message_no_smr_file(capfd, payload_dir):
-    file = payload_dir / "tremor_kinetic.smr"
-    with pytest.raises(SystemExit):
-        read.read(file)
-        actual = capfd.readouterr()[0].strip()
-        expected = (
-            "Processing .smr files is currently not supported.\n "
-            "In Spike2 export the data to .mat and start over."
-        )
-        assert actual == expected
+    with pytest.raises(
+        read.WrongFileType,
+        match="Processing .smr files is not supported."
+        "\nIn Spike2 export the data to .mat and start over.",
+    ):
+        data = read.read(file)
 
 
 def test_parse_mat_events(data_setup):

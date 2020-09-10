@@ -26,9 +26,9 @@ def test_defaults():
 @pytest.mark.parametrize(
     "index, color",
     [
-        (1, "tab:blue"),
-        (5, "tab:purple"),
-        (10, "tab:cyan"),
+        (0, "tab:blue"),
+        (4, "tab:purple"),
+        (9, "tab:cyan"),
         (13, "tab:red"),
         (18, "tab:olive"),
     ],

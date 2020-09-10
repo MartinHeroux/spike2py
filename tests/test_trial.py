@@ -10,7 +10,7 @@ def test_trial_init_defaults(trial_default):
     trial1 = trial.Trial(info)
     assert trial1.info.file == trial_default
     assert trial1.info.channels is None
-    assert trial1.info.name == "TRIAL"
+    assert trial1.info.name == "tremor_kinetic"
     assert trial1.info.subject_id == "sub"
     assert trial1.info.path_save_figures == trial_default.parent / "figures"
     assert trial1.info.path_save_trial == trial_default.parent / "data"
@@ -38,13 +38,13 @@ def test_trial_save(payload_dir, trial_default):
     info = trial.TrialInfo(file=trial_default)
     trial1 = trial.Trial(info)
     trial1.save()
-    pickled_file = payload_dir / 'data' / 'TRIAL.pkl'
+    pickled_file = payload_dir / 'data' / 'tremor_kinetic.pkl'
     assert pickled_file.exists()
 
 
 def test_trial_read(payload_dir, trial_default):
-    file = payload_dir /'TRIAL.pkl'
-    trial1 = trial.load_trial(file)
+    file = payload_dir /'tremor_kinetic.pkl'
+    trial1 = trial.load(file)
     assert type(trial1) == trial.Trial
     assert int(np.mean(trial1.Angle.values) * 10e10) == 187862485065
     assert "Flex" in trial1.__dir__()
