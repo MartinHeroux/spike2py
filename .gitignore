@@ -2,3 +2,5 @@
 *pyc
 venv
 env
+docs/build/
+*.html
