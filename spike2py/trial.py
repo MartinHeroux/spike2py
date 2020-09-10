@@ -26,6 +26,16 @@ class TrialInfo(NamedTuple):
     path_save_figures: Path = None
     path_save_trial: Path = None
 
+    def __repr__(self):
+        return f'TrialInfo(\n' \
+               f'\tfile={repr(self.file)},\n' \
+               f'\tchannels={repr(self.channels)},\n' \
+               f'\tname={repr(self.name)}, \n' \
+               f'\tsubject_id={repr(self.subject_id)},\n' \
+               f'\tpath_save_figures={repr(self.path_save_figures)},\n' \
+               f'\tpath_save_trial={repr(self.path_save_trial)},\n' \
+               f')'
+
 
 class Trial:
     """Class for experimental trial recorded using Spike2
@@ -83,7 +93,7 @@ class Trial:
         channel_info = "".join(channel_text)
         return (
             f"\n{self.info.name}"
-            f"\n\tfile = {self.info.file.absolute().as_uri()}"
+            f"\n\tfile = {Path(self.info.file).absolute().as_uri()}"
             f"\n\tsubject_id = {self.info.subject_id}"
             f"\n\tpath_save_figures = {self.info.path_save_figures}"
             f"\n\tpath_save_trial = {self.info.path_save_trial}"

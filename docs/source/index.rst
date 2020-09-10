@@ -16,7 +16,7 @@ The first thing to do is install spike2py and make sure it's working properly.
 
 Tutorial
 ========
-If this is your first time using spike2py, the quickest way to up and running is to work through the tutorial.
+If this is your first time using spike2py, it is recommended that you work through the tutorial.
 
 .. toctree::
    :maxdepth: 1

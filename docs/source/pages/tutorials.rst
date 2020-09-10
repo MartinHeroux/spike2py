@@ -1,5 +1,5 @@
-Tutorial
-========
+Learning the ropes
+==================
 
 This tutorial will get you up and running with *spike2py* in 10 min.
 
@@ -165,9 +165,8 @@ That's it. We now have our tutorial trial where we left off. We can confirm this
 
 Now what?
 ---------
-Hopefully you were able to follow along and learned the basics of *spike2py*. You should be almost ready to analyse your own data with *spike2py*. You are only missing two small steps:
-
-
+Hopefully you were able to follow along and learned the basics of *spike2py*. You should be almost ready to analyse your own data with *spike2py*. You are only missing a few small steps:
 
 * :ref:`export`
 * :ref:`import`
+* :ref:`pathinfo`

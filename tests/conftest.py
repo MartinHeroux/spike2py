@@ -1,6 +1,5 @@
 from pathlib import Path
 import random
-import sys
 
 import pytest
 import numpy as np
@@ -196,7 +195,7 @@ def mixin_methods():
 def _generate_mixin_values():
     random.seed(42)
     line = np.linspace(0, 5, 10000)
-    noise = np.array([random.random() for i in range(10000)])
+    noise = np.array([random.random() for _ in range(10000)])
     values = line + noise
     times = np.linspace(0, 100, 10000)
     return values, times
