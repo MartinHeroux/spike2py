@@ -1,3 +1,5 @@
+from pytest import approx
+
 from spike2py import channels
 
 
@@ -76,7 +78,6 @@ def test_channels_wavemark_init(channels_init, channels_mock):
         == channels_mock["wavemark"]["info"].sampling_frequency
     )
     assert wavemark.action_potentials == channels_mock["wavemark"]["action_potentials"]
-    actual_inst_fq = [int(value) for value in wavemark.inst_firing_frequency * 100000]
-    expected_inst_fq = [int(value) for value in wavemark.inst_firing_frequency * 100000]
-    assert actual_inst_fq == expected_inst_fq
+    actual_inst_fq = wavemark.inst_firing_frequency
+    assert actual_inst_fq == approx(channels_mock["wavemark"]["instantaneous_firing_frequency"])
     assert repr(wavemark) == "Wavemark channel"

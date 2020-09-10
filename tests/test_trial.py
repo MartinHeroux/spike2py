@@ -1,5 +1,5 @@
 import pytest
-
+from pytest import approx
 import numpy as np
 
 from spike2py import trial
@@ -46,5 +46,5 @@ def test_trial_read(payload_dir, trial_default):
     file = payload_dir /'tremor_kinetic.pkl'
     trial1 = trial.load(file)
     assert type(trial1) == trial.Trial
-    assert int(np.mean(trial1.Angle.values) * 10e10) == 187862485065
+    assert np.mean(trial1.Angle.values) == approx(1.87862485065)
     assert "Flex" in trial1.__dir__()

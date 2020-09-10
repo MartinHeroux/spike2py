@@ -152,7 +152,7 @@ def channels_mock():
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
         "instantaneous_firing_frequency": np.array(
-            [3.003003003003009, 2.07039337474120]
+            [3.003003, 6.6666667]
         ),
         "__repr__": "Wavemark channel",
     }

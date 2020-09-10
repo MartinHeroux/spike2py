@@ -1,5 +1,5 @@
 import pytest
-
+from pytest import approx
 import numpy as np
 from scipy.signal import welch
 
@@ -15,13 +15,13 @@ def test_signal_processing_methods_present(mixin_methods):
 def test_signal_processing_remove_mean_all_values(mixin):
     mixin.remove_mean()
     assert "proc_remove_mean" in mixin.__dir__()
-    assert int(np.mean(mixin.values) * 10e15) == 2072868243385
+    assert np.mean(mixin.values) == approx(0.0002072868243385)
 
 
 def test_signal_processing_remove_mean_first_thousand_values(mixin):
     mixin.remove_mean(first_n_samples=1000)
     assert "proc_remove_mean" in mixin.__dir__()
-    assert int(np.mean(mixin.values) * 10e10) == 223791399750
+    assert np.mean(mixin.values) == approx(2.23791399750)
 
 
 @pytest.mark.parametrize("value", [0, 100001])
@@ -58,10 +58,10 @@ def test_signal_processing_lowpass_with_cutoff(mixin):
         nperseg=1024,
         detrend="linear",
     )
-    mean_low_fq = int(np.mean(power_spectral_density[freq < 5]) * 10e15)
-    mean_high_fq = int(np.mean(power_spectral_density[freq > 5]) * 10e15)
-    assert mean_low_fq == 1016062190551
-    assert mean_high_fq == 356926794
+    mean_low_fq = np.mean(power_spectral_density[freq < 5])
+    mean_high_fq = np.mean(power_spectral_density[freq > 5])
+    assert mean_low_fq == approx(0.0001016062190551)
+    assert mean_high_fq == approx(3.5692679e-08)
 
 
 @pytest.mark.parametrize("cutoff", [0, 1024])
@@ -85,10 +85,10 @@ def test_signal_processing_lowpass_with_cutoff_and_order(mixin):
         nperseg=1024,
         detrend="linear",
     )
-    mean_low_fq = int(np.mean(power_spectral_density[freq < 50]) * 10e15)
-    mean_high_fq = int(np.mean(power_spectral_density[freq > 50]) * 10e15)
-    assert mean_low_fq == 1216392998562
-    assert mean_high_fq == 10029603721
+    mean_low_fq = np.mean(power_spectral_density[freq < 50])
+    mean_high_fq = np.mean(power_spectral_density[freq > 50])
+    assert mean_low_fq == approx(0.0001216392998562)
+    assert mean_high_fq == approx(1.00296037e-06)
 
 
 def test_signal_processing_highpass_with_cutoff(mixin):
@@ -100,10 +100,10 @@ def test_signal_processing_highpass_with_cutoff(mixin):
         nperseg=1024,
         detrend="linear",
     )
-    mean_low_fq = int(np.mean(power_spectral_density[freq < 100]) * 10e15)
-    mean_high_fq = int(np.mean(power_spectral_density[freq > 100]) * 10e15)
-    assert mean_low_fq == 6082511
-    assert mean_high_fq == 958830303178
+    mean_low_fq = np.mean(power_spectral_density[freq < 100])
+    mean_high_fq = np.mean(power_spectral_density[freq > 100])
+    assert mean_low_fq == approx(6.082511531e-10)
+    assert mean_high_fq == approx(9.58830303178e-05)
 
 
 def test_signal_processing_highpass_with_cutoff_and_order(mixin):
@@ -115,10 +115,10 @@ def test_signal_processing_highpass_with_cutoff_and_order(mixin):
         nperseg=1024,
         detrend="linear",
     )
-    mean_low_fq = int(np.mean(power_spectral_density[freq < 100]) * 10e15)
-    mean_high_fq = int(np.mean(power_spectral_density[freq > 100]) * 10e15)
-    assert mean_low_fq == 9457695
-    assert mean_high_fq == 1414240817279
+    mean_low_fq = np.mean(power_spectral_density[freq < 100])
+    mean_high_fq = np.mean(power_spectral_density[freq > 100])
+    assert mean_low_fq == approx(9.457695299e-10)
+    assert mean_high_fq == approx(0.000141424081)
 
 
 def test_signal_processing_bandpass_with_cutoff(mixin):
@@ -132,12 +132,10 @@ def test_signal_processing_bandpass_with_cutoff(mixin):
     )
     fq_bandpass_bool = list((freq > 50) & (freq < 100))
     fq_not_bandpass_bool = [not boolean for boolean in fq_bandpass_bool]
-    mean_not_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e10)
-    )
-    mean_bandpass_fq = int(np.mean(power_spectral_density[fq_bandpass_bool] * 10e10))
-    assert mean_not_bandpass_fq == 48351
-    assert mean_bandpass_fq == 14254199
+    mean_not_bandpass_fq = np.mean(power_spectral_density[fq_not_bandpass_bool])
+    mean_bandpass_fq = np.mean(power_spectral_density[fq_bandpass_bool])
+    assert mean_not_bandpass_fq == approx(4.83518473e-07)
+    assert mean_bandpass_fq == approx(0.00014254199)
 
 
 def test_signal_processing_bandpass_cutoff_out_of_range(mixin):
@@ -156,12 +154,10 @@ def test_signal_processing_bandpass_with_cutoff_and_order(mixin):
     )
     fq_bandpass_bool = list((freq > 5) & (freq < 200))
     fq_not_bandpass_bool = [not boolean for boolean in fq_bandpass_bool]
-    mean_not_bandpass_fq = int(
-        np.mean(power_spectral_density[fq_not_bandpass_bool] * 10e10)
-    )
-    mean_bandpass_fq = int(np.mean(power_spectral_density[fq_bandpass_bool] * 10e10))
-    assert mean_not_bandpass_fq == 402363
-    assert mean_bandpass_fq == 13225323
+    mean_not_bandpass_fq = np.mean(power_spectral_density[fq_not_bandpass_bool])
+    mean_bandpass_fq = np.mean(power_spectral_density[fq_bandpass_bool])
+    assert mean_not_bandpass_fq == approx(4.02363214e-06)
+    assert mean_bandpass_fq == approx( 0.00013225323034)
 
 
 def test_signal_processing_bandstop_with_cutoff(mixin):
@@ -175,12 +171,10 @@ def test_signal_processing_bandstop_with_cutoff(mixin):
     )
     fq_bandstop_bool = list((freq > 50) & (freq < 100))
     fq_not_bandstop_bool = [not boolean for boolean in fq_bandstop_bool]
-    mean_not_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e10)
-    )
-    mean_bandstop_fq = int(np.mean(power_spectral_density[fq_bandstop_bool] * 10e10))
-    assert mean_not_bandstop_fq == 16177214
-    assert mean_bandstop_fq == 377791
+    mean_not_bandstop_fq = np.mean(power_spectral_density[fq_not_bandstop_bool])
+    mean_bandstop_fq = np.mean(power_spectral_density[fq_bandstop_bool])
+    assert mean_not_bandstop_fq == approx( 0.000161772149)
+    assert mean_bandstop_fq == approx(3.7779100806e-06)
 
 
 def test_signal_processing_bandstop_cutoff_and_order(mixin):
@@ -194,12 +188,10 @@ def test_signal_processing_bandstop_cutoff_and_order(mixin):
     )
     fq_bandstop_bool = list((freq > 5) & (freq < 200))
     fq_not_bandstop_bool = [not boolean for boolean in fq_bandstop_bool]
-    mean_not_bandstop_fq = int(
-        np.mean(power_spectral_density[fq_not_bandstop_bool] * 10e10)
-    )
-    mean_bandstop_fq = int(np.mean(power_spectral_density[fq_bandstop_bool] * 10e10))
-    assert mean_not_bandstop_fq == 13996435
-    assert mean_bandstop_fq == 579013
+    mean_not_bandstop_fq = np.mean(power_spectral_density[fq_not_bandstop_bool])
+    mean_bandstop_fq = np.mean(power_spectral_density[fq_bandstop_bool])
+    assert mean_not_bandstop_fq == approx(0.000139964355325)
+    assert mean_bandstop_fq == approx(5.790131269e-06)
 
 
 def test_signal_processing_calibrate_with_slope(mixin):
@@ -248,7 +240,7 @@ def test_signal_processing_interp_new_times(mixin):
     mixin.interp_new_times(new_times)
     assert "proc_interp_new_times" in mixin.__dir__()
     assert "times_pre_interp" in mixin.__dir__()
-    assert int(np.mean(mixin.values) * 10e5) == 3001246
+    assert np.mean(mixin.values) == approx(3.00124641)
     assert len(mixin.times) == len_new_times
 
 
@@ -256,11 +248,11 @@ def test_signal_processing_interp_new_fs(mixin):
     mixin.interp_new_fs(500)
     assert "proc_interp_new_fs" in mixin.__dir__()
     assert "times_pre_interp" in mixin.__dir__()
-    assert int(np.mean(mixin.values) * 10e5) == 3000221
+    assert np.mean(mixin.values) == approx(3.000221)
     assert len(mixin.times) == 50000
 
 
 def test_signal_processing_linear_detrend(mixin):
     mixin.linear_detrend()
     assert "proc_linear_detrend" in mixin.__dir__()
-    assert int(np.mean(mixin.values) * 10e5) == 0
+    assert np.mean(mixin.values) == approx(0.0)
