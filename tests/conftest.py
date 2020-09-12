@@ -1,11 +1,13 @@
+import os
 from pathlib import Path
 import random
 
 import pytest
 import numpy as np
 import scipy.io as sio
+import matplotlib.pyplot as plt
 
-from spike2py import channels, sig_proc
+from spike2py import channels, sig_proc, trial
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
@@ -151,9 +153,7 @@ def channels_mock():
         "times": np.array([7.432, 7.765, 7.915]),
         "action_potentials": ACTION_POTENTIALS,
         "ch_type": "wavemark",
-        "instantaneous_firing_frequency": np.array(
-            [3.003003, 6.6666667]
-        ),
+        "instantaneous_firing_frequency": np.array([3.003003, 6.6666667]),
         "__repr__": "Wavemark channel",
     }
     return {
@@ -257,7 +257,9 @@ def trial_info_dict():
 def physiology_data():
     _remove_files_in_folder_in_payloads_dir(folder="figures")
     _remove_files_in_folder_in_payloads_dir(folder="data")
+    plt.close("all")
     yield PAYLOADS_DIR / "physiology.mat"
+    plt.close("all")
     _remove_files_in_folder_in_payloads_dir(folder="figures")
     _remove_files_in_folder_in_payloads_dir(folder="data")
 
@@ -266,6 +268,24 @@ def physiology_data():
 def motor_units_data():
     _remove_files_in_folder_in_payloads_dir(folder="figures")
     _remove_files_in_folder_in_payloads_dir(folder="data")
+    plt.close("all")
     yield PAYLOADS_DIR / "motor_units.mat"
+    plt.close("all")
     _remove_files_in_folder_in_payloads_dir(folder="figures")
     _remove_files_in_folder_in_payloads_dir(folder="data")
+
+
+@pytest.fixture()
+def tutorial_data_dict():
+    tmp = os.getenv("TMP", "/tmp")
+    yield {
+        "file": Path(tmp) / "motor_units.mat",
+        "channels": [
+            ("Dia_Smu", "waveform"),
+            ("Mu2", "wavemark"),
+            ("Flow", "waveform"),
+            ("Volume", "waveform"),
+            ("Co2", "waveform"),
+            ("Mu1", "wavemark"),
+        ],
+    }
