@@ -13,12 +13,12 @@ def test_install():
     demo_data_local = _get_demo_data_from_S3()
     info = trial.TrialInfo(file=demo_data_local)
     sample = trial.Trial(info)
-    plt.close('all')
     print('\nFigure 1: sample.Flow.plot()\n'
           'Figure 2: sample.Flow.lowpass(cutoff=4, order=8).plot()\n'
           'Figure 3: sample.Volume.plot()\n'
           'Figure 4: sample.Volume.remove_mean().linear_detrend().lowpass(cutoff=5).plot()\n'
           'Figure 5: sample.plot()\n')
+    plt.close('all')
     sample.Flow.plot()
     sample.Flow.lowpass(cutoff=4, order=8).plot()
     sample.Volume.plot()
