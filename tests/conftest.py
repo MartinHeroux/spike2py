@@ -251,3 +251,21 @@ def trial_info_dict():
     }
     _remove_files_in_folder_in_payloads_dir(folder="trial_figures")
     _remove_files_in_folder_in_payloads_dir(folder="study_data")
+
+
+@pytest.fixture()
+def physiology_data():
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+    yield PAYLOADS_DIR / "physiology.mat"
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+
+
+@pytest.fixture()
+def motor_units_data():
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
+    yield PAYLOADS_DIR / "motor_units.mat"
+    _remove_files_in_folder_in_payloads_dir(folder="figures")
+    _remove_files_in_folder_in_payloads_dir(folder="data")
