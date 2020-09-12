@@ -1,5 +1,5 @@
-Learn something specific
-========================
+How To Guides
+=============
 
 .. _export:
 
@@ -137,6 +137,70 @@ By default, if we generate figures or save (i.e. pickle) our data, these will be
 
 The `PosixPath` part of the return value reflects the fact that *spike2py* uses `pathlib`_ to create and manage paths.
 
+How to run the **spike2py** test suite
+--------------------------------------
+In order to run the **spike2py** testing suite, you will have to get the full **spike2py** from
+`GitHub`_. You will also need to ensure you have the various requirements need to run **spike2py**,
+pytest, and the `pytest-mpl`_ plugin for pytest. All these packages and plugins are available
+on Pypi can can be installed using pip.
+
+`pytest-mpl` is a plugin that can be used to test figures that are generated with `matplotlib`_.
+
+To run the full suite of tests, run the following command from the root directory of the **spike2py**
+package:
+
+.. code-block:: shell
+
+    $ pytest --mpl
+
+If you want to run all tests, accept those that generate figures, you can run the following command:
+
+.. code-block::
+
+    $ pytest -m 'not fig_gen'
+
+
+How to add tests to **spike2py**
+--------------------------------
+If you have added some features to **spike2py**, please add tests that cover the new code.
+
+All test file are located in the `tests` folder in the root directory of the **spike2py** package.
+
+If your new feature was added to an existing modules, please add your tests to the file named
+`test_<module_name>.py`. For example, if you added something to the `trial.py` module, your test(s)
+should go in `test_trial.py`.
+
+Any new fixtures can be added to the `conftest.py` file.
+
+If your tests need to access a `.mat` file, it can be added to the `payloads` directory located within the `tests` directory. Similarly, if your test generates a new figure, please follow the
+instructions in the `README.md`_ file of pytest-mpl.
+
+Briefly, create a test that generates a figure and return it. In most cases, you will need to
+return `plt.gcf()`. For example, here is the first test from `test_figures.py`:
+
+.. code-block:: python
+
+    @pytest.mark.fig_gen
+    @pytest.mark.mpl_image_compare(baseline_dir=str(Path('.') / "baseline"))
+    def test_waveform(physiology_data):
+        trial_info = TrialInfo(physiology_data)
+        physiology = Trial(trial_info)
+        physiology.Abdo.plot()
+        return plt.gcf()
+
+After adding your new test, you will need to run the following command:
+
+.. code-block::
+
+    $ pytest --mpl-generate-path=tests/baseline
+
+This assumes you are running this command from the root directory of the **spike2py** package.
+It will generate and save the figure in the `baseline` directory. This is where all reference figures used to test **spike2py** are stored.
+
 
 .. _this Spike2 script: https://github.com/MartinHeroux/Spike2-batch-export-to-Matab
 .. _pathlib: https://docs.python.org/3/library/pathlib.html
+.. _GitHub: https://github.com/MartinHeroux/spike2py
+.. _pytest-mpl: https://pypi.org/project/pytest-mpl/
+.. _matplotlib: https://matplotlib.org/
+.. _README.md: https://github.com/matplotlib/pytest-mpl

@@ -1,5 +1,5 @@
-Learning the ropes
-==================
+Tutorial
+========
 
 This tutorial will get you up and running with *spike2py* in 10 min.
 
