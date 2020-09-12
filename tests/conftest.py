@@ -7,7 +7,7 @@ import numpy as np
 import scipy.io as sio
 import matplotlib.pyplot as plt
 
-from spike2py import channels, sig_proc, trial
+from spike2py import channels, sig_proc
 
 
 ACTION_POTENTIALS = [[random.random() for i in range(62)] for _ in range(3)]
