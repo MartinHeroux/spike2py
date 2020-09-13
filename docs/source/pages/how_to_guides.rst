@@ -137,8 +137,65 @@ By default, if we generate figures or save (i.e. pickle) our data, these will be
 
 The `PosixPath` part of the return value reflects the fact that *spike2py* uses `pathlib`_ to create and manage paths.
 
-How to run the **spike2py** test suite
---------------------------------------
+Apply signal processing steps to waveform channels
+--------------------------------------------------
+
+With **spike2py**, we can process our waveform signals with relative ease. While not all forms of signal processing are included, most of the common ones are.
+
+As was demonstrated in the :ref:`tutorial`, signal processing steps can be chained together. For example:
+
+.. code-block:: python
+
+    >>> tutorial.Flow.remove_mean().lowpass(cutoff=5).rect()
+
+And in case we want to compare processed and unprocessed data, or have them available for plotting, **spike2py** automatically creates a copy of the data and assigns it an informative name prior to applying each signal processing step.
+
+Let's consider the processing we just applied to the `Flow` channel of the tutorial trial. When we first start, there is a `values` attribute and a `raw_values` attribute, and these are the same.
+
+.. image:: ../img/Flow_1.png
+   :width: 500
+   :align: center
+
+However, each signal processing step updates `values`. That is, `values` is always the most current version of our waveform signal.
+
+At the same time, we might want access the original raw signal. This is available in `raw_values`. Similarly, we have access to our waveform at each step of the processing pipeline. **spike2py** creates a copy of the waveform at each processing step and adds it as an attribute to the channel. This is done when we apply signal processing steps one at a time or all together as part of a chain. The names of these attributes all start with `proc_`. For example, here is what is available after we apply the processing pipeline from above:
+
+.. image:: ../img/Flow_2.png
+   :width: 500
+   :align: center
+
+Below is a list off the available signal processing steps. Click on their names to be taken to their full documentation.
+
+:func:`~spike2py.sig_proc.SignalProcessing.remove_mean`: Subtract mean of first n samples (default is all samples)
+
+:func:`~spike2py.sig_proc.SignalProcessing.remove_value`: Subtracts a value (e.g. an offset)
+
+:func:`~spike2py.sig_proc.SignalProcessing.lowpass`: Apply dual-pass Butterworth lowpass filter
+
+:func:`~spike2py.sig_proc.SignalProcessing.highpass`: Apply dual-pass Butterworth highpass filter
+
+:func:`~spike2py.sig_proc.SignalProcessing.bandpass`: Apply dual-pass Butterworth bandpass filter
+
+:func:`~spike2py.sig_proc.SignalProcessing.bandstop`: Apply dual-pass Butterworth bandstop filter
+
+:func:`~spike2py.sig_proc.SignalProcessing.calibrate`: Calibrate using linear formula y=slope*x+offset, providing `slope` and `offset` values
+
+:func:`~spike2py.sig_proc.SignalProcessing.norm_percentage`: Normalise data to be between 0-100%
+
+:func:`~spike2py.sig_proc.SignalProcessing.norm_proportion`: Normalize data to be between 0-1
+
+:func:`~spike2py.sig_proc.SignalProcessing.norm_percent_value`: Normalise data to a percentage of a provided value
+
+:func:`~spike2py.sig_proc.SignalProcessing.rect`: Rectify data.
+
+:func:`~spike2py.sig_proc.SignalProcessing.interp_new_times`: Interpolate datato a new time axis
+
+:func:`~spike2py.sig_proc.SignalProcessing.interp_new_fs`: Interpolate datato a new sampling frequency
+
+:func:`~spike2py.sig_proc.SignalProcessing.linear_detrend`: Remove linear trend from data
+
+Run the **spike2py** test suite
+-------------------------------
 In order to run the **spike2py** testing suite, you will have to get the full **spike2py** from
 `GitHub`_. You will also need to ensure you have the various requirements need to run **spike2py**,
 pytest, and the `pytest-mpl`_ plugin for pytest. All these packages and plugins are available
@@ -159,9 +216,8 @@ If you want to run all tests, accept those that generate figures, you can run th
 
     $ pytest -m 'not fig_gen'
 
-
-How to add tests to **spike2py**
---------------------------------
+Add tests to **spike2py**
+-------------------------
 If you have added some features to **spike2py**, please add tests that cover the new code.
 
 All test file are located in the `tests` folder in the root directory of the **spike2py** package.
