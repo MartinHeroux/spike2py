@@ -1,6 +1,3 @@
 scipy
 numpy
-pytest
 matplotlib
-sphinx
-sphinx-rtd-theme

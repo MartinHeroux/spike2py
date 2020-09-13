@@ -4,7 +4,7 @@
 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![coverage](https://img.shields.io/badge/coverage-96%25-yellowgreen)
     [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 
@@ -42,14 +42,14 @@ $ python -m pip install spike2py
 
 **spike2py** officially supports Python 3.8+.
 
-## Contributing 
+## Contributing
 
 Like this project? Want to help? We would love to have your contribution! Please see [CONTRIBUTING](CONTRIBUTING.md) to get started.
 
 ## Code of conduct
 
 This project adheres to the Contributor Covenant code of conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to [heroux.martin@gmail.com](heroux.martin@gmail.com).
- 
+
 ## License
 
 [GPLv3](./LICENSE)
