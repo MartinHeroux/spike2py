@@ -31,23 +31,23 @@ class ChannelInfo(NamedTuple):
 class Channel:
     """Base class for all channel types
 
-   Parameters
-    ----------
-    channel_info
-        name
-            Name of channel (.e.g 'left biceps')
-        units
-            Units of recorded signal (e.g., 'Volts' or 'Nm')
-        sampling_frequency
-            In Hertz (e.g. 2048)
-        path
-            Defaults to path where data initially retrieved
-        trialname
-            Defaults to name of data file
-        subject_id
-            str indentifier
-    times
-        Sample times in seconds
+    Parameters
+     ----------
+     channel_info
+         name
+             Name of channel (.e.g 'left biceps')
+         units
+             Units of recorded signal (e.g., 'Volts' or 'Nm')
+         sampling_frequency
+             In Hertz (e.g. 2048)
+         path
+             Defaults to path where data initially retrieved
+         trialname
+             Defaults to name of data file
+         subject_id
+             str indentifier
+     times
+         Sample times in seconds
     """
 
     def __init__(self, channel_info: ChannelInfo, times: np.ndarray) -> None:
@@ -237,7 +237,7 @@ class Wavemark(Channel):
             time1 = time2
         self.inst_firing_frequency = np.array(inst_firing_frequency)
 
-    def plot(self, save: Literal[True, False] = None) -> None:
+    def plot(self, save: Literal[True, False] = None):
         """Save Waveform channel figure
 
         Parameters

@@ -27,14 +27,16 @@ class TrialInfo(NamedTuple):
     path_save_trial: Path = None
 
     def __repr__(self):
-        return f'TrialInfo(\n' \
-               f'\tfile={repr(self.file)},\n' \
-               f'\tchannels={repr(self.channels)},\n' \
-               f'\tname={repr(self.name)}, \n' \
-               f'\tsubject_id={repr(self.subject_id)},\n' \
-               f'\tpath_save_figures={repr(self.path_save_figures)},\n' \
-               f'\tpath_save_trial={repr(self.path_save_trial)},\n' \
-               f')'
+        return (
+            f"TrialInfo(\n"
+            f"\tfile={repr(self.file)},\n"
+            f"\tchannels={repr(self.channels)},\n"
+            f"\tname={repr(self.name)}, \n"
+            f"\tsubject_id={repr(self.subject_id)},\n"
+            f"\tpath_save_figures={repr(self.path_save_figures)},\n"
+            f"\tpath_save_trial={repr(self.path_save_trial)},\n"
+            f")"
+        )
 
 
 class Trial:
@@ -80,9 +82,7 @@ class Trial:
 
     def __init__(self, trial_info: TrialInfo) -> None:
         if not trial_info.file:
-            raise ValueError(
-                "info must include a valid full path to a data file."
-            )
+            raise ValueError("info must include a valid full path to a data file.")
         self._add_defaults_to_trial_info(trial_info)
         self._parse_trial_data()
 
@@ -129,7 +129,9 @@ class Trial:
             value["trial_name"] = self.info.name
             value["subject_id"] = self.info.subject_id
             setattr(
-                self, key.title(), CHANNEL_GENERATOR[value["ch_type"]](key, value),
+                self,
+                key.title(),
+                CHANNEL_GENERATOR[value["ch_type"]](key, value),
             )
         self.channels = channel_names
 

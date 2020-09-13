@@ -4,4 +4,3 @@
 .. _spike2py: https://github.com/MartinHeroux/spike2py
 .. _Spike2: http://ced.co.uk/products/spkovin
 .. _Cambridge Electronics Design (CED): http://ced.co.uk/
-

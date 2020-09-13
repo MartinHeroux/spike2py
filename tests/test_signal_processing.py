@@ -157,7 +157,7 @@ def test_signal_processing_bandpass_with_cutoff_and_order(mixin):
     mean_not_bandpass_fq = np.mean(power_spectral_density[fq_not_bandpass_bool])
     mean_bandpass_fq = np.mean(power_spectral_density[fq_bandpass_bool])
     assert mean_not_bandpass_fq == approx(4.02363214e-06)
-    assert mean_bandpass_fq == approx( 0.00013225323034)
+    assert mean_bandpass_fq == approx(0.00013225323034)
 
 
 def test_signal_processing_bandstop_with_cutoff(mixin):
@@ -173,7 +173,7 @@ def test_signal_processing_bandstop_with_cutoff(mixin):
     fq_not_bandstop_bool = [not boolean for boolean in fq_bandstop_bool]
     mean_not_bandstop_fq = np.mean(power_spectral_density[fq_not_bandstop_bool])
     mean_bandstop_fq = np.mean(power_spectral_density[fq_bandstop_bool])
-    assert mean_not_bandstop_fq == approx( 0.000161772149)
+    assert mean_not_bandstop_fq == approx(0.000161772149)
     assert mean_bandstop_fq == approx(3.7779100806e-06)
 
 

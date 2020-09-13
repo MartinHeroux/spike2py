@@ -23,12 +23,8 @@ def test_channels_keyboard_init(channels_init, channels_mock):
         keyboard.info.path_save_figures
         == channels_mock["keyboard"]["info"].path_save_figures
     )
-    assert (
-        keyboard.info.trial_name == channels_mock["keyboard"]["info"].trial_name
-    )
-    assert (
-        keyboard.info.subject_id == channels_mock["keyboard"]["info"].subject_id
-    )
+    assert keyboard.info.trial_name == channels_mock["keyboard"]["info"].trial_name
+    assert keyboard.info.subject_id == channels_mock["keyboard"]["info"].subject_id
     assert list(keyboard.times) == list(channels_mock["keyboard"]["times"])
     assert keyboard.codes == channels_mock["keyboard"]["codes"]
     assert repr(keyboard) == "Keyboard channel"
@@ -42,12 +38,8 @@ def test_channels_waveform_init(channels_init, channels_mock):
         waveform.info.path_save_figures
         == channels_mock["waveform"]["info"].path_save_figures
     )
-    assert (
-        waveform.info.trial_name == channels_mock["waveform"]["info"].trial_name
-    )
-    assert (
-        waveform.info.subject_id == channels_mock["waveform"]["info"].subject_id
-    )
+    assert waveform.info.trial_name == channels_mock["waveform"]["info"].trial_name
+    assert waveform.info.subject_id == channels_mock["waveform"]["info"].subject_id
     assert list(waveform.times) == list(channels_mock["waveform"]["times"])
     assert waveform.info.units == channels_mock["waveform"]["info"].units
     assert list(waveform.values) == list(channels_mock["waveform"]["values"])
@@ -65,12 +57,8 @@ def test_channels_wavemark_init(channels_init, channels_mock):
         wavemark.info.path_save_figures
         == channels_mock["wavemark"]["info"].path_save_figures
     )
-    assert (
-        wavemark.info.trial_name == channels_mock["wavemark"]["info"].trial_name
-    )
-    assert (
-        wavemark.info.subject_id == channels_mock["wavemark"]["info"].subject_id
-    )
+    assert wavemark.info.trial_name == channels_mock["wavemark"]["info"].trial_name
+    assert wavemark.info.subject_id == channels_mock["wavemark"]["info"].subject_id
     assert list(wavemark.times) == list(channels_mock["wavemark"]["times"])
     assert wavemark.info.units == channels_mock["wavemark"]["info"].units
     assert (
@@ -79,5 +67,7 @@ def test_channels_wavemark_init(channels_init, channels_mock):
     )
     assert wavemark.action_potentials == channels_mock["wavemark"]["action_potentials"]
     actual_inst_fq = wavemark.inst_firing_frequency
-    assert actual_inst_fq == approx(channels_mock["wavemark"]["instantaneous_firing_frequency"])
+    assert actual_inst_fq == approx(
+        channels_mock["wavemark"]["instantaneous_firing_frequency"]
+    )
     assert repr(wavemark) == "Wavemark channel"

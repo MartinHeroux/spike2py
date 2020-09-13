@@ -11,6 +11,7 @@ def test_get_demo_data_from_S3():
     tmp = os.getenv("TMP", "/tmp")
     assert x == Path(tmp) / "motor_units.mat"
 
+
 @pytest.mark.fig_gen
 def test_install(capsys):
     demo.test_install()
