@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="spike2py",
-    version="1.0.0",
+    version="0.1.0",
     description="Import, parse and process data collected with Spike2",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -20,7 +20,6 @@ setup(
     license="GPLv3",
     classifiers=[
         "License :: OSI Approved :: GPLv3 License",
-        "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
     packages=["spike2py"],
