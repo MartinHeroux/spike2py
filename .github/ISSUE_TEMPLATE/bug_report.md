@@ -29,7 +29,7 @@ If applicable, add screenshots to help explain your problem.
 **Python:**
  - Version [e.g. 3.8]
  - Dependencies and version [e.g. numpy (1.19.1)]
- 
+
 **Additional context**
 Add any other context about the problem here.
 

@@ -6,16 +6,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
+
+sys.path.insert(0, os.path.abspath("../../"))
 
 # -- Project information -----------------------------------------------------
 
-project = 'spike2py'
-copyright = '2020, Martin Heroux'
-author = 'Martin Heroux'
+project = "spike2py"
+copyright = "2020, Martin Heroux"
+author = "Martin Heroux"
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = "0.0.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -24,14 +25,14 @@ release = '0.0.1'
 # ones.
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.napoleon",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -39,57 +40,53 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-#html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'alabaster'
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'spike2pydoc'
+htmlhelp_basename = "spike2pydoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
-     'papersize': 'letterpaper',
-     'pointsize': '10pt',
-     'preamble': '',
-     'figure_align': 'htbp',
+    "papersize": "letterpaper",
+    "pointsize": "10pt",
+    "preamble": "",
+    "figure_align": "htbp",
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'spike2py.tex', 'spike2py Documentation',
-     'Martin Heroux', 'manual'),
+    (master_doc, "spike2py.tex", "spike2py Documentation", "Martin Heroux", "manual"),
 ]
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'spike2py', 'spike2py Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, "spike2py", "spike2py Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -98,8 +95,13 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'spike2py', 'spike2py Documentation',
-     author, 'spike2', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "spike2py",
+        "spike2py Documentation",
+        author,
+        "spike2",
+        "One line description of project.",
+        "Miscellaneous",
+    ),
 ]
-

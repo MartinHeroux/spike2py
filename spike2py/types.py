@@ -15,5 +15,7 @@ parsed_spike2py_data = Dict[
 filt_cutoff_single = Union[float, int]
 filt_cutoff_pair = Union[List[float], List[float]]
 filt_cutoff = Union[filt_cutoff_single, filt_cutoff_pair]
-all_channels = Union["channels.Event", "channels.Keyboard", "channels.Waveform", "channels.Wavemark"]
+all_channels = Union[
+    "channels.Event", "channels.Keyboard", "channels.Waveform", "channels.Wavemark"
+]
 ticksline_channels = Union["channels.Event", "channels.Keyboard", "channels.Wavemark"]

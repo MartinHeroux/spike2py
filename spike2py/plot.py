@@ -76,7 +76,9 @@ def _get_color(index: int) -> str:
 
 
 def _plot_waveform(
-    waveform: "channels.Waveform", ax: Subplot, color: str = _get_color(0),
+    waveform: "channels.Waveform",
+    ax: Subplot,
+    color: str = _get_color(0),
 ) -> None:
     ax.plot(waveform.times, waveform.values, label=waveform.info.name, color=color)
     ax.set_xlim(waveform.times[0], waveform.times[-1])

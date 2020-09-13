@@ -38,12 +38,12 @@ def test_trial_save(payload_dir, trial_default):
     info = trial.TrialInfo(file=trial_default)
     trial1 = trial.Trial(info)
     trial1.save()
-    pickled_file = payload_dir / 'data' / 'tremor_kinetic.pkl'
+    pickled_file = payload_dir / "data" / "tremor_kinetic.pkl"
     assert pickled_file.exists()
 
 
 def test_trial_read(payload_dir, trial_default):
-    file = payload_dir /'tremor_kinetic.pkl'
+    file = payload_dir / "tremor_kinetic.pkl"
     trial1 = trial.load(file)
     assert type(trial1) == trial.Trial
     assert np.mean(trial1.Angle.values) == approx(1.87862485065)

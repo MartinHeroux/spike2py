@@ -203,12 +203,12 @@ on Pypi can can be installed using pip.
 
 `pytest-mpl` is a plugin that can be used to test figures that are generated with `matplotlib`_.
 
-To run the full suite of tests, run the following command from the root directory of the **spike2py**
+To run the full suite of tests and return the code coverage, run the following command from the root directory of the **spike2py**
 package:
 
 .. code-block:: shell
 
-    $ pytest --mpl
+    $ pytest --mpl --cov=spike2py tests/
 
 If you want to run all tests, accept those that generate figures, you can run the following command:
 

@@ -1,5 +1,4 @@
 from pathlib import Path
-import sys
 import textwrap
 from typing import List, Final
 
@@ -26,6 +25,7 @@ CHANNEL_DATA_LENGTH: Final = {
 
 class WrongFileType(Exception):
     """Custom exception to use when `.mat` file not provided"""
+
     pass
 
 
