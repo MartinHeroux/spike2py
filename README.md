@@ -1,6 +1,4 @@
-<p align="center">
-  <img width="600" height="300" src="./docs/source/img/spike2py_icon_600x300.png">
-</p>
+[![spike2py](https://raw.githubusercontent.com/MartinHeroux/spike2py/master/docs/source/img/spike2py_icon_600x300.png)](https://github.com/MartinHeroux/spike2py)
 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
@@ -25,12 +23,11 @@ To demonstrate, the following snippet of code shows you how to:
 >>> sample.muscle_emg.remove_mean(first_n_samples=500).rect().plot()
 ```
 
-![emg_raw](./docs/source/img/EMG_400x132.png)
-
+[![emg_raw](https://raw.githubusercontent.com/MartinHeroux/spike2py/master/docs/source/img/EMG_400x132.png)](https://github.com/MartinHeroux/spike2py)
 
 ## Documentation
 
-Introductory tutorials, how-to's and other useful documentation are available on [Read the Docs](https://???)
+Introductory tutorials, how-to's and other useful documentation are available on [Read the Docs](https://spike2py.readthedocs.io/en/latest/index.html)
 
 ## Installing
 

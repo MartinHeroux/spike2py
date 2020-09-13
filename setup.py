@@ -17,9 +17,9 @@ setup(
     url="https://github.com/MartinHeroux/spike2py",
     author="Martin Héroux",
     author_email="heroux.martin@gmail.com",
-    license="GPLv3",
+    license="GNU General Public License v3 or later (GPLv3+)",
     classifiers=[
-        "License :: OSI Approved :: GPLv3 License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3.8",
     ],
     packages=["spike2py"],
