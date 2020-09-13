@@ -5,7 +5,7 @@ Please, go through these steps before you submit a PR.
 
 2. If not, then make sure that:
 
-  a. You have done your changes in a separate branch. Branches MUST have descriptive names that start with either the `fix/` or `feature/` prefixes. 
+  a. You have done your changes in a separate branch. Branches MUST have descriptive names that start with either the `fix/` or `feature/` prefixes.
   Good examples are: `fix/ploting-issue` or `feature/quadradic-interpolation`.
 
     b. You have a descriptive commit message with a short title (first line).
