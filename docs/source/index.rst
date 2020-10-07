@@ -43,7 +43,7 @@ Reference Guides
 ================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    pages/reference_guides
 
