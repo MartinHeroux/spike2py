@@ -12,7 +12,7 @@
    viewBox="0 0 158.74999 158.74999"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0 (1.0+r73+1)"
+   inkscape:version="1.0.1 (1.0.1+r73)"
    sodipodi:docname="spike2py_icon.svg"
    inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/spike2py_icon_600x600.png"
    inkscape:export-xdpi="300"
@@ -34,7 +34,7 @@
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="2560"
-     inkscape:window-height="1383"
+     inkscape:window-height="1413"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -338,162 +338,5 @@
        id="path985-9"
        style="fill:#ffffff;stroke:#ffffff;stroke-width:0.356005"
        inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_200x200.png" />
-    <rect
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       style="fill:#b3b3b3;stroke:#b3b3b3;stroke-width:0.814712"
-       id="rect833-9-7"
-       width="157.93527"
-       height="77.894753"
-       x="372.55191"
-       y="10.227796"
-       ry="1.5100994"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <g
-       id="g6236"
-       transform="matrix(2.9634117,0,0,2.974906,-725.1375,-174.83981)"
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300">
-      <g
-         transform="matrix(0.74209558,0,0,0.74209558,95.978668,13.699113)"
-         id="g6224">
-        <g
-           inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_200x200.png"
-           id="g936-2-0"
-           transform="matrix(0.42460989,0,0,0.22438277,359.29042,63.431297)"
-           inkscape:export-xdpi="300"
-           inkscape:export-ydpi="300">
-          <rect
-             rx="0"
-             ry="0"
-             y="124.43323"
-             x="57.994064"
-             height="42.27702"
-             width="12.21148"
-             id="rect835-6-3"
-             style="fill:#ff0000;stroke:none;stroke-width:0.750001" />
-          <rect
-             style="fill:#ff0000;stroke:none;stroke-width:0.609938"
-             id="rect835-7-8-7"
-             width="12.21148"
-             height="27.960964"
-             x="70.205544"
-             y="138.74928"
-             ry="0"
-             rx="0" />
-          <rect
-             rx="0"
-             ry="0"
-             y="151.14909"
-             x="82.417023"
-             height="15.561155"
-             width="12.21148"
-             id="rect835-7-5-5-2"
-             style="fill:#ff0000;stroke:none;stroke-width:0.455021" />
-        </g>
-        <g
-           inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_200x200.png"
-           id="g941-2-3"
-           transform="matrix(0.42460989,0,0,0.22438277,357.04353,63.383313)"
-           inkscape:export-xdpi="300"
-           inkscape:export-ydpi="300">
-          <rect
-             style="fill:#ff0000;stroke:none;stroke-width:0.750001"
-             id="rect835-3-8-5"
-             width="12.21148"
-             height="42.27702"
-             x="99.900803"
-             y="124.64707"
-             ry="0"
-             rx="0" />
-          <rect
-             rx="0"
-             ry="0"
-             y="138.96313"
-             x="112.11228"
-             height="27.960964"
-             width="12.21148"
-             id="rect835-7-56-3-1"
-             style="fill:#ff0000;stroke:none;stroke-width:0.609939" />
-          <rect
-             style="fill:#ff0000;stroke:none;stroke-width:0.45502"
-             id="rect835-7-5-2-6-7"
-             width="12.21148"
-             height="15.561155"
-             x="124.32376"
-             y="151.36295"
-             ry="0"
-             rx="0" />
-        </g>
-        <rect
-           inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_200x200.png"
-           rx="0"
-           ry="0"
-           y="86.673149"
-           x="422.33945"
-           height="14.165056"
-           width="5.1851149"
-           id="rect835-9-7-8"
-           style="fill:#ff0000;stroke:none;stroke-width:0.282889"
-           inkscape:export-xdpi="300"
-           inkscape:export-ydpi="300" />
-      </g>
-    </g>
-    <text
-       transform="scale(0.99806625,1.0019375)"
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:46.8357px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.17088"
-       x="388.31525"
-       y="41.89864"
-       id="text945-8-9"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         sodipodi:role="line"
-         id="tspan943-7-4"
-         x="388.31525"
-         y="41.89864"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.8357px;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.17088">spike</tspan></text>
-    <text
-       transform="scale(0.99806625,1.0019375)"
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       id="text945-4-2-1"
-       y="39.677753"
-       x="491.70343"
-       style="font-style:normal;font-weight:normal;font-size:46.8357px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.17088"
-       xml:space="preserve"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:46.8357px;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.17088"
-         y="39.677753"
-         x="491.70343"
-         id="tspan943-5-6-6"
-         sodipodi:role="line">py</tspan></text>
-    <text
-       transform="scale(0.99806625,1.0019375)"
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       id="text945-5-6-4"
-       y="47.058506"
-       x="450.52567"
-       style="font-style:normal;font-weight:normal;font-size:85.2616px;line-height:1.25;font-family:sans-serif;fill:#0000ff;fill-opacity:1;stroke:#0000ff;stroke-width:2.13155"
-       xml:space="preserve"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.2616px;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#0000ff;stroke:#0000ff;stroke-width:2.13155"
-         y="47.058506"
-         x="450.52567"
-         id="tspan943-6-2-3"
-         sodipodi:role="line">2</tspan></text>
-    <ellipse
-       inkscape:export-filename="/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/docs/source/img/spike2py_icon_600x300.png"
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.784421"
-       id="path985-9-5"
-       cx="460.05838"
-       cy="24.857267"
-       rx="0.7270081"
-       ry="0.62952262"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
   </g>
 </svg>
