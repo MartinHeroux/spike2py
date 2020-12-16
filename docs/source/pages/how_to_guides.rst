@@ -84,7 +84,7 @@ Specify channels to import
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 There may be times when we don't want to import all available channels. We can specify the channels we want to import by passing a list of channel names to TrialInfo.
 
-For example, the following code import only the `Flow`, and `Co2` channels from `tutorial.mat`:
+For example, the following code imports only the `Flow`, and `Co2` channels from `tutorial.mat`:
 
 .. code-block:: python
 
@@ -118,7 +118,7 @@ Depending on how we process our data and the additional files and figures we wan
 
 Specify paths to save figures and data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-By default, if we generate figures or save (i.e. pickle) our data, these will be stored in `figures` and `data` folders created in folder that contains the `.mat` file we passed to `TrialInfo`. However, we can specify a folder for one or both of these. For example:
+By default, if we generate figures or save (i.e. pickle) our data, these will be stored in `figures` and `data` folders created in the folder that contains the `.mat` file we passed to `TrialInfo`. However, we can specify a folder for one or both of these. For example:
 
 .. code-block:: python
 
@@ -158,13 +158,13 @@ Let's consider the processing we just applied to the `Flow` channel of the tutor
 
 However, each signal processing step updates `values`. That is, `values` is always the most current version of our waveform signal.
 
-At the same time, we might want access the original raw signal. This is available in `raw_values`. Similarly, we have access to our waveform at each step of the processing pipeline. **spike2py** creates a copy of the waveform at each processing step and adds it as an attribute to the channel. This is done when we apply signal processing steps one at a time or all together as part of a chain. The names of these attributes all start with `proc_`. For example, here is what is available after we apply the processing pipeline from above:
+At the same time, we might want to access the original raw signal. This is available in `raw_values`. Similarly, we have access to our waveform at each step of the processing pipeline. **spike2py** creates a copy of the waveform at each processing step and adds it as an attribute to the channel. This is done when we apply signal processing steps one at a time or all together as part of a chain. The names of these attributes all start with `proc_`. For example, here is what is available after we apply the processing pipeline from above:
 
 .. image:: ../img/Flow_2.png
    :width: 500
    :align: center
 
-Below is a list off the available signal processing steps. Click on their names to be taken to their full documentation.
+Below is a list of the available signal processing steps. Click on their names to be taken to their full documentation.
 
 :func:`~spike2py.sig_proc.SignalProcessing.remove_mean`: Subtract mean of first n samples (default is all samples)
 
@@ -197,9 +197,9 @@ Below is a list off the available signal processing steps. Click on their names 
 Run the **spike2py** test suite
 -------------------------------
 In order to run the **spike2py** testing suite, you will have to get the full **spike2py** from
-`GitHub`_. You will also need to ensure you have the various requirements need to run **spike2py**,
+`GitHub`_. You will also need to ensure you have the various requirements needed to run **spike2py**,
 pytest, and the `pytest-mpl`_ plugin for pytest. All these packages and plugins are available
-on Pypi can can be installed using pip.
+on Pypi and can be installed using pip.
 
 `pytest-mpl` is a plugin that can be used to test figures that are generated with `matplotlib`_.
 
@@ -210,9 +210,9 @@ package:
 
     $ pytest --mpl --cov=spike2py tests/
 
-If you want to run all tests, accept those that generate figures, you can run the following command:
+If you want to run all tests, except those that generate figures, you can run the following command:
 
-.. code-block::
+.. code-block:: shell
 
     $ pytest -m 'not fig_gen'
 
@@ -220,9 +220,9 @@ Add tests to **spike2py**
 -------------------------
 If you have added some features to **spike2py**, please add tests that cover the new code.
 
-All test file are located in the `tests` folder in the root directory of the **spike2py** package.
+All test files are located in the `tests` folder in the root directory of the **spike2py** package.
 
-If your new feature was added to an existing modules, please add your tests to the file named
+If your new feature was added to an existing module, please add your tests to the file named
 `test_<module_name>.py`. For example, if you added something to the `trial.py` module, your test(s)
 should go in `test_trial.py`.
 
@@ -246,7 +246,7 @@ return `plt.gcf()`. For example, here is the first test from `test_figures.py`:
 
 After adding your new test, you will need to run the following command:
 
-.. code-block::
+.. code-block:: shell
 
     $ pytest --mpl-generate-path=tests/baseline
 

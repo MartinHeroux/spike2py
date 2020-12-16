@@ -14,7 +14,7 @@ What **spike2py** is (and what it isn't)
 
 The rest is left up to you, the user.
 
-You will have to code the analysis pipeline to extract the outcomes you are interested in across the all the trials from collected from all your participants. You will have to code your own figures to highlight certain aspects of your data.
+You will have to code the analysis pipeline to extract the outcomes you are interested in across all the trials from collected from all your participants. You will have to code your own figures to highlight certain aspects of your data.
 
 **spike2py** has room to grow, but only a little. Extra functionality can be added, but only if it fits within the four primary aims of **spike2py**.
 
