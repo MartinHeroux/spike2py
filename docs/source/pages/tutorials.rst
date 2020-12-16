@@ -18,7 +18,7 @@ With the virtual environment you created during the :ref:`installation` activate
 
 Part 2. Inspect the tutorial dataset
 ------------------------------------
-`tutorial` represent a trial recorded with Spike2. By default, spike2py imports all of the channels present in the `.mat` file. These channels appear as attributes of our trial.
+`tutorial` represents a trial recorded with Spike2. By default, spike2py imports all of the channels present in the `.mat` file. These channels appear as attributes of our trial.
 
 Our tutorial dataset has six channels:
 
@@ -35,12 +35,12 @@ This will show you the various attributes and methods that belong to `tutorial`.
 .. code-block:: python
 
    >>> import spike2py as sp
-   >>> tutorial = sp.tutorial_data()
+   >>> tutorial = sp.demo.tutorial_data()
    >>> tutorial.
    tutorial.Co2       tutorial.Flow      tutorial.Mu2       tutorial.channels  tutorial.plot(
    tutorial.Dia_Smu   tutorial.Mu1       tutorial.Volume    tutorial.info      tutorial.save(
 
-As you can, all of our channels are present.
+As you can see, all of our channels are present.
 
 There are also two additional attributes and two methods. The two attributes are `tutorial.channels` and `tutorial.info`. They contain basic information about the trial and its channels. If you are curious, type `tutorial.channels` or `tutorial.info` and then hit Return to see what they contain.
 
@@ -50,7 +50,7 @@ Part 3. Plotting our tutorial trial
 -----------------------------------
 To understand and interpret scientific data, it is often best to visualise it. Plotting data gives immediate feedback about the trial. It also gives immediate feedback about the various signal processing methods that we apply to individual channels.
 
-That is why *spike2py* trials come with a built-in plotting method. Although relatively basic, it plots all of a trials channels on the same figure. Lets give it a try.
+That is why *spike2py* trials come with a built-in plotting method. Although relatively basic, it plots all of a trials channels on the same figure. Let's give it a try.
 
 .. code-block:: python
 
@@ -71,7 +71,7 @@ Spike2 refers to channels that contain time-series data as `waveform` channels. 
 
 Applying one method at a time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Let's start off by by removing the mean from the `Flow` channel. To validate our work, let's visualise the `Flow` channel before and after the mean has been removed by calling the its `plot` method.
+Let's start off by by removing the mean from the `Flow` channel. To validate our work, let's visualise the `Flow` channel before and after the mean has been removed by calling the `plot` method.
 
 .. code-block:: python
 
@@ -94,7 +94,7 @@ But there is some unwanted high-frequency noise on the signal. Let's get rid of 
 .. code-block:: python
 
     >>> tutorial.Flow.lowpass(cutoff=5)
-    >>> tutorial.plot()
+    >>> tutorial.Flow.lowpass(cutoff=5).plot()
 
 .. image:: ../img/tutorial_flow_zeroed_filtered.png
    :width: 600
@@ -123,10 +123,14 @@ And let's also plot the output.
 
 Compare the above figure to the `volume` channel in the trial figure we created in the Part 3 of this tutorial. The ability to Chain processing steps is terse and powerful!
 
-To provide another examples, lets process the `Dia_Smu` channel, which consists of indwelling recordings of the diaphragm muscle. For this channel, we will:
+To provide another example, let's process the `Dia_Smu` channel, which consists of indwelling electromyography recordings of the diaphragm muscle. For this channel, we will:
 
 * Apply a 20-450Hz band-pass filter
 * rectify
+
+.. code-block:: python
+
+    >>> tutorial.Dia_Smu.highpass(cutoff=20).lowpass(cutoff=450).rect().plot()
 
 .. image:: ../img/tutorial_diaph_smu.png
    :width: 600
@@ -142,7 +146,7 @@ This is very simple. Let's type the following line:
 
     >>> tutorial.save()
 
-That was easy. We just saved (pickled) our data to a Python binary file format that has the file extension `.pkl`). But where did we save it? The file was saved in the directory listed in `tutorial.info.path_save_trial`. This path default to a directory called `data` created in the directory from where we imported our tutorial dataset.
+That was easy. We just saved (pickled) our data to a Python binary file format that has the file extension `.pkl`). But where did we save it? The file was saved in the directory listed in `tutorial.info.path_save_trial`. This path defaults to a directory called `data` created in the directory from where we imported our tutorial dataset.
 
 So, if our dataset was located here:
 
@@ -152,7 +156,7 @@ Our pickled data would be located here:
 
    `/home/martin/Desktop/data/tutorial.pkl`
 
-Now lets delete the `tutorial` object from our Python session to simulate the next the next time we site down to continue our work.
+Now let's delete the `tutorial` object from our Python session to simulate the next the next time we sit down to continue our work.
 
 .. code-block:: python
 
