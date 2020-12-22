@@ -13,8 +13,8 @@ With the virtual environment you created during the :ref:`installation` activate
 
 .. code-block:: python
 
-    >>> import spike2py as sp
-    >>> tutorial = sp.demo.tutorial_data()
+    >>> import spike2py as s2p
+    >>> tutorial = s2p.demo.tutorial_data()
 
 Part 2. Inspect the tutorial dataset
 ------------------------------------
@@ -34,8 +34,8 @@ This will show you the various attributes and methods that belong to `tutorial`.
 
 .. code-block:: python
 
-   >>> import spike2py as sp
-   >>> tutorial = sp.demo.tutorial_data()
+   >>> import spike2py as s2p
+   >>> tutorial = s2p.demo.tutorial_data()
    >>> tutorial.
    tutorial.Co2       tutorial.Flow      tutorial.Mu2       tutorial.channels  tutorial.plot(
    tutorial.Dia_Smu   tutorial.Mu1       tutorial.Volume    tutorial.info      tutorial.save(
@@ -160,7 +160,7 @@ Now let's delete the `tutorial` object from our Python session to simulate the n
 
 .. code-block:: python
 
-   >>> tutorial = sp.trial.load(file='/home/martin/Desktop/data/tutorial.pkl')
+   >>> tutorial = s2p.trial.load(file='/home/martin/Desktop/data/tutorial.pkl')
 
 That's it. We now have our tutorial trial where we left off. We can confirm this by plotting the entire trial again, noticing that the `Flow`, `Volume` and `Dia_Smu` are indeed processed.
 
