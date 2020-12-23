@@ -2,6 +2,5 @@
 *pyc
 venv
 env
-.docs/build/
 *.html
 *.rest.txt
