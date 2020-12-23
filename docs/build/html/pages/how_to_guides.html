@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How To Guides &mdash; spike2py 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Topic Guides" href="topic_guides.html" />
+    <link rel="prev" title="Tutorial" href="tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> spike2py
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#export-spike2-data-to-mat">Export Spike2 data to .mat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#import-mat-files-using-spike2py">Import .mat files using spike2py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provide-additional-inputs-to-trialinfo">Provide additional inputs to TrialInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#specify-channels-to-import">Specify channels to import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-a-trial-name-and-a-subject-id">Specify a trial name and a subject id</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-paths-to-save-figures-and-data">Specify paths to save figures and data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#apply-signal-processing-steps-to-waveform-channels">Apply signal processing steps to waveform channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-the-spike2py-test-suite">Run the <strong>spike2py</strong> test suite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-tests-to-spike2py">Add tests to <strong>spike2py</strong></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topic_guides.html">Topic Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference_guides.html">Reference Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">spike2py</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>How To Guides</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/pages/how_to_guides.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-guides">
+<h1>How To Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="export-spike2-data-to-mat">
+<span id="export"></span><h2>Export Spike2 data to .mat<a class="headerlink" href="#export-spike2-data-to-mat" title="Permalink to this headline">¶</a></h2>
+<p>Rather than read <cite>.smr</cite> files directly, <em>spike2py</em> reads <cite>.mat</cite> files exported from Spike2.</p>
+<p><em>spike2py</em> assumes that you used the default export settings when you exported your data. The process of exporting your data to <cite>.mat</cite> files is made simpler by running <a class="reference external" href="https://github.com/MartinHeroux/Spike2-batch-export-to-Matab">this Spike2 script</a>, which batch exports all <cite>.smr</cite> files from a given directory to <cite>.mat</cite> format.</p>
+</div>
+<div class="section" id="import-mat-files-using-spike2py">
+<span id="import"></span><h2>Import .mat files using spike2py<a class="headerlink" href="#import-mat-files-using-spike2py" title="Permalink to this headline">¶</a></h2>
+<p>With our Spike2 data exported to <cite>.mat</cite>, we are now ready to import our data into Python using <em>spike2py</em>. To do this we need two of the most important classes in <em>spike2py</em>: TrialInfo and Trial.</p>
+<p>The most basic way to import our data is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spike2py.trial</span> <span class="kn">import</span> <span class="n">TrialInfo</span><span class="p">,</span> <span class="n">Trial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;tutorial.mat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And now we have our data imported and accessible in the <cite>tutorial</cite> variable.</p>
+<p><strong>But what if my data is not in the same folder?</strong></p>
+<p>That is easy. We simply have to provide the full path to our file. For example, on Linux and Mac I would use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;/home/martin/Desktop/tutorial.mat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And on Windows I would use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;C:\Users\Martin\Desktop</span><span class="se">\t</span><span class="s1">utorial.mat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="provide-additional-inputs-to-trialinfo">
+<span id="pathinfo"></span><h2>Provide additional inputs to TrialInfo<a class="headerlink" href="#provide-additional-inputs-to-trialinfo" title="Permalink to this headline">¶</a></h2>
+<p><cite>TrialInfo</cite> requires that <cite>file</cite> be specified. If this is the only parameter that we provide, all other parameters will default to <cite>None</cite>. While this is fine if we are having a quick look at our data, we usually will want to specify a few more of the <cite>TrialInfo</cite> parameters.</p>
+<p>If we import <cite>TrialInfo</cite> and create an instance with no inputs, we get the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spike2py.trial</span> <span class="kn">import</span> <span class="n">TrialInfo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span>
+<span class="go">TrialInfo(</span>
+<span class="go">        file=None,</span>
+<span class="go">        channels=None,</span>
+<span class="go">        name=None,</span>
+<span class="go">        subject_id=None,</span>
+<span class="go">        path_save_figures=None,</span>
+<span class="go">        path_save_trial=None,</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+<p>If we pass inputs to <cite>TrialInfo</cite>, we might get something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span>
+<span class="go">TrialInfo(</span>
+<span class="go">        file=&#39;tremor_postural.mat&#39;,</span>
+<span class="go">        channels=[&#39;Flow&#39;, &#39;Co2&#39;],</span>
+<span class="go">        name=&#39;fatigue_50max&#39;,</span>
+<span class="go">        subject_id=&#39;sub001&#39;,</span>
+<span class="go">        path_save_figures=&#39;/home/martin/Desktop/figures&#39;,</span>
+<span class="go">        path_save_trial=&#39;/home/martin/Desktop/data&#39;,</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+<p>See the following sections for an explanation of each of these additional inputs and how they are used by <em>spike2py</em>.</p>
+<div class="section" id="specify-channels-to-import">
+<h3>Specify channels to import<a class="headerlink" href="#specify-channels-to-import" title="Permalink to this headline">¶</a></h3>
+<p>There may be times when we don’t want to import all available channels. We can specify the channels we want to import by passing a list of channel names to TrialInfo.</p>
+<p>For example, the following code imports only the <cite>Flow</cite>, and <cite>Co2</cite> channels from <cite>tutorial.mat</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spike2py.trial</span> <span class="kn">import</span> <span class="n">TrialInfo</span><span class="p">,</span> <span class="n">Trial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Flow&#39;</span><span class="p">,</span> <span class="s1">&#39;Co2&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;tutorial.mat&#39;</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="n">channels</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">channels</span>
+<span class="go">    [(&#39;Flow&#39;, &#39;waveform&#39;), (&#39;Co2&#39;, &#39;waveform&#39;)]</span>
+</pre></div>
+</div>
+<p>Note that we need to use the same spelling and capitalisation that we used in our Spike2 channel names.</p>
+</div>
+<div class="section" id="specify-a-trial-name-and-a-subject-id">
+<h3>Specify a trial name and a subject id<a class="headerlink" href="#specify-a-trial-name-and-a-subject-id" title="Permalink to this headline">¶</a></h3>
+<p>Depending on how we process our data and the additional files and figures we want to generate, it can be useful to have access to a human-readable trial name and the id of the subject from whom we collected the data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spike2py.trial</span> <span class="kn">import</span> <span class="n">TrialInfo</span><span class="p">,</span> <span class="n">Trial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sub_id</span> <span class="o">=</span> <span class="s1">&#39;sub001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_name</span> <span class="o">=</span> <span class="s1">&#39;fatigue_50max&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;tutorial.mat&#39;</span><span class="p">,</span>
+<span class="go">                           name=trial_name,</span>
+<span class="go">                           subject_id=subject_id)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span>
+<span class="go">    &#39;fatigue_50max&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">subject_id</span>
+<span class="go">    &#39;sub001;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specify-paths-to-save-figures-and-data">
+<h3>Specify paths to save figures and data<a class="headerlink" href="#specify-paths-to-save-figures-and-data" title="Permalink to this headline">¶</a></h3>
+<p>By default, if we generate figures or save (i.e. pickle) our data, these will be stored in <cite>figures</cite> and <cite>data</cite> folders created in the folder that contains the <cite>.mat</cite> file we passed to <cite>TrialInfo</cite>. However, we can specify a folder for one or both of these. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">spike2py.trial</span> <span class="kn">import</span> <span class="n">TrialInfo</span><span class="p">,</span> <span class="n">Trial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_save_figures</span><span class="o">=</span><span class="s1">&#39;/home/martin/Desktop/nice_figures&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path_save_trial</span> <span class="o">=</span> <span class="s1">&#39;/home/martin/Documents/vault&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;tutorial.mat&#39;</span><span class="p">,</span>
+<span class="go">                           path_save_figures=path_to_figures,</span>
+<span class="go">                               path_save_trial=path_save_trial</span>
+<span class="go">                               )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_figures</span>
+<span class="go">    PosixPath(&#39;/home/martin/Desktop/nice_figures&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_trial</span>
+<span class="go">    PosixPath(&#39;/home/martin/Documents/vault&#39;)</span>
+</pre></div>
+</div>
+<p>The <cite>PosixPath</cite> part of the return value reflects the fact that <em>spike2py</em> uses <a class="reference external" href="https://docs.python.org/3/library/pathlib.html">pathlib</a> to create and manage paths.</p>
+</div>
+</div>
+<div class="section" id="apply-signal-processing-steps-to-waveform-channels">
+<h2>Apply signal processing steps to waveform channels<a class="headerlink" href="#apply-signal-processing-steps-to-waveform-channels" title="Permalink to this headline">¶</a></h2>
+<p>With <strong>spike2py</strong>, we can process our waveform signals with relative ease. While not all forms of signal processing are included, most of the common ones are.</p>
+<p>As was demonstrated in the <a class="reference internal" href="tutorials.html#tutorial"><span class="std std-ref">Tutorial</span></a>, signal processing steps can be chained together. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tutorial</span><span class="o">.</span><span class="n">Flow</span><span class="o">.</span><span class="n">remove_mean</span><span class="p">()</span><span class="o">.</span><span class="n">lowpass</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">rect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And in case we want to compare processed and unprocessed data, or have them available for plotting, <strong>spike2py</strong> automatically creates a copy of the data and assigns it an informative name prior to applying each signal processing step.</p>
+<p>Let’s consider the processing we just applied to the <cite>Flow</cite> channel of the tutorial trial. When we first start, there is a <cite>values</cite> attribute and a <cite>raw_values</cite> attribute, and these are the same.</p>
+<a class="reference internal image-reference" href="../_images/Flow_1.png"><img alt="../_images/Flow_1.png" class="align-center" src="../_images/Flow_1.png" style="width: 500px;" /></a>
+<p>However, each signal processing step updates <cite>values</cite>. That is, <cite>values</cite> is always the most current version of our waveform signal.</p>
+<p>At the same time, we might want to access the original raw signal. This is available in <cite>raw_values</cite>. Similarly, we have access to our waveform at each step of the processing pipeline. <strong>spike2py</strong> creates a copy of the waveform at each processing step and adds it as an attribute to the channel. This is done when we apply signal processing steps one at a time or all together as part of a chain. The names of these attributes all start with <cite>proc_</cite>. For example, here is what is available after we apply the processing pipeline from above:</p>
+<a class="reference internal image-reference" href="../_images/Flow_2.png"><img alt="../_images/Flow_2.png" class="align-center" src="../_images/Flow_2.png" style="width: 500px;" /></a>
+<p>Below is a list of the available signal processing steps. Click on their names to be taken to their full documentation.</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.remove_mean" title="spike2py.sig_proc.SignalProcessing.remove_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">remove_mean()</span></code></a>: Subtract mean of first n samples (default is all samples)</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.remove_value" title="spike2py.sig_proc.SignalProcessing.remove_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">remove_value()</span></code></a>: Subtracts a value (e.g. an offset)</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.lowpass" title="spike2py.sig_proc.SignalProcessing.lowpass"><code class="xref py py-func docutils literal notranslate"><span class="pre">lowpass()</span></code></a>: Apply dual-pass Butterworth lowpass filter</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.highpass" title="spike2py.sig_proc.SignalProcessing.highpass"><code class="xref py py-func docutils literal notranslate"><span class="pre">highpass()</span></code></a>: Apply dual-pass Butterworth highpass filter</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.bandpass" title="spike2py.sig_proc.SignalProcessing.bandpass"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandpass()</span></code></a>: Apply dual-pass Butterworth bandpass filter</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.bandstop" title="spike2py.sig_proc.SignalProcessing.bandstop"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandstop()</span></code></a>: Apply dual-pass Butterworth bandstop filter</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.calibrate" title="spike2py.sig_proc.SignalProcessing.calibrate"><code class="xref py py-func docutils literal notranslate"><span class="pre">calibrate()</span></code></a>: Calibrate using linear formula y=slope*x+offset, providing <cite>slope</cite> and <cite>offset</cite> values</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.norm_percentage" title="spike2py.sig_proc.SignalProcessing.norm_percentage"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_percentage()</span></code></a>: Normalise data to be between 0-100%</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.norm_proportion" title="spike2py.sig_proc.SignalProcessing.norm_proportion"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_proportion()</span></code></a>: Normalize data to be between 0-1</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.norm_percent_value" title="spike2py.sig_proc.SignalProcessing.norm_percent_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_percent_value()</span></code></a>: Normalise data to a percentage of a provided value</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.rect" title="spike2py.sig_proc.SignalProcessing.rect"><code class="xref py py-func docutils literal notranslate"><span class="pre">rect()</span></code></a>: Rectify data.</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.interp_new_times" title="spike2py.sig_proc.SignalProcessing.interp_new_times"><code class="xref py py-func docutils literal notranslate"><span class="pre">interp_new_times()</span></code></a>: Interpolate datato a new time axis</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.interp_new_fs" title="spike2py.sig_proc.SignalProcessing.interp_new_fs"><code class="xref py py-func docutils literal notranslate"><span class="pre">interp_new_fs()</span></code></a>: Interpolate datato a new sampling frequency</p>
+<p><a class="reference internal" href="reference_guides.html#spike2py.sig_proc.SignalProcessing.linear_detrend" title="spike2py.sig_proc.SignalProcessing.linear_detrend"><code class="xref py py-func docutils literal notranslate"><span class="pre">linear_detrend()</span></code></a>: Remove linear trend from data</p>
+</div>
+<div class="section" id="run-the-spike2py-test-suite">
+<h2>Run the <strong>spike2py</strong> test suite<a class="headerlink" href="#run-the-spike2py-test-suite" title="Permalink to this headline">¶</a></h2>
+<p>In order to run the <strong>spike2py</strong> testing suite, you will have to get the full <strong>spike2py</strong> from
+<a class="reference external" href="https://github.com/MartinHeroux/spike2py">GitHub</a>. You will also need to ensure you have the various requirements needed to run <strong>spike2py</strong>,
+pytest, and the <a class="reference external" href="https://pypi.org/project/pytest-mpl/">pytest-mpl</a> plugin for pytest. All these packages and plugins are available
+on Pypi and can be installed using pip.</p>
+<p><cite>pytest-mpl</cite> is a plugin that can be used to test figures that are generated with <a class="reference external" href="https://matplotlib.org/">matplotlib</a>.</p>
+<p>To run the full suite of tests and return the code coverage, run the following command from the root directory of the <strong>spike2py</strong>
+package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pytest --mpl --cov<span class="o">=</span>spike2py tests/
+</pre></div>
+</div>
+<p>If you want to run all tests, except those that generate figures, you can run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pytest -m <span class="s1">&#39;not fig_gen&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-tests-to-spike2py">
+<h2>Add tests to <strong>spike2py</strong><a class="headerlink" href="#add-tests-to-spike2py" title="Permalink to this headline">¶</a></h2>
+<p>If you have added some features to <strong>spike2py</strong>, please add tests that cover the new code.</p>
+<p>All test files are located in the <cite>tests</cite> folder in the root directory of the <strong>spike2py</strong> package.</p>
+<p>If your new feature was added to an existing module, please add your tests to the file named
+<cite>test_&lt;module_name&gt;.py</cite>. For example, if you added something to the <cite>trial.py</cite> module, your test(s)
+should go in <cite>test_trial.py</cite>.</p>
+<p>Any new fixtures can be added to the <cite>conftest.py</cite> file.</p>
+<p>If your tests need to access a <cite>.mat</cite> file, it can be added to the <cite>payloads</cite> directory located within the <cite>tests</cite> directory. Similarly, if your test generates a new figure, please follow the
+instructions in the <a class="reference external" href="https://github.com/matplotlib/pytest-mpl">README.md</a> file of pytest-mpl.</p>
+<p>Briefly, create a test that generates a figure and return it. In most cases, you will need to
+return <cite>plt.gcf()</cite>. For example, here is the first test from <cite>test_figures.py</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">fig_gen</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">mpl_image_compare</span><span class="p">(</span><span class="n">baseline_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;baseline&quot;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_waveform</span><span class="p">(</span><span class="n">physiology_data</span><span class="p">):</span>
+    <span class="n">trial_info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span><span class="n">physiology_data</span><span class="p">)</span>
+    <span class="n">physiology</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+    <span class="n">physiology</span><span class="o">.</span><span class="n">Abdo</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After adding your new test, you will need to run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pytest --mpl-generate-path<span class="o">=</span>tests/baseline
+</pre></div>
+</div>
+<p>This assumes you are running this command from the root directory of the <strong>spike2py</strong> package.
+It will generate and save the figure in the <cite>baseline</cite> directory. This is where all reference figures used to test <strong>spike2py</strong> are stored.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topic_guides.html" class="btn btn-neutral float-right" title="Topic Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tutorials.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Martin Heroux
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
