@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>spike2py.trial &mdash; spike2py 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> spike2py
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/first_steps.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/tutorials.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/how_to_guides.html">How To Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/topic_guides.html">Topic Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/reference_guides.html">Reference Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">spike2py</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>spike2py.trial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for spike2py.trial</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">spike2py</span> <span class="kn">import</span> <span class="n">channels</span><span class="p">,</span> <span class="n">read</span><span class="p">,</span> <span class="n">plot</span>
+
+
+<span class="n">CHANNEL_GENERATOR</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;event&quot;</span><span class="p">:</span> <span class="n">channels</span><span class="o">.</span><span class="n">Event</span><span class="p">,</span>
+    <span class="s2">&quot;keyboard&quot;</span><span class="p">:</span> <span class="n">channels</span><span class="o">.</span><span class="n">Keyboard</span><span class="p">,</span>
+    <span class="s2">&quot;waveform&quot;</span><span class="p">:</span> <span class="n">channels</span><span class="o">.</span><span class="n">Waveform</span><span class="p">,</span>
+    <span class="s2">&quot;wavemark&quot;</span><span class="p">:</span> <span class="n">channels</span><span class="o">.</span><span class="n">Wavemark</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="TrialInfo"><a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.trial.TrialInfo">[docs]</a><span class="k">class</span> <span class="nc">TrialInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Information about trial</span>
+
+<span class="sd">    See :class:`spike2py.trial.Trial` parameters for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">subject_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">path_save_figures</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">path_save_trial</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;TrialInfo(</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">file=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">channels=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">name=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">subject_id=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject_id</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">path_save_figures=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_save_figures</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">path_save_trial=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_save_trial</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;)&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Trial"><a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.trial.Trial">[docs]</a><span class="k">class</span> <span class="nc">Trial</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class for experimental trial recorded using Spike2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trial_info : NamedTuple</span>
+<span class="sd">        file : pathlib.Path, str</span>
+<span class="sd">            Absolute path to data file. Only .mat files supported</span>
+<span class="sd">        channels : List[str]</span>
+<span class="sd">            List of channel names, as they appeared in the original .smr file</span>
+<span class="sd">            Example: [&#39;biceps&#39;, &#39;triceps&#39;, &#39;torque&#39;]</span>
+<span class="sd">            If not included, all channels will be processed</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Descriptive name for trial; defaults to filename</span>
+<span class="sd">        subject_id : str</span>
+<span class="sd">            Subject&#39;s study identifier</span>
+<span class="sd">        path_save_figures : pathlib.Path</span>
+<span class="sd">            Path where trial and channel figures are to be saved</span>
+<span class="sd">            Defaults to new &#39;figures&#39; folder where .mat was retrieved</span>
+<span class="sd">        path_save_trial : pathlib.Path</span>
+<span class="sd">            Path where trial data to be saved</span>
+<span class="sd">            Defaults to new &#39;data&#39; folder where .mat was retrieved</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trial_info : NamedTuple</span>
+<span class="sd">        Same as parameter</span>
+<span class="sd">    channels : List[Tuple[str, str]]</span>
+<span class="sd">        Pairs of channel names and channel types.</span>
+<span class="sd">        For example: [(&#39;Torque&#39;, &#39;waveform&#39;), (&#39;Trigger&#39;, &#39;event&#39;)]</span>
+<span class="sd">    &lt;Channels&gt; : channels.Channel</span>
+<span class="sd">        Each channel appears with its name as an attribute.</span>
+<span class="sd">        For example: trial1.Torque</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If parameter `info.file` is not a valid full path to a data file</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_info</span><span class="p">:</span> <span class="n">TrialInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">trial_info</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;info must include a valid full path to a data file.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_defaults_to_trial_info</span><span class="p">(</span><span class="n">trial_info</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parse_trial_data</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">channel_text</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">channel_name</span><span class="p">,</span> <span class="n">channel_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span>
+            <span class="n">channel_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="si">{</span><span class="n">channel_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">channel_type</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">channel_info</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">channel_text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">file = </span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">as_uri</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">subject_id = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">subject_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">path_save_figures = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_figures</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">path_save_trial = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_trial</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">channels </span><span class="si">{</span><span class="n">channel_info</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_defaults_to_trial_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_info</span><span class="p">:</span> <span class="n">TrialInfo</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">trial_info</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">trial_info</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="n">trial_info</span><span class="o">.</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
+        <span class="n">subject_id</span> <span class="o">=</span> <span class="n">trial_info</span><span class="o">.</span><span class="n">subject_id</span> <span class="k">if</span> <span class="n">trial_info</span><span class="o">.</span><span class="n">subject_id</span> <span class="k">else</span> <span class="s2">&quot;sub&quot;</span>
+        <span class="n">path_save_figures</span> <span class="o">=</span> <span class="n">_check_make_path</span><span class="p">(</span>
+            <span class="n">path_to_check</span><span class="o">=</span><span class="n">trial_info</span><span class="o">.</span><span class="n">path_save_figures</span><span class="p">,</span>
+            <span class="n">path_to_make</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">trial_info</span><span class="o">.</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;figures&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">path_save_trial</span> <span class="o">=</span> <span class="n">_check_make_path</span><span class="p">(</span>
+            <span class="n">path_to_check</span><span class="o">=</span><span class="n">trial_info</span><span class="o">.</span><span class="n">path_save_trial</span><span class="p">,</span>
+            <span class="n">path_to_make</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">trial_info</span><span class="o">.</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">TrialInfo</span><span class="p">(</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">trial_info</span><span class="o">.</span><span class="n">file</span><span class="p">,</span>
+            <span class="n">channels</span><span class="o">=</span><span class="n">trial_info</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">subject_id</span><span class="o">=</span><span class="n">subject_id</span><span class="p">,</span>
+            <span class="n">path_save_figures</span><span class="o">=</span><span class="n">path_save_figures</span><span class="p">,</span>
+            <span class="n">path_save_trial</span><span class="o">=</span><span class="n">path_save_trial</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_trial_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">trial_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_trial_data</span><span class="p">()</span>
+        <span class="n">channel_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">channel_names</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;ch_type&quot;</span><span class="p">]))</span>
+            <span class="n">value</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_figures</span>
+            <span class="n">value</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">value</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">subject_id</span>
+            <span class="nb">setattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                <span class="n">CHANNEL_GENERATOR</span><span class="p">[</span><span class="n">value</span><span class="p">[</span><span class="s2">&quot;ch_type&quot;</span><span class="p">]](</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">channel_names</span>
+
+    <span class="k">def</span> <span class="nf">_import_trial_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">read</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Trial.save"><a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.trial.Trial.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save trial</span>
+
+<span class="sd">        Trial will be saved (pickled) to `info.path_save_trial` as info.name + &#39;.pkl&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_trial</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_trial</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+        <span class="n">pickle_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">path_save_trial</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.pkl&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_check_make_path</span><span class="p">(</span><span class="n">path_to_check</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">path_to_make</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">path_to_check</span><span class="p">:</span>
+        <span class="n">path_to_check</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_check</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path_to_check</span> <span class="o">=</span> <span class="n">path_to_make</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path_to_check</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">path_to_check</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path_to_check</span>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.trial.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Trial</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load saved (pickled) trial</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file: pathlib.Path, str</span>
+<span class="sd">        Full path and file name to pickled file.</span>
+<span class="sd">        For example: &#39;/home/tammy/Desktop/trial1.pkl`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Trial</span>
+<span class="sd">        Instance of Trial class that was previously saved</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">trial_file</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">trial_file</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Martin Heroux
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
