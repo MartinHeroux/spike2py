@@ -156,11 +156,14 @@ Our pickled data would be located here:
 
    `/home/martin/Desktop/data/tutorial.pkl`
 
-Now let's delete the `tutorial` object from our Python session to simulate the next the next time we sit down to continue our work.
+For this tutorial, the dataset is located in a temporary directory. Now let's reload the `tutorial` object from our Python session to simulate the next the next time we sit down to continue our work.
 
 .. code-block:: python
 
-   >>> tutorial = s2p.trial.load(file='/home/martin/Desktop/data/tutorial.pkl')
+   >>> from pathlib import Path
+   >>> tutorial = s2p.trial.load(file=Path('.' /
+                    tutorial.info.path_save_trial /
+                    tutorial.info.name).with_suffix('.pkl'))
 
 That's it. We now have our tutorial trial where we left off. We can confirm this by plotting the entire trial again, noticing that the `Flow`, `Volume` and `Dia_Smu` are indeed processed.
 
