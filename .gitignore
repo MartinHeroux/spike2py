@@ -3,3 +3,6 @@
 venv
 env
 *.rest.txt
+_build
+_static
+_templates
