@@ -7,10 +7,6 @@ HERE = pathlib.Path(__file__).parent
 # The text of the README file
 README = (HERE / "README.md").read_text()
 
-docs_extras = [
-    'Sphinx >= 3.0.0',
-    'docutils',
-]
 
 # This call to setup() does all the work
 setup(
@@ -31,5 +27,5 @@ setup(
     include_package_data=False,
     install_requires=["numpy>=1.19.1", "scipy>=1.5.2", "matplotlib>=3.3.1"],
     tests_require=["pytest>=6.0.1", "pytest-cov>=2.10.1", "pytest-mpl>= 0.11"],
-    extras_require={'docs': docs_extras}
+    extras_require={':python_version == "3.8"'},
 )
