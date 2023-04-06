@@ -6,7 +6,7 @@ Installation
 Create a virtual environment
 ----------------------------
 
-spike2py works with `Python 3.8`_. It is recommended you create a dedicated `Python environment`_ before you install spike2py. In your project directory, run the following commands:
+spike2py works with `Python 3.8 or above`_. It is recommended you create a dedicated `Python environment`_ before you install spike2py. In your project directory, run the following commands:
 
 .. code-block:: bash
 

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: spike2py
-Version: 0.1.1
+Version: 0.1.11
 Summary: Import, parse and process data collected with Spike2
 Home-page: https://github.com/MartinHeroux/spike2py
 Author: Martin Héroux

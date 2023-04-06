@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="spike2py",
-    version="0.1.1",
+    version="0.1.0",
     description="Import, parse and process data collected with Spike2",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -24,6 +24,6 @@ setup(
     ],
     packages=["spike2py"],
     include_package_data=False,
-    install_requires=["numpy==1.19.1", "scipy==1.5.2", "matplotlib==3.3.1"],
-    tests_require=["pytest==6.0.1", "pytest-cov==2.10.1", "pytest-mpl==0.11"]
+    install_requires=["numpy>=1.19.1", "scipy>=1.5.2", "matplotlib>=3.3.1"],
+    tests_require=["pytest>=6.0.1", "pytest-cov>=2.10.1", "pytest-mpl>= 0.11"]
 )
