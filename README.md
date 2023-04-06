@@ -37,7 +37,7 @@ Introductory tutorials, how-to's and other useful documentation are available on
 $ python -m pip install spike2py
 ```
 
-**spike2py** officially supports Python 3.8+.
+**spike2py** officially supports Python 3.8.
 
 ## Contributing
 
