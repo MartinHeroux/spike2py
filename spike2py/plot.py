@@ -2,8 +2,6 @@ from typing import Literal, Tuple
 
 import numpy as np
 import matplotlib
-from matplotlib.axes._subplots import Subplot
-
 import matplotlib.pyplot as plt
 
 
@@ -77,7 +75,7 @@ def _get_color(index: int) -> str:
 
 def _plot_waveform(
     waveform: "channels.Waveform",
-    ax: Subplot,
+    ax: plt.Axes,
     color: str = _get_color(0),
 ) -> None:
     ax.plot(waveform.times, waveform.values, label=waveform.info.name, color=color)
@@ -130,7 +128,7 @@ class _TicksLine:
         self.line_y_vals = (0.5 + y_offset, 0.5 + y_offset)
         self.tick_y_vals = (0.2 + y_offset, 0.8 + y_offset)
 
-    def plot(self, ax: Subplot):
+    def plot(self, ax: plt.Axes):
         if isinstance(ax, np.ndarray):
             ax1 = ax[0]
             ax2 = ax[1]
@@ -148,7 +146,7 @@ class _TicksLine:
 
         plt.tight_layout()
 
-    def _plot_ticks_line(self, ax1: Subplot):
+    def _plot_ticks_line(self, ax1: plt.Axes):
         for time in self.ch.times:
             ax1.plot(
                 (time, time), self.tick_y_vals, linewidth=LINE_WIDTH, color=self.color
@@ -161,19 +159,19 @@ class _TicksLine:
             color=self.color,
         )
 
-    def _plot_codes(self, ax1: Subplot):
+    def _plot_codes(self, ax1: plt.Axes):
         for time, code in zip(self.ch.times, self.ch.codes):
             ax1.text(
                 time, self.tick_y_vals[1] + 0.2, code, color=self.color, fontsize=10
             )
 
-    def _plot_action_potentials(self, ax2: Subplot):
+    def _plot_action_potentials(self, ax2: plt.Axes):
         for action_potential in self.ch.action_potentials:
             ax2.plot(action_potential, color=self.color, alpha=0.5)
         ax2.get_yaxis().set_visible(False)
         ax2.get_xaxis().set_visible(False)
 
-    def _finalise_plot(self, ax1: Subplot):
+    def _finalise_plot(self, ax1: plt.Axes):
         ax1.legend(loc=LEGEND_LOC)
         ax1.set_xlabel("time (s)")
         ax1.get_yaxis().set_visible(False)
@@ -223,7 +221,7 @@ def _fig_height_n_subplots(spike2py_trial: "trial.Trial") -> Tuple[int, int]:
     return fig_height, n_subplots
 
 
-def _plot_trial(spike2py_trial: "trial.Trial", ax: Subplot):
+def _plot_trial(spike2py_trial: "trial.Trial", ax: plt.Axes):
     waveform_counter = 1
     other_ch_counter = 0
     n_subplots = len(ax)
