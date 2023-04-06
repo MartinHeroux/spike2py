@@ -1,11 +1,12 @@
 Metadata-Version: 2.1
 Name: spike2py
-Version: 0.1.11
+Version: 0.1.13
 Summary: Import, parse and process data collected with Spike2
 Home-page: https://github.com/MartinHeroux/spike2py
 Author: Martin Héroux
 Author-email: heroux.martin@gmail.com
 License: GNU General Public License v3 or later (GPLv3+)
+Platform: UNKNOWN
 Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
 Classifier: Programming Language :: Python :: 3.8
 Description-Content-Type: text/markdown
@@ -50,7 +51,7 @@ Introductory tutorials, how-to's and other useful documentation are available on
 $ python -m pip install spike2py
 ```
 
-**spike2py** officially supports Python 3.8.
+**spike2py** officially supports Python 3.8+.
 
 ## Contributing
 
@@ -63,3 +64,5 @@ This project adheres to the Contributor Covenant code of conduct. By participati
 ## License
 
 [GPLv3](./LICENSE)
+
+
