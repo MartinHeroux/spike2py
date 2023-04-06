@@ -24,6 +24,6 @@ setup(
     ],
     packages=["spike2py"],
     include_package_data=False,
-    install_requires=["numpy>=1.19.1", "scipy>=1.5.2", "matplotlib>=3.3.1"],
-    tests_require=["pytest>=6.0.1", "pytest-cov>=2.10.1", "pytest-mpl>= 0.11"]
+    install_requires=["numpy==1.19.1", "scipy==1.5.2", "matplotlib==3.3.1"],
+    tests_require=["pytest==6.0.1", "pytest-cov==2.10.1", "pytest-mpl==0.11"]
 )
