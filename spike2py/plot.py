@@ -182,7 +182,7 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
     fig_height, n_subplots = _fig_height_n_subplots(spike2py_trial)
     if n_subplots == 1:
         print(
-            f"The trial `{spike2py_trial.name}` has only one plottable channel."
+            f"The trial `{spike2py_trial.info.name}` has only one plottable channel."
             "\nPlease use `trial_name.ch_name.plot()` instead."
         )
     fig, ax = plt.subplots(
@@ -193,7 +193,7 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
     )
     _plot_trial(spike2py_trial, ax)
     if save:
-        _save_plot(spike2py_trial.name)
+        _save_plot(spike2py_trial.info.name)
 
 
 def _fig_height_n_subplots(spike2py_trial: "trial.Trial") -> Tuple[int, int]:
