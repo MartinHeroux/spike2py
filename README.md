@@ -39,6 +39,11 @@ $ python -m pip install spike2py
 
 **spike2py** officially supports Python 3.8+.
 
+## Caveat
+**spike2py** works with Matlab files exported from Spike2 v7, or any other Spike2 version that exports to Matlab 5.0 format.
+Spike2 v10 exports files to Matlab 7.3 format, which is currently not supported by **spike2py**.
+The ability to open both Matlab file formats will be added in future version of **spike2py**.
+
 ## Contributing
 
 Like this project? Want to help? We would love to have your contribution! Please see [CONTRIBUTING](CONTRIBUTING.md) to get started.

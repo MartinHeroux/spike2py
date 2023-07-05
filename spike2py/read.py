@@ -10,6 +10,7 @@ from spike2py.types import (
     parsed_wavemark,
     parsed_waveform,
     parsed_event,
+    parsed_textmark,
     parsed_keyboard,
     parsed_spike2py_data,
     parsed_mat_data,
@@ -18,6 +19,7 @@ from spike2py.types import (
 CHANNEL_DATA_LENGTH: Final = {
     "event": 5,
     "keyboard": 6,
+    "textmark": 8,
     "waveform": 10,
     "wavemark": 14,
 }
@@ -104,6 +106,7 @@ def _parse_mat_data(mat_data: mat_data) -> parsed_mat_data:
     """
     parser_lookup = {
         CHANNEL_DATA_LENGTH["event"]: _parse_mat_events,
+        CHANNEL_DATA_LENGTH["textmark"]: _parse_mat_textmark,
         CHANNEL_DATA_LENGTH["keyboard"]: _parse_mat_keyboard,
         CHANNEL_DATA_LENGTH["waveform"]: _parse_mat_waveform,
         CHANNEL_DATA_LENGTH["wavemark"]: _parse_mat_wavemark,
@@ -160,6 +163,28 @@ def _parse_mat_keyboard(mat_keyboard: np.ndarray) -> parsed_keyboard:
         "codes": characters,
         "times": _flatten_array(mat_keyboard["times"]),
         "ch_type": "keyboard",
+    }
+
+
+def _parse_mat_textmark(mat_textmark: np.ndarray) -> parsed_textmark:
+    """Parse textmark ('Memory') channel data as exported by Spike2 to .mat
+
+    Parameters
+    ----------
+    mat_textmark
+         Deeply nested array containing keyboard channel data and metadata.
+
+    Returns
+    -------
+    dict
+        Data from textmark channel.
+    """
+
+    codes = list(mat_textmark['text'][0][0])
+    return {
+        "codes": codes,
+        "times": _flatten_array(mat_textmark["times"]),
+        "ch_type": "textmark",
     }
 
 
