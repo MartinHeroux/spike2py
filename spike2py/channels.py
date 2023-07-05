@@ -9,6 +9,7 @@ import spike2py.sig_proc as sig_proc
 from spike2py.types import (
     parsed_wavemark,
     parsed_waveform,
+    parsed_textmark,
     parsed_event,
     parsed_keyboard,
 )
@@ -136,6 +137,51 @@ class Keyboard(Channel):
         ----------
         save
             Set to `True` to save Keyboard figure to `path_save_figures`
+        """
+
+        plot.plot_channel(self, save=save)
+        return self
+
+
+class Textmark(Channel):
+    """Textmark channel class
+
+    Inherits from Channel
+
+    Parameters
+    ----------
+    name
+        Name of textmark channel; default is 'Memory'
+    data_dict:
+        - ['path_save_figures']: Path - Directory where channel figure saved
+        - ['trial_name']: str - Name of trial where Keyboard was recorded
+        - ['subject_id']: str - Identifier
+        - ['times']: np.ndarray - Event times in seconds
+        - ['codes']: np.ndarray of str associated with keyboard events
+    """
+
+    def __init__(self, name: str, data_dict: parsed_textmark) -> None:
+        self.codes = data_dict["codes"]
+        super().__init__(
+            ChannelInfo(
+                name=name,
+                path_save_figures=data_dict["path_save_figures"],
+                trial_name=data_dict["trial_name"],
+                subject_id=data_dict["subject_id"],
+            ),
+            data_dict["times"],
+        )
+
+    def __repr__(self) -> str:
+        return "Textmark channel"
+
+    def plot(self, save: Literal[True, False] = False) -> None:
+        """Save Textmark channel figure
+
+        Parameters
+        ----------
+        save
+            Set to `True` to save Textmark figure to `path_save_figures`
         """
 
         plot.plot_channel(self, save=save)

@@ -8,6 +8,7 @@ from spike2py import channels, read, plot
 CHANNEL_GENERATOR = {
     "event": channels.Event,
     "keyboard": channels.Keyboard,
+    "textmark": channels.Textmark,
     "waveform": channels.Waveform,
     "wavemark": channels.Wavemark,
 }
