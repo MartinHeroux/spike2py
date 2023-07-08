@@ -21,6 +21,24 @@ def test_read_with_channels_smoke_test(payload_dir):
     assert actual == ["Flex", "Ext", "Angle"]
 
 
+def test_read_missing_mat_file(payload_dir, capsys):
+    file = payload_dir / "tremor_kenetic.mat"
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        data = read.read(file)
+    captured = capsys.readouterr()
+    assert pytest_wrapped_e.type == SystemExit
+    assert pytest_wrapped_e.value.code == 1
+    assert captured.out == (
+        (
+            (
+                "File "
+                "/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/tests/payloads/tremor_kenetic.mat "
+                "not found. Please verify path and file name and try again.\n"
+            )
+        )
+    )
+
+
 def test_exit_code_no_smr_file(payload_dir):
     file = payload_dir / "tremor_kinetic.smr"
     with pytest.raises(

@@ -243,7 +243,7 @@ def _remove_files_in_folder_in_payloads_dir(folder):
 def trial_info_dict():
     yield {
         "file": PATH_TO_MAT_FILES[1],
-        "channels": ["K_angle", "K_torque", "Prox_EMG"],
+        "channels": ["k_angle", "k_torque", "prox_EMG"],
         "name": "TREMOR",
         "subject_id": "ET01",
         "path_save_figures": PAYLOADS_DIR / "trial_figures",
@@ -251,6 +251,21 @@ def trial_info_dict():
     }
     _remove_files_in_folder_in_payloads_dir(folder="trial_figures")
     _remove_files_in_folder_in_payloads_dir(folder="study_data")
+
+
+@pytest.fixture()
+def trial_info_dict_channel_error():
+    yield {
+        "file": PATH_TO_MAT_FILES[1],
+        "channels": ["K_angle", "k_torque", "prox_EMG"],
+        "name": "TREMOR",
+        "subject_id": "ET01",
+        "path_save_figures": PAYLOADS_DIR / "trial_figures",
+        "path_save_trial": PAYLOADS_DIR / "study_data",
+    }
+    _remove_files_in_folder_in_payloads_dir(folder="trial_figures")
+    _remove_files_in_folder_in_payloads_dir(folder="study_data")
+
 
 
 @pytest.fixture()

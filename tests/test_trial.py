@@ -27,6 +27,26 @@ def test_trial_init_fully_loaded(trial_info_dict):
     assert trial1.info.path_save_trial == trial_info_dict["path_save_trial"]
 
 
+def test_trial_init_fully_loaded_channel_error_sys_exit(trial_info_dict_channel_error, capsys):
+    info = trial.TrialInfo(**trial_info_dict_channel_error)
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        trial1 = trial.Trial(info)
+    captured = capsys.readouterr()
+    assert pytest_wrapped_e.type == SystemExit
+    assert pytest_wrapped_e.value.code == 1
+    assert captured.out == (
+        ('Channel K_angle does not exist in typing.Dict[str, numpy.ndarray]. \n'
+ 'Available channels include:\n'
+ '\n'
+ 'prox_EMG\n'
+ 'dist_EMG\n'
+ 'k_angle\n'
+ 'k_torque\n'
+ 'Trig\n'
+ 'Keyboard\n')
+    )
+
+
 @pytest.mark.parametrize("channel", ["Flex", "Ext", "Angle", "Triangle", "Keyboard"])
 def test_trial_init_channels_present(trial_default, channel):
     info = trial.TrialInfo(file=trial_default)

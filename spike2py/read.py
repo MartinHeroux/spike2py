@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 import textwrap
 from typing import List, Final
@@ -81,12 +82,27 @@ def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
         Requested channels with channel names as `keys` and deeply nested
         arrays containing channel data as `values`.
     """
-    data: dict = sio.loadmat(mat_file)
+    try:
+        data: dict = sio.loadmat(mat_file)
+    except:
+        print(f'File {mat_file} not found. Please verify path and file name and try again.')
+        sys.exit(1)
+    all_channels = [data_key for data_key in data.keys() if not data_key.startswith("__")]
     if channels is None:
-        channels = [
-            data_key for data_key in data.keys() if not data_key.startswith("__")
-        ]
+        channels = all_channels
+    else:
+        _verify_channels_exists(channels, all_channels, mat_data)
     return {key: value for (key, value) in data.items() if key in channels}
+
+
+def _verify_channels_exists(channels, all_channels, mat_file):
+    for channel in channels:
+        if channel not in all_channels:
+            print(f"Channel {channel} does not exist in {mat_file}. \n"
+                  f"Available channels include:\n")
+            for ch in all_channels:
+                print(ch)
+            sys.exit(1)
 
 
 def _parse_mat_data(mat_data: mat_data) -> parsed_mat_data:
