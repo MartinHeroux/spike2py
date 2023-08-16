@@ -251,7 +251,7 @@ def _parse_mat_waveform(mat_waveform: np.ndarray) -> parsed_waveform:
         "times": times[:shortest_array],
         "units": units,
         "values": values[:shortest_array],
-        "sampling_frequency": int(1 / _flatten_array(mat_waveform["interval"])),
+        "sampling_frequency": int(1 / _flatten_array(mat_waveform["interval"])[0]),
         "ch_type": "waveform",
     }
 
