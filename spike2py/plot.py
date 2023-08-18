@@ -88,13 +88,20 @@ def _plot_waveform(
 
 
 def _save_plot(channel_info: "channels.ChannelInfo") -> None:
-    fig_name = (
+    print(channel_info)
+    try:
+        fig_name = (
         f"{channel_info.subject_id}_"
         f"{channel_info.trial_name}_"
         f"{channel_info.name}.png"
-    )
+        )
+    except AttributeError:
+            fig_name = (
+                f"{channel_info.subject_id}_"
+                f"{channel_info.name}.png"
+            )
     fig_path = channel_info.path_save_figures / fig_name
-    plt.savefig(fig_path)
+    plt.savefig(fig_path, dpi=300)
     plt.close()
 
 
@@ -195,7 +202,7 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
     )
     _plot_trial(spike2py_trial, ax)
     if save:
-        _save_plot(spike2py_trial.info.name)
+        _save_plot(spike2py_trial.info)
 
 
 def _fig_height_n_subplots(spike2py_trial: "trial.Trial") -> Tuple[int, int]:
