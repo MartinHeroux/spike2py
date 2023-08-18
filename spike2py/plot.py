@@ -88,7 +88,6 @@ def _plot_waveform(
 
 
 def _save_plot(channel_info: "channels.ChannelInfo") -> None:
-    print(channel_info)
     try:
         fig_name = (
         f"{channel_info.subject_id}_"
