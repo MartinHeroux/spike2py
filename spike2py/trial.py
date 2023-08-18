@@ -1,6 +1,7 @@
-from typing import NamedTuple, List, Literal, Union
-from pathlib import Path
 import pickle
+from pathlib import Path
+from dataclasses import dataclass
+from typing import NamedTuple, List, Literal, Union
 
 from spike2py import channels, read, plot
 
@@ -13,8 +14,8 @@ CHANNEL_GENERATOR = {
     "wavemark": channels.Wavemark,
 }
 
-
-class TrialInfo(NamedTuple):
+@dataclass
+class TrialInfo:
     """Information about trial
 
     See :class:`spike2py.trial.Trial` parameters for details.
