@@ -141,6 +141,8 @@ class _TicksLine:
 
         if self.ch_type == "Keyboard":
             self._plot_codes(ax1)
+        if self.ch_type == "Textmark":
+            self._plot_codes(ax1)
         if (self.ch_type == "Wavemark") and ax2:
             self._plot_action_potentials(ax2)
 
