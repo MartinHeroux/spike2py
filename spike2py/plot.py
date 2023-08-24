@@ -64,9 +64,10 @@ def plot_channel(spike2py_channel: all_channels, save: Literal[True, False]) -> 
             fig, ax = plt.subplots(figsize=FIG_SIZE)
             ticks_line.plot(ax)
 
-    plt.show()
     if save:
         _save_plot(spike2py_channel.info)
+    else:
+        plt.show()
 
 
 def _get_color(index: int) -> str:
@@ -202,6 +203,8 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
     _plot_trial(spike2py_trial, ax)
     if save:
         _save_plot(spike2py_trial.info)
+    else:
+        plt.show()
 
 
 def _fig_height_n_subplots(spike2py_trial: "trial.Trial") -> Tuple[int, int]:
@@ -250,4 +253,4 @@ def _plot_trial(spike2py_trial: "trial.Trial", ax: plt.Axes):
             )
             ticks_line.plot(ax[0])
             other_ch_counter += 1
-    plt.show()
+
