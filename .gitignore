@@ -8,3 +8,5 @@ _static
 _templates
 *.html
 /docs/build/
+dist/
+build/
