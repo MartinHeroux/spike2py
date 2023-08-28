@@ -228,31 +228,7 @@ should go in `test_trial.py`.
 
 Any new fixtures can be added to the `conftest.py` file.
 
-If your tests need to access a `.mat` file, it can be added to the `payloads` directory located within the `tests` directory. Similarly, if your test generates a new figure, please follow the
-instructions in the `README.md`_ file of pytest-mpl.
-
-Briefly, create a test that generates a figure and return it. In most cases, you will need to
-return `plt.gcf()`. For example, here is the first test from `test_figures.py`:
-
-.. code-block:: python
-
-    @pytest.mark.fig_gen
-    @pytest.mark.mpl_image_compare(baseline_dir=str(Path('.') / "baseline"))
-    def test_waveform(physiology_data):
-        trial_info = TrialInfo(physiology_data)
-        physiology = Trial(trial_info)
-        physiology.Abdo.plot()
-        return plt.gcf()
-
-After adding your new test, you will need to run the following command:
-
-.. code-block:: shell
-
-    $ pytest --mpl-generate-path=tests/baseline
-
-This assumes you are running this command from the root directory of the **spike2py** package.
-It will generate and save the figure in the `baseline` directory. This is where all reference figures used to test **spike2py** are stored.
-
+If your tests need to access a `.mat` file, it can be added to the `payloads` directory located within the `tests` directory.
 
 .. _this Spike2 script: https://github.com/MartinHeroux/Spike2-batch-export-to-Matab
 .. _pathlib: https://docs.python.org/3/library/pathlib.html
