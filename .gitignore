@@ -10,3 +10,6 @@ _templates
 /docs/build/
 dist/
 build/
+.coverage
+.tox/
+spike2py.egg-info/
