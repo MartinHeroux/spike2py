@@ -84,10 +84,14 @@ def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
     """
     try:
         data: dict = sio.loadmat(mat_file)
-    except:
-        print(f'File {mat_file} not found. Please verify path and file name and try again.')
+    except OSError:
+        print(
+            f"File {mat_file} not found. Please verify path and file name and try again."
+        )
         sys.exit(1)
-    all_channels = [data_key for data_key in data.keys() if not data_key.startswith("__")]
+    all_channels = [
+        data_key for data_key in data.keys() if not data_key.startswith("__")
+    ]
     if channels is None:
         channels = all_channels
     else:
@@ -98,8 +102,10 @@ def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
 def _verify_channels_exists(channels, all_channels, mat_file):
     for channel in channels:
         if channel not in all_channels:
-            print(f"Channel {channel} does not exist in {mat_file}. \n"
-                  f"Available channels include:\n")
+            print(
+                f"Channel {channel} does not exist in {mat_file}. \n"
+                f"Available channels include:\n"
+            )
             for ch in all_channels:
                 print(ch)
             sys.exit(1)
@@ -196,7 +202,7 @@ def _parse_mat_textmark(mat_textmark: np.ndarray) -> parsed_textmark:
         Data from textmark channel.
     """
 
-    codes = list(mat_textmark['text'][0][0])
+    codes = list(mat_textmark["text"][0][0])
     return {
         "codes": codes,
         "times": _flatten_array(mat_textmark["times"]),
@@ -293,7 +299,7 @@ def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> parsed_wavemark:
 
 def _extract_wavemarks(mat_wavemark: np.ndarray) -> List[List[int]]:
     """Helper function to flatten, extract and group wavemark values"""
-    template_length = int(_flatten_array(mat_wavemark["length"])[0])
+    template_length = int(_flatten_array(mat_wavemark["length"]))
     concatenated_wavemarks = _flatten_array(mat_wavemark["values"])
     number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
     return concatenated_wavemarks.reshape(template_length, number_of_wavemarks)

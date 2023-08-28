@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List, Dict, Union
 
 import numpy as np
+import spike2py.channels as channels
 
 mat_data = Dict[str, np.ndarray]
 parsed_mat_data = Dict[str, dict]

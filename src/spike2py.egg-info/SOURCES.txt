@@ -8,7 +8,6 @@ src/spike2py/channels.py
 src/spike2py/demo.py
 src/spike2py/plot.py
 src/spike2py/read.py
-src/spike2py/reflex.py
 src/spike2py/sig_proc.py
 src/spike2py/trial.py
 src/spike2py/types.py

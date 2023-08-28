@@ -267,7 +267,6 @@ def trial_info_dict_channel_error():
     _remove_files_in_folder_in_payloads_dir(folder="study_data")
 
 
-
 @pytest.fixture()
 def physiology_data():
     _remove_files_in_folder_in_payloads_dir(folder="figures")

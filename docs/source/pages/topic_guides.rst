@@ -1,4 +1,4 @@
-Topic Guides
+sTopic Guides
 ============
 
 What **spike2py** is (and what it isn't)

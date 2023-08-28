@@ -25,6 +25,7 @@ COLORS = [
     "tab:olive",
     "tab:cyan",
 ]
+DEFAULT_COLOR = COLORS[0]
 
 matplotlib.rcParams.update({"font.size": 14})
 
@@ -77,7 +78,7 @@ def _get_color(index: int) -> str:
 def _plot_waveform(
     waveform: "channels.Waveform",
     ax: plt.Axes,
-    color: str = _get_color(0),
+    color: str = DEFAULT_COLOR,
 ) -> None:
     ax.plot(waveform.times, waveform.values, label=waveform.info.name, color=color)
     ax.set_xlim(waveform.times[0], waveform.times[-1])
@@ -91,15 +92,12 @@ def _plot_waveform(
 def _save_plot(channel_info: "channels.ChannelInfo") -> None:
     try:
         fig_name = (
-        f"{channel_info.subject_id}_"
-        f"{channel_info.trial_name}_"
-        f"{channel_info.name}.png"
+            f"{channel_info.subject_id}_"
+            f"{channel_info.trial_name}_"
+            f"{channel_info.name}.png"
         )
     except AttributeError:
-            fig_name = (
-                f"{channel_info.subject_id}_"
-                f"{channel_info.name}.png"
-            )
+        fig_name = f"{channel_info.subject_id}_" f"{channel_info.name}.png"
     fig_path = channel_info.path_save_figures / fig_name
     plt.savefig(fig_path, dpi=300)
     plt.close()
@@ -119,7 +117,8 @@ class _TicksLine:
         Parameters
         ----------
         ticks_line_channel:
-            Instance of spike2py.channels.< > where possible channel types are Event, Keyboard, and Wavemark
+            Instance of spike2py.channels.< > where possible channel types are Event,
+            Keyboard, and Wavemark
         color:
             Set color of ticks and line
         y_offset:
@@ -210,7 +209,8 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
 def _fig_height_n_subplots(spike2py_trial: "trial.Trial") -> Tuple[int, int]:
     """Determine height and number of subplots to plot trial.
 
-    Event, Keyboard and Wavemark channels are all plotted on same subplot at the top of the figure.
+    Event, Keyboard and Wavemark channels are all plotted on same subplot at the
+    top of the figure.
     Need to make sure these channels have data."""
     fig_height = 4
     n_subplots = 0
@@ -253,4 +253,3 @@ def _plot_trial(spike2py_trial: "trial.Trial", ax: plt.Axes):
             )
             ticks_line.plot(ax[0])
             other_ch_counter += 1
-

@@ -27,7 +27,9 @@ def test_trial_init_fully_loaded(trial_info_dict):
     assert trial1.info.path_save_trial == trial_info_dict["path_save_trial"]
 
 
-def test_trial_init_fully_loaded_channel_error_sys_exit(trial_info_dict_channel_error, capsys):
+def test_trial_init_fully_loaded_channel_error_sys_exit(
+    trial_info_dict_channel_error, capsys
+):
     info = trial.TrialInfo(**trial_info_dict_channel_error)
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         trial1 = trial.Trial(info)
@@ -35,15 +37,17 @@ def test_trial_init_fully_loaded_channel_error_sys_exit(trial_info_dict_channel_
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
     assert captured.out == (
-        ('Channel K_angle does not exist in typing.Dict[str, numpy.ndarray]. \n'
- 'Available channels include:\n'
- '\n'
- 'prox_EMG\n'
- 'dist_EMG\n'
- 'k_angle\n'
- 'k_torque\n'
- 'Trig\n'
- 'Keyboard\n')
+        (
+            "Channel K_angle does not exist in typing.Dict[str, numpy.ndarray]. \n"
+            "Available channels include:\n"
+            "\n"
+            "prox_EMG\n"
+            "dist_EMG\n"
+            "k_angle\n"
+            "k_torque\n"
+            "Trig\n"
+            "Keyboard\n"
+        )
     )
 
 
@@ -65,6 +69,6 @@ def test_trial_save(payload_dir, trial_default):
 def test_trial_read(payload_dir, trial_default):
     file = payload_dir / "tremor_kinetic.pkl"
     trial1 = trial.load(file)
-    assert type(trial1) == trial.Trial
+    assert isinstance(trial1, trial.Trial)
     assert np.mean(trial1.Angle.values) == approx(1.87862485065)
     assert "Flex" in trial1.__dir__()

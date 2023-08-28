@@ -1,7 +1,7 @@
 import pickle
 from pathlib import Path
 from dataclasses import dataclass
-from typing import NamedTuple, List, Literal, Union
+from typing import List, Literal, Union
 
 from spike2py import channels, read, plot
 
@@ -13,6 +13,7 @@ CHANNEL_GENERATOR = {
     "waveform": channels.Waveform,
     "wavemark": channels.Wavemark,
 }
+
 
 @dataclass
 class TrialInfo:

@@ -26,13 +26,15 @@ def test_read_missing_mat_file(payload_dir, capsys):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         data = read.read(file)
     captured = capsys.readouterr()
+
     assert pytest_wrapped_e.type == SystemExit
     assert pytest_wrapped_e.value.code == 1
     assert captured.out == (
         (
             (
                 "File "
-                "/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/tests/payloads/tremor_kenetic.mat "
+                "/home/martin/Dropbox/Martin/sketchbook/python/projects/spike2py/"
+                "tests/payloads/tremor_kenetic.mat "
                 "not found. Please verify path and file name and try again.\n"
             )
         )

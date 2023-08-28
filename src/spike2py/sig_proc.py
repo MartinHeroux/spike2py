@@ -29,7 +29,7 @@ class SignalProcessing:
         return self
 
     def remove_value(self, value: float):
-        """Subtracts value from `values` """
+        """Subtracts value from `values`"""
         try:
             self.values -= value
             str_value = self._float_to_string_with_underscore(value)
@@ -42,22 +42,22 @@ class SignalProcessing:
         return str(abs(float_value)).replace(".", "_")
 
     def lowpass(self, cutoff: filt_cutoff_single, order: int = 4):
-        """Apply dual-pass Butterworth lowpass filter to `values` """
+        """Apply dual-pass Butterworth lowpass filter to `values`"""
         self._filt(cutoff, order, "lowpass")
         return self
 
     def highpass(self, cutoff: filt_cutoff_single, order: int = 4):
-        """Apply dual-pass Butterworth highpass filter to `values` """
+        """Apply dual-pass Butterworth highpass filter to `values`"""
         self._filt(cutoff, order, "highpass")
         return self
 
     def bandpass(self, cutoff: filt_cutoff_pair, order: int = 4):
-        """Apply dual-pass Butterworth bandpass filter to `values` """
+        """Apply dual-pass Butterworth bandpass filter to `values`"""
         self._filt(cutoff, order, "bandpass")
         return self
 
     def bandstop(self, cutoff: filt_cutoff_pair, order: int = 4):
-        """Apply dual-pass Butterworth bandstop filter to `values` """
+        """Apply dual-pass Butterworth bandstop filter to `values`"""
         self._filt(cutoff, order, "bandstop")
         return self
 
@@ -110,25 +110,25 @@ class SignalProcessing:
             self.values = self.values * slope
         if slope and offset:
             self.values = (self.values * slope) - offset
-        self._setattr(f"proc_calib")
+        self._setattr("proc_calib")
         return self
 
     def norm_percentage(self):
         """Normalise `values` to be between 0-100%"""
         self.values = (self.values / np.max(self.values)) * 100
-        self._setattr(f"proc_norm_percentage")
+        self._setattr("proc_norm_percentage")
         return self
 
     def norm_proportion(self):
         """Normalise `values` to be between 0-1"""
         self.values = self.values / np.max(self.values)
-        self._setattr(f"proc_norm_proportion")
+        self._setattr("proc_norm_proportion")
         return self
 
     def norm_percent_value(self, value: float):
         """Normalise `values` to a percentage of `value`"""
         self.values = (self.values / value) * 100
-        self._setattr(f"proc_norm_value")
+        self._setattr("proc_norm_value")
         return self
 
     def rect(self):
