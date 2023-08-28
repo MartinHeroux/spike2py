@@ -280,7 +280,7 @@ def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> parsed_wavemark:
     if units_flattened.size > 0:
         units = units_flattened[0]
         times = mat_wavemark["times"][0][0].flatten()
-        sampling_frequency = int(1 / mat_wavemark["interval"][0][0].flatten())
+        sampling_frequency = int(1 / mat_wavemark["interval"][0][0].flatten()[0])
         action_potentials = _extract_wavemarks(mat_wavemark)
     return {
         "units": units,
@@ -293,7 +293,7 @@ def _parse_mat_wavemark(mat_wavemark: np.ndarray) -> parsed_wavemark:
 
 def _extract_wavemarks(mat_wavemark: np.ndarray) -> List[List[int]]:
     """Helper function to flatten, extract and group wavemark values"""
-    template_length = int(_flatten_array(mat_wavemark["length"]))
+    template_length = int(_flatten_array(mat_wavemark["length"])[0])
     concatenated_wavemarks = _flatten_array(mat_wavemark["values"])
     number_of_wavemarks = int(len(concatenated_wavemarks) / template_length)
     return concatenated_wavemarks.reshape(template_length, number_of_wavemarks)

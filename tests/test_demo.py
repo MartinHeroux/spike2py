@@ -6,13 +6,14 @@ import pytest
 from spike2py import demo
 
 
+@pytest.mark.demo
 def test_get_demo_data_from_S3():
     x = demo._get_demo_data_from_S3()
     tmp = os.getenv("TMP", "/tmp")
     assert x == Path(tmp) / "motor_units.mat"
 
 
-@pytest.mark.fig_gen
+@pytest.mark.demo
 def test_install(capsys):
     demo.test_install()
     captured = capsys.readouterr()
@@ -25,6 +26,7 @@ def test_install(capsys):
     )
 
 
+@pytest.mark.demo
 def test_tutorial_data(tutorial_data_dict):
     actual = demo.tutorial_data()
     assert actual.info.file == tutorial_data_dict["file"]
