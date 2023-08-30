@@ -1,5 +1,3 @@
-__version__ = "0.1.0"
-
 from . import trial
 from . import channels
 from . import read
@@ -7,3 +5,8 @@ from . import sig_proc
 from . import plot
 from . import types
 from . import demo
+from .trial import TrialInfo
+from .trial import Trial
+from .demo import test_install
+from .demo import tutorial_data
+from .trial import load
