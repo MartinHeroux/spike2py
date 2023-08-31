@@ -32,7 +32,8 @@ def test_read_missing_mat_file(payload_dir, capsys):
     assert captured.out == (
         (
             (
-                "File tremor_kenetic.mat not found. Please verify path and file name and try again.\n"
+                "File tremor_kenetic.mat not found. "
+                "Please verify path and file name and try again.\n"
             )
         )
     )
