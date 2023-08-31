@@ -115,7 +115,7 @@ class Trial:
             path_to_make=Path(trial_info.file).parent / "data",
         )
         self.info = TrialInfo(
-            file=trial_info.file,
+            file=Path(trial_info.file),
             channels=trial_info.channels,
             name=name,
             subject_id=subject_id,

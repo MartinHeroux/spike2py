@@ -38,7 +38,7 @@ def test_trial_init_fully_loaded_channel_error_sys_exit(
     assert pytest_wrapped_e.value.code == 1
     assert captured.out == (
         (
-            "Channel K_angle does not exist in typing.Dict[str, numpy.ndarray]. \n"
+            "Channel K_angle does not exist in biomech0deg.mat. \n"
             "Available channels include:\n"
             "\n"
             "prox_EMG\n"

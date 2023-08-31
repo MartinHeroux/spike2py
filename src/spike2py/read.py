@@ -86,7 +86,7 @@ def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
         data: dict = sio.loadmat(mat_file)
     except OSError:
         print(
-            f"File {mat_file} not found. Please verify path and file name and try again."
+            f"File {mat_file.name} not found. Please verify path and file name and try again."
         )
         sys.exit(1)
     all_channels = [
@@ -95,7 +95,7 @@ def _read_mat(mat_file: Path, channels: List[str]) -> mat_data:
     if channels is None:
         channels = all_channels
     else:
-        _verify_channels_exists(channels, all_channels, mat_data)
+        _verify_channels_exists(channels, all_channels, mat_file)
     return {key: value for (key, value) in data.items() if key in channels}
 
 
@@ -103,7 +103,7 @@ def _verify_channels_exists(channels, all_channels, mat_file):
     for channel in channels:
         if channel not in all_channels:
             print(
-                f"Channel {channel} does not exist in {mat_file}. \n"
+                f"Channel {channel} does not exist in {mat_file.name}. \n"
                 f"Available channels include:\n"
             )
             for ch in all_channels:
