@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reference Guide &mdash; spike2py 0.2.9 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=14672bda"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Help" href="help.html" />
+    <link rel="prev" title="Topic Guides" href="topic_guides.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            spike2py
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how_to_guides.html">How To Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topic_guides.html">Topic Guides</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#trial-trialinfo">trial.TrialInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.trial.TrialInfo"><code class="docutils literal notranslate"><span class="pre">TrialInfo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trial-trial">trial.Trial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.trial.Trial"><code class="docutils literal notranslate"><span class="pre">Trial</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.trial.Trial.trial_info"><code class="docutils literal notranslate"><span class="pre">Trial.trial_info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.trial.Trial.channels"><code class="docutils literal notranslate"><span class="pre">Trial.channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.trial.Trial.save"><code class="docutils literal notranslate"><span class="pre">Trial.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#trial-load">trial.load</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.trial.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-channelinfo">channels.ChannelInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.ChannelInfo"><code class="docutils literal notranslate"><span class="pre">ChannelInfo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-channel">channels.Channel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.Channel"><code class="docutils literal notranslate"><span class="pre">Channel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-event">channels.Event</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.channels.Event.plot"><code class="docutils literal notranslate"><span class="pre">Event.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-keyboard">channels.Keyboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.Keyboard"><code class="docutils literal notranslate"><span class="pre">Keyboard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.channels.Keyboard.plot"><code class="docutils literal notranslate"><span class="pre">Keyboard.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-waveform">channels.Waveform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.Waveform"><code class="docutils literal notranslate"><span class="pre">Waveform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.channels.Waveform.plot"><code class="docutils literal notranslate"><span class="pre">Waveform.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#channels-wavemark">channels.Wavemark</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.channels.Wavemark"><code class="docutils literal notranslate"><span class="pre">Wavemark</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.channels.Wavemark.plot"><code class="docutils literal notranslate"><span class="pre">Wavemark.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sig-proc-signalprocessing">sig_proc.SignalProcessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing"><code class="docutils literal notranslate"><span class="pre">SignalProcessing</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.bandpass"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.bandpass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.bandstop"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.bandstop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.calibrate"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.calibrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.highpass"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.highpass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.interp_new_fs"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.interp_new_fs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.interp_new_times"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.interp_new_times()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.linear_detrend"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.linear_detrend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.lowpass"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.lowpass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.norm_percent_value"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.norm_percent_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.norm_percentage"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.norm_percentage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.norm_proportion"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.norm_proportion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.rect"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.rect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.remove_mean"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.remove_mean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spike2py.sig_proc.SignalProcessing.remove_value"><code class="docutils literal notranslate"><span class="pre">SignalProcessing.remove_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-plot-channel">plot.plot_channel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.plot.plot_channel"><code class="docutils literal notranslate"><span class="pre">plot_channel()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-plot-trial">plot.plot_trial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.plot.plot_trial"><code class="docutils literal notranslate"><span class="pre">plot_trial()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#read-read">read.read</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spike2py.read.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">spike2py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reference Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pages/reference_guides.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-spike2py.trial">
+<span id="reference-guide"></span><h1>Reference Guide<a class="headerlink" href="#module-spike2py.trial" title="Link to this heading"></a></h1>
+<section id="trial-trialinfo">
+<h2>trial.TrialInfo<a class="headerlink" href="#trial-trialinfo" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.trial.TrialInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.trial.</span></span><span class="sig-name descname"><span class="pre">TrialInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_save_figures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_save_trial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/trial.html#TrialInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.trial.TrialInfo" title="Link to this definition"></a></dt>
+<dd><p>Information about trial</p>
+<p>See <a class="reference internal" href="#spike2py.trial.Trial" title="spike2py.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">spike2py.trial.Trial</span></code></a> parameters for details.</p>
+</dd></dl>
+
+</section>
+<section id="trial-trial">
+<h2>trial.Trial<a class="headerlink" href="#trial-trial" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.trial.Trial">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.trial.</span></span><span class="sig-name descname"><span class="pre">Trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#spike2py.trial.TrialInfo" title="spike2py.trial.TrialInfo"><span class="pre">TrialInfo</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/trial.html#Trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.trial.Trial" title="Link to this definition"></a></dt>
+<dd><p>Class for experimental trial recorded using Spike2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_info</strong> (<em>NamedTuple</em>) – <dl class="simple">
+<dt>file<span class="classifier">pathlib.Path, str</span></dt><dd><p>Absolute path to data file. Only .mat files supported</p>
+</dd>
+<dt>channels<span class="classifier">List[str]</span></dt><dd><p>List of channel names, as they appeared in the original .smr file
+Example: [‘biceps’, ‘triceps’, ‘torque’]
+If not included, all channels will be processed</p>
+</dd>
+<dt>name<span class="classifier">str</span></dt><dd><p>Descriptive name for trial; defaults to filename</p>
+</dd>
+<dt>subject_id<span class="classifier">str</span></dt><dd><p>Subject’s study identifier</p>
+</dd>
+<dt>path_save_figures<span class="classifier">pathlib.Path</span></dt><dd><p>Path where trial and channel figures are to be saved
+Defaults to new ‘figures’ folder where .mat was retrieved</p>
+</dd>
+<dt>path_save_trial<span class="classifier">pathlib.Path</span></dt><dd><p>Path where trial data to be saved
+Defaults to new ‘data’ folder where .mat was retrieved</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spike2py.trial.Trial.trial_info">
+<span class="sig-name descname"><span class="pre">trial_info</span></span><a class="headerlink" href="#spike2py.trial.Trial.trial_info" title="Link to this definition"></a></dt>
+<dd><p>Same as parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NamedTuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spike2py.trial.Trial.channels">
+<span class="sig-name descname"><span class="pre">channels</span></span><a class="headerlink" href="#spike2py.trial.Trial.channels" title="Link to this definition"></a></dt>
+<dd><p>Pairs of channel names and channel types.
+For example: [(‘Torque’, ‘waveform’), (‘Trigger’, ‘event’)]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">&lt;Channels&gt;</span></span></dt>
+<dd><p>Each channel appears with its name as an attribute.
+For example: trial1.Torque</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#spike2py.channels.Channel" title="spike2py.channels.Channel">channels.Channel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If parameter <cite>info.file</cite> is not a valid full path to a data file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.trial.Trial.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/trial.html#Trial.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.trial.Trial.save" title="Link to this definition"></a></dt>
+<dd><p>Save trial</p>
+<p>Trial will be saved (pickled) to <cite>info.path_save_trial</cite> as info.name + ‘.pkl’</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="trial-load">
+<h2>trial.load<a class="headerlink" href="#trial-load" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spike2py.trial.load">
+<span class="sig-prename descclassname"><span class="pre">spike2py.trial.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#spike2py.trial.Trial" title="spike2py.trial.Trial"><span class="pre">Trial</span></a></span></span><a class="reference internal" href="../_modules/spike2py/trial.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.trial.load" title="Link to this definition"></a></dt>
+<dd><p>Load saved (pickled) trial</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>pathlib.Path</em><em>, </em><em>str</em>) – Full path and file name to pickled file.
+For example: ‘/home/tammy/Desktop/trial1.pkl`</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Instance of Trial class that was previously saved</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#spike2py.trial.Trial" title="spike2py.trial.Trial">Trial</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="channels-channelinfo">
+<span id="module-spike2py.channels"></span><h2>channels.ChannelInfo<a class="headerlink" href="#channels-channelinfo" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.ChannelInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">ChannelInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_save_figures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#ChannelInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.ChannelInfo" title="Link to this definition"></a></dt>
+<dd><p>Information about channel</p>
+<p>See <a class="reference internal" href="#spike2py.channels.Channel" title="spike2py.channels.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">spike2py.channels.Channel</span></code></a> parameters for details.</p>
+</dd></dl>
+
+</section>
+<section id="channels-channel">
+<h2>channels.Channel<a class="headerlink" href="#channels-channel" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.Channel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#spike2py.channels.ChannelInfo" title="spike2py.channels.ChannelInfo"><span class="pre">ChannelInfo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Channel" title="Link to this definition"></a></dt>
+<dd><p>Base class for all channel types</p>
+<dl class="simple">
+<dt>Parameters</dt><dd><dl class="simple">
+<dt>channel_info</dt><dd><dl class="simple">
+<dt>name</dt><dd><p>Name of channel (.e.g ‘left biceps’)</p>
+</dd>
+<dt>units</dt><dd><p>Units of recorded signal (e.g., ‘Volts’ or ‘Nm’)</p>
+</dd>
+<dt>sampling_frequency</dt><dd><p>In Hertz (e.g. 2048)</p>
+</dd>
+<dt>path</dt><dd><p>Defaults to path where data initially retrieved</p>
+</dd>
+<dt>trialname</dt><dd><p>Defaults to name of data file</p>
+</dd>
+<dt>subject_id</dt><dd><p>str indentifier</p>
+</dd>
+</dl>
+</dd>
+<dt>times</dt><dd><p>Sample times in seconds</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="channels-event">
+<h2>channels.Event<a class="headerlink" href="#channels-event" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.Event">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Event" title="Link to this definition"></a></dt>
+<dd><p>Event channel class</p>
+<p>Inherits from Channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of Event channel</p></li>
+<li><p><strong>data_dict</strong> – <ul>
+<li><p>[‘path_save_figures’]: Path - Directory where channel figure saved</p></li>
+<li><p>[‘trial_name’]: str - Name of trial where Event was recorded</p></li>
+<li><p>[‘subject_id’]: str - Identifier</p></li>
+<li><p>[‘times’]: np.ndarray - Event times in seconds</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.channels.Event.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/spike2py/channels.html#Event.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Event.plot" title="Link to this definition"></a></dt>
+<dd><p>Save Event channel figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save</strong> – Set to <cite>True</cite> to save Event figure to <cite>path_save_figures</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="channels-keyboard">
+<h2>channels.Keyboard<a class="headerlink" href="#channels-keyboard" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.Keyboard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">Keyboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Keyboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Keyboard" title="Link to this definition"></a></dt>
+<dd><p>Keyboard channel class</p>
+<p>Inherits from Channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of Keyboard channel; default is ‘keyboard’</p></li>
+<li><p><strong>data_dict</strong> – <ul>
+<li><p>[‘path_save_figures’]: Path - Directory where channel figure saved</p></li>
+<li><p>[‘trial_name’]: str - Name of trial where Keyboard was recorded</p></li>
+<li><p>[‘subject_id’]: str - Identifier</p></li>
+<li><p>[‘times’]: np.ndarray - Event times in seconds</p></li>
+<li><p>[‘codes’]: np.ndarray of str associated with keyboard events</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.channels.Keyboard.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/spike2py/channels.html#Keyboard.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Keyboard.plot" title="Link to this definition"></a></dt>
+<dd><p>Save Keyboard channel figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save</strong> – Set to <cite>True</cite> to save Keyboard figure to <cite>path_save_figures</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="channels-waveform">
+<h2>channels.Waveform<a class="headerlink" href="#channels-waveform" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.Waveform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">Waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Waveform" title="Link to this definition"></a></dt>
+<dd><p>Waveform channel class</p>
+<p>Inherits from Channel and sig_proc.SignalProcessing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of Waveform channel</p></li>
+<li><p><strong>data_dict</strong> – <ul>
+<li><p>[‘path_save_figures’]: Path - Directory where channel figure saved</p></li>
+<li><p>[‘trial_name’]: str - Name of trial where Waveform was recorded</p></li>
+<li><p>[‘subject_id’]: str - Identifier</p></li>
+<li><p>[‘times’]: np.ndarray - Waveform times in seconds</p></li>
+<li><p>[‘values’]: np.ndarray - Waveform float values</p></li>
+<li><p>[‘units’]: str - Measurement units (e.g. ‘Volts’)</p></li>
+<li><p>[‘sampling_frequency’]: int - Sampling frequency of Wavemark</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.channels.Waveform.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/spike2py/channels.html#Waveform.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Waveform.plot" title="Link to this definition"></a></dt>
+<dd><p>Save Waveform channel figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save</strong> – Set to <cite>True</cite> to save Waveform figure to <cite>path_save_figures</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="channels-wavemark">
+<h2>channels.Wavemark<a class="headerlink" href="#channels-wavemark" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.channels.Wavemark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.channels.</span></span><span class="sig-name descname"><span class="pre">Wavemark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Wavemark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Wavemark" title="Link to this definition"></a></dt>
+<dd><p>Wavemark channel class</p>
+<p>Inherits from Channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of Wavemark channel</p></li>
+<li><p><strong>data_dict</strong> – <ul>
+<li><p>[‘path_save_figures’]: Path - Directory where channel figure saved</p></li>
+<li><p>[‘trial_name’]: str - Name of trial where Wavemark was recorded</p></li>
+<li><p>[‘subject_id’]: str - Identifier</p></li>
+<li><p>[‘times’]: np.ndarray - Wavemark times in seconds</p></li>
+<li><p>[‘values’]: np.ndarray - Waveform float values</p></li>
+<li><p>[‘action_potentials’]: list of lists - Each list is a Wavemark</p></li>
+<li><p>[‘units’]: str - Measurement units (e.g. ‘Volts’)</p></li>
+<li><p>[‘sampling_frequency’]: int - Sampling frequency of Wavemark</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.channels.Wavemark.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/channels.html#Wavemark.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.channels.Wavemark.plot" title="Link to this definition"></a></dt>
+<dd><p>Save Waveform channel figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save</strong> – Set to <cite>True</cite> to save Wavemark figure to <cite>path_save_figures</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sig-proc-signalprocessing">
+<span id="module-spike2py.sig_proc"></span><h2>sig_proc.SignalProcessing<a class="headerlink" href="#sig-proc-signalprocessing" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spike2py.sig_proc.</span></span><span class="sig-name descname"><span class="pre">SignalProcessing</span></span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing" title="Link to this definition"></a></dt>
+<dd><p>Mixin class that adds signal processing methods</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.bandpass">
+<span class="sig-name descname"><span class="pre">bandpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.bandpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.bandpass" title="Link to this definition"></a></dt>
+<dd><p>Apply dual-pass Butterworth bandpass filter to <cite>values</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.bandstop">
+<span class="sig-name descname"><span class="pre">bandstop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.bandstop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.bandstop" title="Link to this definition"></a></dt>
+<dd><p>Apply dual-pass Butterworth bandstop filter to <cite>values</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.calibrate">
+<span class="sig-name descname"><span class="pre">calibrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.calibrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.calibrate" title="Link to this definition"></a></dt>
+<dd><p>Calibrate <cite>values</cite> using linear formula y=slope*x+offset</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.highpass">
+<span class="sig-name descname"><span class="pre">highpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.highpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.highpass" title="Link to this definition"></a></dt>
+<dd><p>Apply dual-pass Butterworth highpass filter to <cite>values</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.interp_new_fs">
+<span class="sig-name descname"><span class="pre">interp_new_fs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_sampling_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.interp_new_fs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.interp_new_fs" title="Link to this definition"></a></dt>
+<dd><p>Interpolate <cite>values</cite> to a new sampling frequency</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.interp_new_times">
+<span class="sig-name descname"><span class="pre">interp_new_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.interp_new_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.interp_new_times" title="Link to this definition"></a></dt>
+<dd><p>Interpolate <cite>values</cite> to a new time axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_times</strong> – New time axis for interpolated data. Cannot be longer in duration
+than current time axis, <cite>times</cite>. If includes only a portion of the current
+time axis, only values associated with that portion of the time
+axis will be interpolated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.linear_detrend">
+<span class="sig-name descname"><span class="pre">linear_detrend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.linear_detrend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.linear_detrend" title="Link to this definition"></a></dt>
+<dd><p>Remove linear trend from <cite>values</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.lowpass">
+<span class="sig-name descname"><span class="pre">lowpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.lowpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.lowpass" title="Link to this definition"></a></dt>
+<dd><p>Apply dual-pass Butterworth lowpass filter to <cite>values</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.norm_percent_value">
+<span class="sig-name descname"><span class="pre">norm_percent_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.norm_percent_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.norm_percent_value" title="Link to this definition"></a></dt>
+<dd><p>Normalise <cite>values</cite> to a percentage of <cite>value</cite></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.norm_percentage">
+<span class="sig-name descname"><span class="pre">norm_percentage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.norm_percentage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.norm_percentage" title="Link to this definition"></a></dt>
+<dd><p>Normalise <cite>values</cite> to be between 0-100%</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.norm_proportion">
+<span class="sig-name descname"><span class="pre">norm_proportion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.norm_proportion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.norm_proportion" title="Link to this definition"></a></dt>
+<dd><p>Normalise <cite>values</cite> to be between 0-1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.rect">
+<span class="sig-name descname"><span class="pre">rect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.rect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.rect" title="Link to this definition"></a></dt>
+<dd><p>Rectify values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.remove_mean">
+<span class="sig-name descname"><span class="pre">remove_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_n_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.remove_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.remove_mean" title="Link to this definition"></a></dt>
+<dd><p>Subtract mean of first n samples (default is all samples)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spike2py.sig_proc.SignalProcessing.remove_value">
+<span class="sig-name descname"><span class="pre">remove_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spike2py/sig_proc.html#SignalProcessing.remove_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.sig_proc.SignalProcessing.remove_value" title="Link to this definition"></a></dt>
+<dd><p>Subtracts value from <cite>values</cite></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="plot-plot-channel">
+<span id="module-spike2py.plot"></span><h2>plot.plot_channel<a class="headerlink" href="#plot-plot-channel" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spike2py.plot.plot_channel">
+<span class="sig-prename descclassname"><span class="pre">spike2py.plot.</span></span><span class="sig-name descname"><span class="pre">plot_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike2py_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#spike2py.channels.Event" title="spike2py.channels.Event"><span class="pre">Event</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#spike2py.channels.Keyboard" title="spike2py.channels.Keyboard"><span class="pre">Keyboard</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#spike2py.channels.Waveform" title="spike2py.channels.Waveform"><span class="pre">Waveform</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#spike2py.channels.Wavemark" title="spike2py.channels.Wavemark"><span class="pre">Wavemark</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/spike2py/plot.html#plot_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.plot.plot_channel" title="Link to this definition"></a></dt>
+<dd><p>Plot individual channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spike2py_channel</strong> – Instance of spike2py.channels.&lt;ch&gt; where possible ch are
+Event, Keyboard, Wavemark and Waveform</p></li>
+<li><p><strong>save</strong> – Whether or not to save the generated figure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="plot-plot-trial">
+<h2>plot.plot_trial<a class="headerlink" href="#plot-plot-trial" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spike2py.plot.plot_trial">
+<span class="sig-prename descclassname"><span class="pre">spike2py.plot.</span></span><span class="sig-name descname"><span class="pre">plot_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spike2py_trial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#spike2py.trial.Trial" title="spike2py.trial.Trial"><span class="pre">Trial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/spike2py/plot.html#plot_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.plot.plot_trial" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="read-read">
+<span id="module-spike2py.read"></span><h2>read.read<a class="headerlink" href="#read-read" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spike2py.read.read">
+<span class="sig-prename descclassname"><span class="pre">spike2py.read.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/spike2py/read.html#read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spike2py.read.read" title="Link to this definition"></a></dt>
+<dd><p>Interface to read data files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Absolute path to data file. Only .mat files are currently supported.</p></li>
+<li><p><strong>channels</strong> – List of channel names, as they appeared in the original .smr file.
+Example: [‘biceps’, ‘triceps’, ‘torque’]
+If not included, all channels will be processed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>WrongFileType</strong> – <cite>file</cite> parameter is not a <cite>.mat</cite> file</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Data from a trial where <cite>keys</cite> are channel names and <cite>values</cite>
+are deeply nested numpy.ndarray</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="topic_guides.html" class="btn btn-neutral float-left" title="Topic Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="help.html" class="btn btn-neutral float-right" title="Help" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Martin Heroux.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

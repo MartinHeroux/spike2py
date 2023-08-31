@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spike2py.channels &mdash; spike2py 0.2.9 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=14672bda"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            spike2py
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/first_steps.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/tutorials.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/how_to_guides.html">How To Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/topic_guides.html">Topic Guides</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/reference_guides.html">Reference Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/help.html">Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">spike2py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spike2py.channels</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spike2py.channels</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Literal</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">spike2py.plot</span> <span class="k">as</span> <span class="nn">plot</span>
+<span class="kn">import</span> <span class="nn">spike2py.sig_proc</span> <span class="k">as</span> <span class="nn">sig_proc</span>
+
+<span class="kn">from</span> <span class="nn">spike2py.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">parsed_wavemark</span><span class="p">,</span>
+    <span class="n">parsed_waveform</span><span class="p">,</span>
+    <span class="n">parsed_textmark</span><span class="p">,</span>
+    <span class="n">parsed_event</span><span class="p">,</span>
+    <span class="n">parsed_keyboard</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ChannelInfo">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.ChannelInfo">[docs]</a>
+<span class="k">class</span> <span class="nc">ChannelInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Information about channel</span>
+
+<span class="sd">    See :class:`spike2py.channels.Channel` parameters for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sampling_frequency</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">path_save_figures</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">trial_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">subject_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="Channel">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Channel">[docs]</a>
+<span class="k">class</span> <span class="nc">Channel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all channel types</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">     ----------</span>
+<span class="sd">     channel_info</span>
+<span class="sd">         name</span>
+<span class="sd">             Name of channel (.e.g &#39;left biceps&#39;)</span>
+<span class="sd">         units</span>
+<span class="sd">             Units of recorded signal (e.g., &#39;Volts&#39; or &#39;Nm&#39;)</span>
+<span class="sd">         sampling_frequency</span>
+<span class="sd">             In Hertz (e.g. 2048)</span>
+<span class="sd">         path</span>
+<span class="sd">             Defaults to path where data initially retrieved</span>
+<span class="sd">         trialname</span>
+<span class="sd">             Defaults to name of data file</span>
+<span class="sd">         subject_id</span>
+<span class="sd">             str indentifier</span>
+<span class="sd">     times</span>
+<span class="sd">         Sample times in seconds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_info</span><span class="p">:</span> <span class="n">ChannelInfo</span><span class="p">,</span> <span class="n">times</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">channel_info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="n">times</span></div>
+
+
+
+<div class="viewcode-block" id="Event">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Event">[docs]</a>
+<span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Event channel class</span>
+
+<span class="sd">    Inherits from Channel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Name of Event channel</span>
+<span class="sd">    data_dict:</span>
+<span class="sd">        - [&#39;path_save_figures&#39;]: Path - Directory where channel figure saved</span>
+<span class="sd">        - [&#39;trial_name&#39;]: str - Name of trial where Event was recorded</span>
+<span class="sd">        - [&#39;subject_id&#39;]: str - Identifier</span>
+<span class="sd">        - [&#39;times&#39;]: np.ndarray - Event times in seconds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">:</span> <span class="n">parsed_event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ChannelInfo</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">path_save_figures</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">],</span>
+                <span class="n">trial_name</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">],</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Event channel&quot;</span>
+
+<div class="viewcode-block" id="Event.plot">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Event.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save Event channel figure</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save</span>
+<span class="sd">            Set to `True` to save Event figure to `path_save_figures`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Keyboard">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Keyboard">[docs]</a>
+<span class="k">class</span> <span class="nc">Keyboard</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Keyboard channel class</span>
+
+<span class="sd">    Inherits from Channel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Name of Keyboard channel; default is &#39;keyboard&#39;</span>
+<span class="sd">    data_dict:</span>
+<span class="sd">        - [&#39;path_save_figures&#39;]: Path - Directory where channel figure saved</span>
+<span class="sd">        - [&#39;trial_name&#39;]: str - Name of trial where Keyboard was recorded</span>
+<span class="sd">        - [&#39;subject_id&#39;]: str - Identifier</span>
+<span class="sd">        - [&#39;times&#39;]: np.ndarray - Event times in seconds</span>
+<span class="sd">        - [&#39;codes&#39;]: np.ndarray of str associated with keyboard events</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">:</span> <span class="n">parsed_keyboard</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">codes</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;codes&quot;</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ChannelInfo</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">path_save_figures</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">],</span>
+                <span class="n">trial_name</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">],</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Keyboard channel&quot;</span>
+
+<div class="viewcode-block" id="Keyboard.plot">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Keyboard.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save Keyboard channel figure</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save</span>
+<span class="sd">            Set to `True` to save Keyboard figure to `path_save_figures`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+
+
+<span class="k">class</span> <span class="nc">Textmark</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Textmark channel class</span>
+
+<span class="sd">    Inherits from Channel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Name of textmark channel; default is &#39;Memory&#39;</span>
+<span class="sd">    data_dict:</span>
+<span class="sd">        - [&#39;path_save_figures&#39;]: Path - Directory where channel figure saved</span>
+<span class="sd">        - [&#39;trial_name&#39;]: str - Name of trial where Keyboard was recorded</span>
+<span class="sd">        - [&#39;subject_id&#39;]: str - Identifier</span>
+<span class="sd">        - [&#39;times&#39;]: np.ndarray - Event times in seconds</span>
+<span class="sd">        - [&#39;codes&#39;]: np.ndarray of str associated with keyboard events</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">:</span> <span class="n">parsed_textmark</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">codes</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;codes&quot;</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ChannelInfo</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">path_save_figures</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">],</span>
+                <span class="n">trial_name</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">],</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Textmark channel&quot;</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save Textmark channel figure</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save</span>
+<span class="sd">            Set to `True` to save Textmark figure to `path_save_figures`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+
+<div class="viewcode-block" id="Waveform">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Waveform">[docs]</a>
+<span class="k">class</span> <span class="nc">Waveform</span><span class="p">(</span><span class="n">Channel</span><span class="p">,</span> <span class="n">sig_proc</span><span class="o">.</span><span class="n">SignalProcessing</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Waveform channel class</span>
+
+<span class="sd">    Inherits from Channel and sig_proc.SignalProcessing</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Name of Waveform channel</span>
+<span class="sd">    data_dict:</span>
+<span class="sd">        - [&#39;path_save_figures&#39;]: Path - Directory where channel figure saved</span>
+<span class="sd">        - [&#39;trial_name&#39;]: str - Name of trial where Waveform was recorded</span>
+<span class="sd">        - [&#39;subject_id&#39;]: str - Identifier</span>
+<span class="sd">        - [&#39;times&#39;]: np.ndarray - Waveform times in seconds</span>
+<span class="sd">        - [&#39;values&#39;]: np.ndarray - Waveform float values</span>
+<span class="sd">        - [&#39;units&#39;]: str - Measurement units (e.g. &#39;Volts&#39;)</span>
+<span class="sd">        - [&#39;sampling_frequency&#39;]: int - Sampling frequency of Wavemark</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">:</span> <span class="n">parsed_waveform</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ChannelInfo</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">],</span>
+                <span class="n">sampling_frequency</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;sampling_frequency&quot;</span><span class="p">],</span>
+                <span class="n">path_save_figures</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">],</span>
+                <span class="n">trial_name</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">],</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Waveform channel&quot;</span>
+
+<div class="viewcode-block" id="Waveform.plot">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Waveform.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save Waveform channel figure</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save</span>
+<span class="sd">            Set to `True` to save Waveform figure to `path_save_figures`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Wavemark">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Wavemark">[docs]</a>
+<span class="k">class</span> <span class="nc">Wavemark</span><span class="p">(</span><span class="n">Channel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wavemark channel class</span>
+
+<span class="sd">    Inherits from Channel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Name of Wavemark channel</span>
+<span class="sd">    data_dict:</span>
+<span class="sd">        - [&#39;path_save_figures&#39;]: Path - Directory where channel figure saved</span>
+<span class="sd">        - [&#39;trial_name&#39;]: str - Name of trial where Wavemark was recorded</span>
+<span class="sd">        - [&#39;subject_id&#39;]: str - Identifier</span>
+<span class="sd">        - [&#39;times&#39;]: np.ndarray - Wavemark times in seconds</span>
+<span class="sd">        - [&#39;values&#39;]: np.ndarray - Waveform float values</span>
+<span class="sd">        - [&#39;action_potentials&#39;]: list of lists - Each list is a Wavemark</span>
+<span class="sd">        - [&#39;units&#39;]: str - Measurement units (e.g. &#39;Volts&#39;)</span>
+<span class="sd">        - [&#39;sampling_frequency&#39;]: int - Sampling frequency of Wavemark</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">:</span> <span class="n">parsed_wavemark</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ChannelInfo</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">],</span>
+                <span class="n">sampling_frequency</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;sampling_frequency&quot;</span><span class="p">],</span>
+                <span class="n">path_save_figures</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;path_save_figures&quot;</span><span class="p">],</span>
+                <span class="n">trial_name</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;trial_name&quot;</span><span class="p">],</span>
+                <span class="n">subject_id</span><span class="o">=</span><span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;subject_id&quot;</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_potentials</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;action_potentials&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_instantaneous_firing_frequency</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Wavemark channel&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_calc_instantaneous_firing_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">time1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">inst_firing_frequency</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">time2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">inst_firing_frequency</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">time2</span> <span class="o">-</span> <span class="n">time1</span><span class="p">))</span>
+            <span class="n">time1</span> <span class="o">=</span> <span class="n">time2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inst_firing_frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">inst_firing_frequency</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Wavemark.plot">
+<a class="viewcode-back" href="../../pages/reference_guides.html#spike2py.channels.Wavemark.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save Waveform channel figure</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save</span>
+<span class="sd">            Set to `True` to save Wavemark figure to `path_save_figures`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">plot_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Martin Heroux.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
