@@ -7,7 +7,6 @@ _build
 _static
 _templates
 *.html
-/docs/build/
 dist/
 build/
 .coverage
