@@ -77,7 +77,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          path: spike2py/dist/*.tar.gz
+          path: dist/*.tar.gz
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
