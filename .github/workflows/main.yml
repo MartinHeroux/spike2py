@@ -77,7 +77,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          path: spike2py/dist/*.tar.gz
+          path: ./spike2py/dist/*.tar.gz
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -98,7 +98,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          path: spike2py/wheels/*.whl
+          path: ./spike2py/wheels/*.whl
 
   publish:
     name: Publish package
@@ -115,7 +115,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: artifact
-          path: spike2py/dist
+          path: ./spike2py/dist
 
       - uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
