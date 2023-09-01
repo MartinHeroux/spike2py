@@ -2,7 +2,6 @@ LICENSE
 README.md
 pyproject.toml
 setup.cfg
-setup.py
 src/spike2py/__init__.py
 src/spike2py/channels.py
 src/spike2py/demo.py
