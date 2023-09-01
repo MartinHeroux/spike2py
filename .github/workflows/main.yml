@@ -100,3 +100,25 @@ jobs:
         with:
           path: spike2py/wheels/*.whl
 
+  publish:
+    name: Publish package
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    needs:
+      - format
+      - lint
+      - test
+      - build_source_dist
+      - build_wheels
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact
+          path: spike2py/dist
+
+      - uses: pypa/gh-action-pypi-publish@v1.5.0
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
