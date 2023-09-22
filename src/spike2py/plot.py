@@ -64,7 +64,20 @@ def plot_channel(spike2py_channel: all_channels, save: Literal[True, False]) -> 
         else:
             fig, ax = plt.subplots(figsize=FIG_SIZE)
             ticks_line.plot(ax)
-
+    title = (
+        f"{spike2py_channel.info.subject_id}_"
+        f"{spike2py_channel.info.name}_"
+        f"{spike2py_channel.info.file.name}"
+    )
+    ax.text(
+        0,
+        0,
+        title,
+        horizontalalignment="left",
+        verticalalignment="top",
+        transform=ax.transAxes,
+        fontsize=10,
+    )
     if save:
         _save_plot(spike2py_channel.info)
     else:
@@ -94,12 +107,12 @@ def _save_plot(channel_info: "channels.ChannelInfo") -> None:
         fig_name = (
             f"{channel_info.subject_id}_"
             f"{channel_info.trial_name}_"
-            f"{channel_info.name}.png"
+            f"{channel_info.name}.pdf"
         )
     except AttributeError:
-        fig_name = f"{channel_info.subject_id}_" f"{channel_info.name}.png"
+        fig_name = f"{channel_info.subject_id}_" f"{channel_info.name}.pdf"
     fig_path = channel_info.path_save_figures / fig_name
-    plt.savefig(fig_path, dpi=300)
+    plt.savefig(fig_path, dpi="figure")
     plt.close()
 
 
@@ -200,6 +213,21 @@ def plot_trial(spike2py_trial: "trial.Trial", save: Literal[True, False]) -> Non
         gridspec_kw={"hspace": 0},
     )
     _plot_trial(spike2py_trial, ax)
+    title = (
+        f"{spike2py_trial.info.subject_id}_"
+        f"{spike2py_trial.info.name}_"
+        f"{spike2py_trial.info.file.name}"
+    )
+    ax[-1].text(
+        0,
+        0,
+        title,
+        horizontalalignment="left",
+        verticalalignment="top",
+        transform=ax[-1].transAxes,
+        fontsize=10,
+    )
+
     if save:
         _save_plot(spike2py_trial.info)
     else:
